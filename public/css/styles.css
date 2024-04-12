@@ -1,0 +1,33 @@
+.nav-link.dropdown-toggle::after {
+    display: none;
+}
+
+nav{
+    background-color: #14172a;
+}
+
+.navbar {
+    max-width: 100%;
+}
+
+.navbar-nav .nav-link {
+    color: white; /* Color de la letra */
+    margin-right: 15px; /* Espacio a la derecha de cada elemento de navegación */
+}
+
+.navbar-nav .nav-link:hover {
+    color: crimson; /* Color de la letra cuando el mouse está encima */
+}
+
+#rubilogo{
+    width: 100px;
+}
+
+.container-fluid, .row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+body {
+    overflow-x: hidden;
+}
