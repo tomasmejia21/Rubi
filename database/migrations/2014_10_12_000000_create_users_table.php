@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role');
-            $table->string('institutionalId');
+            $table->foreign('institutionalId')->references('id')->on('educationalInstitution');
             $table->rememberToken();
             $table->timestamps();
         });
