@@ -1,18 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+use App\Http\Controllers\TeacherController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+// Administrar profesores - Solo administradores
+Route::resource('teachers', TeacherController::class);
+Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');
+Route::post('/teachers', [TeacherController::class, 'store'])->name('teachers.store');

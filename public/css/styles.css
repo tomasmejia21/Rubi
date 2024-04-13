@@ -1,3 +1,7 @@
+.sectionTitle{
+    color: white;
+}
+
 .nav-link.dropdown-toggle::after {
     display: none;
 }
@@ -29,5 +33,37 @@ nav{
 }
 
 body {
-    overflow-x: hidden;
+    font-family: Arial, Helvetica, sans-serif !important;
+    background-color: #121526 !important;
+    overflow-x: hidden !important;
+}
+
+#agregar{
+    border-radius: 50%;
+}
+
+.no-style {
+    --bs-table-bg-type: transparent !important;
+    background-color: transparent !important;
+    background: none !important;
+    border: none !important;
+}
+
+#middleDiv{
+    background-color: #101222;
+    border-radius: 0.5cm;
+}
+
+label{
+    color: white;
+}
+
+.btn-hover-crimson:hover i {
+    color: crimson !important;
+}
+
+label, span {
+    display: inline-block;
+    width: 80%;
+    text-align: justify;
 }

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id('moduleId');
             $table->string('title');
             $table->string('description');
-            $table->unsignedBigInteger('TeacherUser');
-            $table->foreign('TeacherUser')->references('teacherUser')->on('teachers');
+            $table->string('teacherUser');
+            $table->foreign('teacherUser')->references('teacherUser')->on('teachers');
             $table->timestamps();
         });
     }
