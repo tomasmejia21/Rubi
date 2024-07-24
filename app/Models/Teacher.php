@@ -8,5 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Teacher extends Model
 {
     use HasFactory;
-    protected $table = 'teacher';
+    protected $table = 'teachers';
+    protected $primaryKey = 'teacherUser';
+    public $incrementing = false;
 }
