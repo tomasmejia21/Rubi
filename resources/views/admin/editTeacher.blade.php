@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col"></div>
             <div class="col" id="middleDiv">
-                <form action="{{route('teachers.update',$teacher->teacherUser)}}" method="POST">
+                <form action="{{route('teachers.update',$teacher->teacherId)}}" method="POST">
                     @method('PUT')
                     @csrf
                     <h1 class="display-6 sectionTitle">Modificar profesor</h1>

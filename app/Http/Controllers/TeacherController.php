@@ -33,6 +33,21 @@ class TeacherController extends Controller
         // Se crea una instancia
         $teacher = new Teacher();
 
+        // Se genera el ID del profesor
+        $date = date('Ymd'); // Obtiene la fecha actual en formato YYYYMMDD
+        $count = Teacher::where('teacherId', 'like', $date.'%')->count(); // Cuenta los profesores creados hoy
+        $teacherId = $date . str_pad($count, 1, '0', STR_PAD_LEFT); // Añade el contador al final de la fecha
+
+        // Verifica si el ID ya existe en la base de datos
+        while (Teacher::where('teacherId', $teacherId)->exists()) {
+            // Si el ID ya existe, incrementa el contador y genera un nuevo ID
+            $count++;
+            $teacherId = $date . str_pad($count, 1, '0', STR_PAD_LEFT);
+        }
+
+        // Id del profesor
+        $teacher->teacherId = $teacherId;
+
         // Se genera el nombre de usuario
         $teacherUser = $this->generateteacherUser($request->name);
 
