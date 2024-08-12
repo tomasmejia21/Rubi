@@ -9,6 +9,6 @@ class Teacher extends Model
 {
     use HasFactory;
     protected $table = 'teachers';
-    protected $primaryKey = 'teacherUser';
+    protected $primaryKey = 'teacherId';
     public $incrementing = false;
 }

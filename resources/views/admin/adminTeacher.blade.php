@@ -28,6 +28,7 @@
                 <table class="table table-dark table-striped">
                 <thead>
                     <tr>
+                    <th scope="col">ID</th>
                     <th scope="col">Usuario</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Correo</th>
@@ -37,14 +38,15 @@
                 <tbody>
                     @foreach ($teachers as $profesor)
                         <tr>
+                            <td>{{ $profesor->teacherId }}</td>
                             <td>{{ $profesor->teacherUser }}</td>
                             <td>{{ $profesor->name }}</td>
                             <td>{{ $profesor->email }}</td>
                             <td>
-                                <a href="{{ route('teachers.edit', $profesor->teacherUser) }}" class="btn btn-hover-crimson">
+                                <a href="{{ route('teachers.edit', $profesor->teacherId) }}" class="btn btn-hover-crimson">
                                     <i class="bi bi-pencil-fill text-white"></i>
                                 </a>
-                                <form action="{{ route('teachers.destroy', $profesor->teacherUser) }}" method="POST" class="d-inline">
+                                <form action="{{ route('teachers.destroy', $profesor->teacherId) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-hover-crimson">
@@ -55,6 +57,7 @@
                         </tr>
                     @endforeach
                     <tr class="no-style">
+                        <td class="no-style"></td>
                         <td class="no-style"></td>
                         <td class="no-style"></td>
                         <td class="no-style"></td>
