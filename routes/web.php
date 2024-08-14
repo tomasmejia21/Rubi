@@ -10,3 +10,7 @@ Route::get('/', function () {
 Route::resource('teachers', TeacherController::class);
 Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');
 Route::post('/teachers', [TeacherController::class, 'store'])->name('teachers.store');
+Auth::routes();
+
+//Login
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
