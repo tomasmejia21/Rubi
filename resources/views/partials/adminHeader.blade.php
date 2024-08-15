@@ -34,7 +34,7 @@
                                     <li><a class="dropdown-item" href="#">Mi información</a></li>
                                     <li><a class="dropdown-item" href="/teachers">Administrar profesores</a></li>
                                     <li><a class="dropdown-item" href="#">Administrar alumnos</a></li>
-                                    <li><a class="dropdown-item" href="#">Administrar instituciones</a></li>
+                                    <li><a class="dropdown-item" href="/educationalinstitutions">Administrar instituciones</a></li>
                                     <li><a class="dropdown-item" href="#">Administrar actividades</a></li>
                                     <li><a class="dropdown-item" href="#">Administrar modulos</a></li>
                                     <li><a class="dropdown-item" href="#">Ir al foro comunitario</a></li>
