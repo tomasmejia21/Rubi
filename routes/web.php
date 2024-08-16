@@ -24,7 +24,6 @@ Route::post('/educationalinstitutions', [EducationalInstitutionController::class
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Register
-Route::get('/register', [RoleController::class, 'showRegistrationForm'])->name('register.form');
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
 
