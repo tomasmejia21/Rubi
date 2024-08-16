@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\EducationalInstitution;
+use App\Models\Role;
 
 class RegisterController extends Controller
 {
@@ -68,5 +70,16 @@ class RegisterController extends Controller
         }
 
         return $username;
+    }
+
+    /**
+     * Show the application registration form.
+     */
+
+    public function showRegistrationForm()
+    {
+        $educational_institutions = EducationalInstitution::all();
+        $roles = Role::whereIn('id', [3, 4])->get();
+        return view('auth.register', ['educational_institutions' => $educational_institutions, 'roles' => $roles]);
     }
 }

@@ -64,13 +64,4 @@ class RoleController extends Controller
         //
     }
 
-    /**
-     * Show the application registration form.
-     */
-
-    public function showRegistrationForm()
-    {
-        $roles = Role::whereIn('id', [3, 4])->get();
-        return view('auth.register', ['roles' => $roles]);
-    }
 }
