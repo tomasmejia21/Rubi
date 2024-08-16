@@ -67,3 +67,9 @@ label, span {
     width: 80%;
     text-align: justify;
 }
+
+#submit-button:hover {
+    background-color: crimson;
+    color: white;
+    border-color: crimson;
+}

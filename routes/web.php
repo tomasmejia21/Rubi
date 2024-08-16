@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\EducationalInstitutionController;
 
 Route::get('/', function () {
@@ -18,5 +20,11 @@ Route::resource('EducationalInstitution', EducationalInstitutionController::clas
 Route::get('/educationalinstitutions', [EducationalInstitutionController::class, 'index'])->name('EducationalInstitution.index');
 Route::post('/educationalinstitutions', [EducationalInstitutionController::class, 'store'])->name('EducationalInstitution.store');
 
-//Login
+// Login
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Register
+Route::get('/register', [RoleController::class, 'showRegistrationForm'])->name('register.form');
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
+
