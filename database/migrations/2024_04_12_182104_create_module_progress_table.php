@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('module_progress', function (Blueprint $table) {
             $table->unsignedBigInteger('moduleId');
-            $table->string('username');
+            $table->bigInteger('userId');
+            $table->Integer('progress');
+            $table->Integer('grade')->nullable();
             $table->timestamps();
             // Llave primaria compuesta
-            $table->primary(['moduleId', 'username']);
+            $table->primary(['moduleId', 'userId']);
             // Llaves foráneas
             $table->foreign('moduleId')->references('moduleId')->on('modules');
-            $table->foreign('username')->references('username')->on('users');
+            $table->foreign('userId')->references('userId')->on('users');
         });
     }
 
