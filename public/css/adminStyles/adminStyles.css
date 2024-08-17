@@ -1,0 +1,98 @@
+#usericon:hover, #usericon:active{
+    color: crimson !important;
+}
+
+#usericon {
+    color: white;
+}
+
+.nav-link.dropdown-toggle::after {
+    display: none;
+}
+
+nav{
+    background-color: #14172a;
+}
+
+.navbar {
+    max-width: 100%;
+}
+
+.navbar-nav .nav-link.active {
+    color: crimson !important;
+    text-decoration: underline;
+}
+
+.navbar-nav .nav-link {
+    color: white; /* Color de la letra */
+    margin-right: 15px; /* Espacio a la derecha de cada elemento de navegación */
+}
+
+.navbar-nav .nav-link:hover {
+    color: crimson !important; /* Color de la letra cuando el mouse está encima */
+}
+
+.navbar-nav .nav-link:visited {
+    color: white; /* Color de la letra cuando el mouse está encima */
+}
+
+#rubilogo{
+    width: 100px;
+}
+
+.container-fluid, .row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif !important;
+    background-color: #121526 !important;
+    overflow-x: hidden !important;
+}
+
+.no-style {
+    --bs-table-bg-type: transparent !important;
+    background-color: transparent !important;
+    background: none !important;
+    border: none !important;
+}
+
+
+.btn-hover-crimson:hover i {
+    color: crimson !important;
+}
+
+#divphotoitems{
+    list-style-type: none; 
+    text-align: center; 
+    margin-right: 50px;
+}
+
+#dropdown{
+    background-color: #14172a;
+    color: white;
+}
+
+#dropdown a {
+    color: white; /* Color de la letra */
+}
+
+#dropdown a:hover {
+    color: crimson; /* Color de la letra cuando el mouse está encima */
+    background-color: #121526;
+}
+
+#divphoto i{
+    pointer-events: none;
+}
+
+#video{
+    max-width: 500px;
+}
+
+#button:hover {
+    background-color: crimson;
+    color: white;
+    border-color: crimson;
+}

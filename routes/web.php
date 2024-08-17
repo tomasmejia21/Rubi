@@ -10,6 +10,10 @@ use App\Http\Controllers\UserController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/inicio', function () {
+    return view('inicio');
+});
 // Administrar profesores - Solo administradores
 Route::resource('teachers', TeacherController::class);
 Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');

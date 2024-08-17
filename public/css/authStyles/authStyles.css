@@ -62,3 +62,30 @@ span{
     float: left;
 }
 
+.auth-button:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.auth-button:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.auth-button {
+    background-color: white !important;
+    color: black !important;
+}
+
+.auth-button.active {
+    background-color: crimson !important;
+    border: 1px solid crimson !important;
+    color: white !important;
+}
+
+.auth-button:hover {
+    background-color: crimson !important;
+    color: white !important;
+    border-color: crimson !important;
+}
+
