@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Role;
 
 class LoginController extends Controller
 {
@@ -28,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/inicio';
 
     /**
      * Create a new controller instance.
@@ -64,16 +65,40 @@ class LoginController extends Controller
 
         // Intenta autenticar al usuario en la tabla 'users'
         if (Auth::guard('web')->attempt($this->credentials($request), $request->filled('remember'))) {
+            // Almacena el tipo de usuario, el role_id y el userId en la sesión
+            $request->session()->put('user_type', 'user');
+            $request->session()->put('role_id', Auth::guard('web')->user()->role_id);
+            $request->session()->put('username', Auth::guard('web')->user()->username);
+            $request->session()->put('email', Auth::guard('web')->user()->email);
+            $role = Role::find(Auth::guard('admin')->user()->role_id);
+            $request->session()->put('role_name', $role->name);
+
             return $this->sendLoginResponse($request);
         }
 
         // Intenta autenticar al usuario en la tabla 'teachers'
         if (Auth::guard('teacher')->attempt(['teacherUser' => $request->username, 'password' => $request->password], $request->filled('remember'))) {
+            // Almacena el tipo de usuario, el role_id y el teacherId en la sesión
+            $request->session()->put('user_type', 'teacher');
+            $request->session()->put('role_id', Auth::guard('teacher')->user()->role_id);
+            $request->session()->put('username', Auth::guard('teacher')->user()->teacherUser);
+            $request->session()->put('email', Auth::guard('teacher')->user()->email);
+            $role = Role::find(Auth::guard('admin')->user()->role_id);
+            $request->session()->put('role_name', $role->name);
+
             return $this->sendLoginResponse($request);
         }
 
         // Intenta autenticar al usuario en la tabla 'admin'
         if (Auth::guard('admin')->attempt(['adminUser' => $request->username, 'password' => $request->password], $request->filled('remember'))) {
+            // Almacena el tipo de usuario, el role_id y el adminId en la sesión
+            $request->session()->put('user_type', 'admin');
+            $request->session()->put('role_id', Auth::guard('admin')->user()->role_id);
+            $request->session()->put('username', Auth::guard('admin')->user()->adminUser);
+            $request->session()->put('email', Auth::guard('admin')->user()->email);
+            $role = Role::find(Auth::guard('admin')->user()->role_id);
+            $request->session()->put('role_name', $role->name);
+
             return $this->sendLoginResponse($request);
         }
 

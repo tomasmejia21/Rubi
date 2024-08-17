@@ -20,6 +20,7 @@ class AdminsSeeder extends Seeder
         DB::table('admins')->insert([
             'adminId' => 20240816,
             'adminUser' => 'vtabaresm',
+            'role_id' => 1,
             'name' => 'Valentina Tabares Morales',
             'email' => 'vtabaresm@unal.edu.co',
             'password' => Hash::make($password),

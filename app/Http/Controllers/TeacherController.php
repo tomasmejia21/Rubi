@@ -55,6 +55,7 @@ class TeacherController extends Controller
         // Base de datos = los datos del formulario
         $teacher->name = $request->name;
         $teacher->teacherUser = $teacherUser;
+        $teacher->role_id = 2;
         $teacher->email = $request->email;
         $teacher->password = bcrypt($request->password);;
         $teacher->save();

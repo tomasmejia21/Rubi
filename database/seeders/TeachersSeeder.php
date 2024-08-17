@@ -18,6 +18,7 @@ class TeachersSeeder extends Seeder
         DB::table('teachers')->insert([
             'teacherId' => 202408170,
             'teacherUser' => 'magachate',
+            'role_id' => 2,
             'name' => 'Marcelo Agachate Pomapelo',
             'email' => 'marcelo@gmail.com',
             'password' => Hash::make($password),
