@@ -82,11 +82,11 @@
                 </div>
             </div>
     @elseif(session('role_id') == 2)
-        
+        <h1>WIP</h1>
     @elseif(session('role_id') == 3)
-        @include('header_role3')
+        <h1>WIP</h1>
     @else
-        @include('header_role4')
+        <h1>WIP</h1>
     @endif
     
 </header>   
