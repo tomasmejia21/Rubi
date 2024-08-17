@@ -56,7 +56,7 @@ class TeacherController extends Controller
         $teacher->name = $request->name;
         $teacher->teacherUser = $teacherUser;
         $teacher->email = $request->email;
-        $teacher->password = $request->password;
+        $teacher->password = bcrypt($request->password);;
         $teacher->save();
         return redirect()->route('teachers.index');
     }

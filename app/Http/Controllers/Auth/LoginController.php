@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -55,6 +56,29 @@ class LoginController extends Controller
         throw ValidationException::withMessages([
             $this->username() => ['El nombre de usuario y/o la contraseña son incorrectos.'],
         ]);
+    }
+
+    public function login(Request $request)
+    {
+        $this->validateLogin($request);
+
+        // Intenta autenticar al usuario en la tabla 'users'
+        if (Auth::guard('web')->attempt($this->credentials($request), $request->filled('remember'))) {
+            return $this->sendLoginResponse($request);
+        }
+
+        // Intenta autenticar al usuario en la tabla 'teachers'
+        if (Auth::guard('teacher')->attempt(['teacherUser' => $request->username, 'password' => $request->password], $request->filled('remember'))) {
+            return $this->sendLoginResponse($request);
+        }
+
+        // Intenta autenticar al usuario en la tabla 'admin'
+        if (Auth::guard('admin')->attempt(['adminUser' => $request->username, 'password' => $request->password], $request->filled('remember'))) {
+            return $this->sendLoginResponse($request);
+        }
+
+        // Si la autenticación falla, redirige al usuario de vuelta al formulario de login
+        return $this->sendFailedLoginResponse($request);
     }
 
 }
