@@ -7,7 +7,7 @@
         <div class="col"></div>
         <div class="col-md-6">
             <div class="card" id="middleDiv">
-                <div class="card-header" id="sectionTitle">Registrate</div>
+                <div class="card-header" id="sectionTitle"><h1>Registrarse</h1></div>
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -17,6 +17,18 @@
                         </ul>
                     </div>
                 @endif
+                <!-- Authentication Links -->
+                @guest
+                    <div class="d-flex justify-content-center">
+                        @if (Route::has('login'))
+                            <a class="btn auth-button {{ Route::is('login') ? 'active' : '' }}" href="{{ route('login') }}">Iniciar Sesión</a>
+                        @endif
+
+                        @if (Route::has('register'))
+                            <a class="btn auth-button {{ Route::is('register') ? 'active' : '' }}" href="{{ route('register') }}">Registrarse</a>
+                        @endif
+                    </div>
+                @endguest
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf

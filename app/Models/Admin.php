@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-class Admin extends Model
+use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
+use Illuminate\Contracts\Auth\Authenticatable;
+class Admin extends Model implements Authenticatable
 {
+    use AuthenticatableTrait;
     use HasFactory;
-    protected $table = 'admin';
+    protected $table = 'admins';
 }

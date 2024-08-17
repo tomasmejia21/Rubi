@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-    @include('partials.adminHeader')
+    @include('partials.rubiHeader')
     <!-- Hasta aquí llega el header -->
     <div class="container-fluid p-0 text-center">
         <br>
