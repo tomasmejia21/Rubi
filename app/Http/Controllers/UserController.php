@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\EducationalInstitution;
+use App\Models\Role;
+
 
 class UserController extends Controller
 {
@@ -11,7 +15,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        
+        //$students = User::all();
+        $students = User::whereHas('role', function($query) {
+            $query->whereIn('id', [3, 4]);
+        })->get();
+
+        return view('admin.adminStudent')->with('students',$students);
     }
 
     /**
@@ -19,7 +28,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $educational_institutions = EducationalInstitution::all();
+        $roles = Role::all();
+
+        return view('admin.createStudent', compact('educational_institutions', 'roles'));
     }
 
     /**
@@ -27,51 +39,47 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User();
+        $student = new User();
 
-        // Se genera el ID del profesor
         $date = date('Ymd'); // Obtiene la fecha actual en formato YYYYMMDD
         $count = User::where('userId', 'like', $date.'%')->count(); // Cuenta los profesores creados hoy
         $userId = $date . str_pad($count, 1, '0', STR_PAD_LEFT); // Añade el contador al final de la fecha
 
-        // Verifica si el ID ya existe en la base de datos
         while (User::where('userId', $userId)->exists()) {
             // Si el ID ya existe, incrementa el contador y genera un nuevo ID
             $count++;
             $userId = $date . str_pad($count, 1, '0', STR_PAD_LEFT);
         }
 
-        // Id del profesor
-        $user->userId = $userId;
-
         // Se genera el nombre de usuario
-        $username = $this->generateUserId($request->name);
+        $studentUsername = $this->generateUsername($request->name);
 
         // Se asigna como si fuese un constructor
         // Base de datos = los datos del formulario
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password); // Asegúrate de encriptar la contraseña
-        $user->role_id = $request->role_id;
-        $user->institutionalId = $request->institutionalId;
-        $user->save();
-
-        return redirect()->route('/');
+        $student->userId = $userId;
+        $student->name = $request->name;
+        $student->username = $studentUsername;
+        $student->email = $request->email;
+        $student->role_id = $request->role_id;
+        $student->institutionalId = $request->institution;
+        $student->password = bcrypt($request->password);
+        $student->save();
+        return redirect()->route('students.index');
     }
 
-    private function generateUserId($fullName)
+    private function generateUsername($fullName)
     {
         $words = explode(' ', $fullName);
-        $username = strtolower(substr($words[0], 0, 1) . $words[1]);
+        $Username = strtolower(substr($words[0], 0, 1) . $words[1]);
 
-        $originalusername = $username;
+        $originalUsername = $Username;
         $counter = 1;
-        while (Teacher::where('username', $username)->exists()) {
-            $username = $originalusername . $counter;
+        while (User::where('username', $Username)->exists()) {
+            $Username = $originalUsername . $counter;
             $counter++;
         }
 
-        return $username;
+        return $Username;
     }
 
     /**
@@ -86,8 +94,12 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {
-        //
+    {   
+        $educational_institutions = EducationalInstitution::all();
+        $roles = Role::all();
+        // Se utiliza para consultar los datos a editar
+        $student = User::find($id);
+        return view('admin.editStudent', compact('educational_institutions', 'roles'))->with('student', $student);
     }
 
     /**
@@ -95,7 +107,11 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Se hace el Update en la base de datos
+        $student = User::find($id);
+        $student->email = $request->email;
+        $student->save();
+        return redirect()->route('students.index');
     }
 
     /**
@@ -103,6 +119,8 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $student = User::find($id);
+        $student->delete();
+        return redirect()->route('students.index');
     }
 }
