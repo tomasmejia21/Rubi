@@ -5,6 +5,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\EducationalInstitutionController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +24,14 @@ Auth::routes();
 Route::resource('EducationalInstitution', EducationalInstitutionController::class);
 Route::get('/educationalinstitutions', [EducationalInstitutionController::class, 'index'])->name('EducationalInstitution.index');
 Route::post('/educationalinstitutions', [EducationalInstitutionController::class, 'store'])->name('EducationalInstitution.store');
+
+//Administrar estudiantes - Solo administradores
+Route::resource('students',UserController::class);
+Route::get('/students',[UserController::class,'index'])->name('students.index');
+Route::post('/students', [UserController::class, 'store'])->name('students.store');
+
+// Login
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Register
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
