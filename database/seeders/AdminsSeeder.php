@@ -19,7 +19,7 @@ class AdminsSeeder extends Seeder
         $password = 'patoro123';
         DB::table('admins')->insert([
             'adminId' => 20240816,
-            'adminUser' => 'vtabaresm',
+            'adminUser' => 'vtabares',
             'role_id' => 1,
             'name' => 'Valentina Tabares Morales',
             'email' => 'vtabaresm@unal.edu.co',

@@ -44,7 +44,7 @@
                             <span id="error-message-country"></span>
                         </label>
                     </div>
-                    <input type="submit" class="btn btn-light" name="save" value="Modificar" id="submit-button">
+                    <input type="submit" class="btn btn-light" name="save" value="Modificar" id="submit-button" disabled>
                 </form>
             </div>
             <div class="col"></div>

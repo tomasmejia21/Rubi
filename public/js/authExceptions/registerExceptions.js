@@ -13,6 +13,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         return re.test(String(email).toLowerCase());
     }
 
+    function checkEmail(email, callback) {
+        $.ajax({
+            url: '/check-email',
+            type: 'GET',
+            data: {email: email},
+            success: function(response) {
+                callback(response.emailExists);
+            }
+        });
+    }
+
     function validatePassword(password) {
         // Esta es una expresión regular (regex) que define el patrón que debe seguir una contraseña.
         // Explicación del patrón:
@@ -31,62 +42,80 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function validateForm(event) {
         var nameInput = document.getElementById('name');
+        var institution = document.getElementById('institution');
         var role = document.getElementById('role_id');
         var emailInput = document.getElementById('email');
         var passwordInput = document.getElementById('password');
         var confirmPasswordInput = document.getElementById('password_confirmation');
         var errorMessageName = document.getElementById('error-message-name');
+        var errorMessageInstitution = document.getElementById('error-message-institution');
         var errorMessageRole = document.getElementById('error-message-role');
         var errorMessageEmail = document.getElementById('error-message-email');
         var errorMessagePassword = document.getElementById('error-message-password');
         var errorMessageConfirmPassword = document.getElementById('error-message-confirmpassword');
+        var submitButton = document.getElementById('submit-button');
+        // Name regex
+        var nameRegex = /^[a-zA-Z]+(\s[a-zA-Z]+)+$/;
+        // Variables de validación
+        var nameIsValid = false;
+        var institutionIsValid = false;
+        var roleIsValid = false;
+        var emailIsValid = false;
+        var passwordIsValid = false;
+        var confirmPasswordIsValid = false;
 
         if (isEmpty(nameInput.value)) {
             if (errorMessageName) {
+                submitButton.disabled = true;
                 errorMessageName.innerHTML = 'El campo está vacío';
                 errorMessageName.style.color = 'crimson';
             }
             event.preventDefault();
-        } else {
+        } else if (!nameRegex.test(nameInput.value)) {
+                if (errorMessageName) {
+                    submitButton.disabled = true;
+                    errorMessageName.innerHTML = 'Por favor, ingresa un nombre válido.';
+                    errorMessageName.style.color = 'crimson';
+                }
+                event.preventDefault();
+            }   
+          else {
             if (errorMessageName) {
                 errorMessageName.innerHTML = '';
             }
+            nameIsValid = true;
+        }
+
+        if (institution.value == "0") {
+            submitButton.disabled = true;
+            errorMessageInstitution.innerHTML = 'Por favor, selecciona una opción.';
+            errorMessageInstitution.style.color = 'crimson';
+            event.preventDefault();
+        } else {
+            errorMessageInstitution.innerHTML = '';
+            institutionIsValid = true;
         }
 
         if (role.value == "0") {
+            submitButton.disabled = true;
             errorMessageRole.innerHTML = 'Por favor, selecciona una opción.';
             errorMessageRole.style.color = 'crimson';
             event.preventDefault();
         } else {
             errorMessageRole.innerHTML = '';
-        }
-
-        if (isEmpty(emailInput.value)) {
-            if (errorMessageEmail) {
-                errorMessageEmail.innerHTML = 'El campo está vacío';
-                errorMessageEmail.style.color = 'crimson';
-            }
-            event.preventDefault();
-        } else if (!validateEmail(emailInput.value)) {
-            if (errorMessageEmail) {
-                errorMessageEmail.innerHTML = 'No se cumple la estructura de email';
-                errorMessageEmail.style.color = 'crimson';
-            }
-            event.preventDefault();
-        } else {
-            if (errorMessageEmail) {
-                errorMessageEmail.innerHTML = '';
-            }
+            roleIsValid = true;
         }
 
         if (isEmpty(passwordInput.value)) {
             if (errorMessagePassword) {
+                submitButton.disabled = true;
                 errorMessagePassword.innerHTML = 'El campo está vacío';
                 errorMessagePassword.style.color = 'crimson';
             }
             event.preventDefault();
         } else if (!validatePassword(passwordInput.value)) {
             if (errorMessagePassword) {
+                submitButton.disabled = true;
                 errorMessagePassword.innerHTML = 'La contraseña debe tener al menos 5 caracteres y contener al menos un número';
                 errorMessagePassword.style.color = 'crimson';
             }
@@ -95,16 +124,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
             if (errorMessagePassword) {
                 errorMessagePassword.innerHTML = '';
             }
+            passwordIsValid = true;
         }
 
         if (isEmpty(confirmPasswordInput.value)) {
             if (errorMessageConfirmPassword) {
+                submitButton.disabled = true;
                 errorMessageConfirmPassword.innerHTML = 'El campo está vacío';
                 errorMessageConfirmPassword.style.color = 'crimson';
             }
             event.preventDefault();
         } else if (passwordInput.value !== confirmPasswordInput.value) {
             if (errorMessageConfirmPassword) {
+                submitButton.disabled = true;
                 errorMessageConfirmPassword.innerHTML = 'La confirmación de la contraseña no coincide';
                 errorMessageConfirmPassword.style.color = 'crimson';
             }
@@ -113,10 +145,49 @@ document.addEventListener('DOMContentLoaded', (event) => {
             if (errorMessageConfirmPassword) {
                 errorMessageConfirmPassword.innerHTML = '';
             }
+            confirmPasswordIsValid = true;
         }
+
+        if (isEmpty(emailInput.value)) {
+            if (errorMessageEmail) {
+                submitButton.disabled = true;
+                errorMessageEmail.innerHTML = 'El campo está vacío';
+                errorMessageEmail.style.color = 'crimson';
+            }
+            event.preventDefault();
+        } else if (!validateEmail(emailInput.value)) {
+            if (errorMessageEmail) {
+                submitButton.disabled = true;
+                errorMessageEmail.innerHTML = 'No se cumple la estructura de email';
+                errorMessageEmail.style.color = 'crimson';
+            }
+            event.preventDefault();
+        } else {
+            checkEmail(emailInput.value, function(emailExists) {
+                if (emailExists) {
+                    if (errorMessageEmail) {
+                        submitButton.disabled = true;
+                        errorMessageEmail.innerHTML = 'El correo electrónico ya está en uso.';
+                        errorMessageEmail.style.color = 'crimson';
+                    }
+                    event.preventDefault();
+                } else {
+                    if (errorMessageEmail) {
+                        errorMessageEmail.innerHTML = '';
+                    }
+                    emailIsValid = true;
+                }
+
+                if (nameIsValid && institutionIsValid && emailIsValid && passwordIsValid && confirmPasswordIsValid && roleIsValid) {
+                    submitButton.disabled = false;
+                } 
+            });
+        }
+
     }
 
     document.getElementById('name').addEventListener('input', validateForm);
+    document.getElementById('institution').addEventListener('change', validateForm);
     document.getElementById('role_id').addEventListener('change', validateForm);
     document.getElementById('email').addEventListener('input', validateForm);
     document.getElementById('password').addEventListener('input', validateForm);

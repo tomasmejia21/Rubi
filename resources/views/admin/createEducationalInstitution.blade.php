@@ -43,7 +43,7 @@
                             <span id="error-message-country"></span>
                         </label>
                     </div>
-                    <input type="submit" class="btn btn-light" name="save" value="Agregar" id="submit-button">
+                    <input type="submit" class="btn btn-light" name="save" value="Agregar" id="submit-button" disabled>
                 </form>
             </div>
             <div class="col"></div>

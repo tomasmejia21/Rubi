@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
-    @include('partials.adminHeader')
+    @include('partials.rubiHeader')
     <!-- Hasta aquí llega el header -->
     <div class="container-fluid p-0 text-center">
         <div class="row">

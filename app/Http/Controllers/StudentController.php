@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\EducationalInstitution;
 use App\Models\Role;
+use App\Models\Teacher;
+use App\Models\Admin;
 
-
-class UserController extends Controller
+class StudentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,9 +30,18 @@ class UserController extends Controller
     public function create()
     {
         $educational_institutions = EducationalInstitution::all();
-        $roles = Role::all();
+        $roles = Role::whereIn('id', [3, 4])->get();
 
         return view('admin.createStudent', compact('educational_institutions', 'roles'));
+    }
+
+    public function checkEmail(Request $request)
+    {
+        $emailExists = User::where('email', $request->email)->exists()
+            || Teacher::where('email', $request->email)->exists()
+            || Admin::where('email', $request->email)->exists();
+
+        return response()->json(['emailExists' => $emailExists]);
     }
 
     /**
@@ -70,16 +80,18 @@ class UserController extends Controller
     private function generateUsername($fullName)
     {
         $words = explode(' ', $fullName);
-        $Username = strtolower(substr($words[0], 0, 1) . $words[1]);
+        $username = strtolower(substr($words[0], 0, 1) . $words[1]);
 
-        $originalUsername = $Username;
+        $originalUsername = $username;
         $counter = 1;
-        while (User::where('username', $Username)->exists()) {
-            $Username = $originalUsername . $counter;
+        while (User::where('username', $username)->exists() || 
+           Admin::where('adminUser', $username)->exists() || 
+           Teacher::where('teacherUser', $username)->exists()) {
+            $username = $originalUsername . $counter;
             $counter++;
         }
 
-        return $Username;
+        return $username;
     }
 
     /**
