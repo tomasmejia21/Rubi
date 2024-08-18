@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\EducationalInstitution;
 use App\Models\Role;
+use App\Models\Teacher;
+use App\Models\Admin;
 
 class RegisterController extends Controller
 {
@@ -26,10 +29,19 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            //'password' => ['required', 'string', 'min:5', 'confirmed'],
             'role_id' => ['required', 'integer', 'exists:roles,id'],
             'institution' => ['required', 'integer', 'exists:educational_institutions,institutionalId'],
         ]);
+    }
+
+    public function checkEmail(Request $request)
+    {
+        $emailExists = User::where('email', $request->email)->exists()
+            || Teacher::where('email', $request->email)->exists()
+            || Admin::where('email', $request->email)->exists();
+
+        return response()->json(['emailExists' => $emailExists]);
     }
 
     protected function create(array $data)
@@ -64,7 +76,9 @@ class RegisterController extends Controller
 
         $originalUsername = $username;
         $counter = 1;
-        while (User::where('username', $username)->exists()) {
+        while (User::where('username', $username)->exists() || 
+           Admin::where('adminUser', $username)->exists() || 
+           Teacher::where('teacherUser', $username)->exists()) {
             $username = $originalUsername . $counter;
             $counter++;
         }

@@ -51,6 +51,7 @@
                                         <option value="{{ $institution->institutionalId }}">{{ $institution->name }}</option>
                                     @endforeach
                                 </select>
+                                <span id="error-message-institution"></span>
                             </div>
                         </div>
 
@@ -93,8 +94,8 @@
                                 <span id="error-message-confirmpassword"></span>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-light" id="submit-button">
-                            Acceder
+                        <button type="submit" name="save" class="btn btn-light" id="submit-button" disabled>
+                            Registrar
                         </button>
                     </form>
                 </div>
@@ -104,6 +105,7 @@
     </div>
 </div>
 @endsection
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{{ asset('js/authExceptions/registerExceptions.js')}}"></script>  
 </body>
 </html>

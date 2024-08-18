@@ -13,6 +13,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         return re.test(String(email).toLowerCase());
     }
 
+    function checkEmail(email, callback) {
+        $.ajax({
+            url: '/check-email',
+            type: 'GET',
+            data: {email: email},
+            success: function(response) {
+                callback(response.emailExists);
+            }
+        });
+    }
+
     function validatePassword(password) {
         // Esta es una expresión regular (regex) que define el patrón que debe seguir una contraseña.
         // Explicación del patrón:
@@ -40,61 +51,68 @@ document.addEventListener('DOMContentLoaded', (event) => {
         var errorMessagePassword = document.getElementById('error-message-password');
         var errorMessageInstitution = document.getElementById('error-message-institution');
         var errorMessageRole = document.getElementById('error-message-role');
+        var submitButton = document.getElementById('submit-button');
+        // Name regex
+        var nameRegex = /^[a-zA-Z]+(\s[a-zA-Z]+)+$/;
+        // Variables de validación
+        var nameIsValid = false;
+        var institutionIsValid = false;
+        var emailIsValid = false;
+        var roleIsValid = false;
+        var passwordIsValid = false;
 
         if (isEmpty(nameInput.value)) {
             if (errorMessageName) {
+                submitButton.disabled = true;
                 errorMessageName.innerHTML = 'El campo está vacío';
                 errorMessageName.style.color = 'crimson';
             }
             event.preventDefault();
-        } else {
+        } else if (!nameRegex.test(nameInput.value)) {
+                if (errorMessageName) {
+                    submitButton.disabled = true;
+                    errorMessageName.innerHTML = 'Por favor, ingresa un nombre válido.';
+                    errorMessageName.style.color = 'crimson';
+                }
+                event.preventDefault();
+            }   
+          else {
             if (errorMessageName) {
                 errorMessageName.innerHTML = '';
             }
+            nameIsValid = true;
         }
 
         if (institutionSelect.value == '0') {
+            submitButton.disabled = true;
             errorMessageInstitution.innerHTML = 'Por favor, selecciona una opción.';
             errorMessageInstitution.style.color = 'crimson';
             event.preventDefault();
         } else {
             errorMessageInstitution.innerHTML = '';
+            institutionIsValid = true;
         }
 
         if (roleSelect.value == "0") {
+            submitButton.disabled = true;
             errorMessageRole.innerHTML = 'Por favor, selecciona una opción.';
             errorMessageRole.style.color = 'crimson';
             event.preventDefault();
         } else {
             errorMessageRole.innerHTML = '';
-        }
-
-        if (isEmpty(emailInput.value)) {
-            if (errorMessageEmail) {
-                errorMessageEmail.innerHTML = 'El campo está vacío';
-                errorMessageEmail.style.color = 'crimson';
-            }
-            event.preventDefault();
-        } else if (!validateEmail(emailInput.value)) {
-            if (errorMessageEmail) {
-                errorMessageEmail.innerHTML = 'No se cumple la estructura de email';
-                errorMessageEmail.style.color = 'crimson';
-            }
-            event.preventDefault();
-        } else {
-            if (errorMessageEmail) {
-                errorMessageEmail.innerHTML = '';
-            }
+            roleIsValid = true;
         }
 
         if (isEmpty(passwordInput.value)) {
             if (errorMessagePassword) {
+                submitButton.disabled = true;
                 errorMessagePassword.innerHTML = 'El campo está vacío';
                 errorMessagePassword.style.color = 'crimson';
             }
             event.preventDefault();
         } else if (!validatePassword(passwordInput.value)) {
             if (errorMessagePassword) {
+                submitButton.disabled = true;
                 errorMessagePassword.innerHTML = 'La contraseña debe tener al menos 5 caracteres y contener al menos un número';
                 errorMessagePassword.style.color = 'crimson';
             }
@@ -103,13 +121,53 @@ document.addEventListener('DOMContentLoaded', (event) => {
             if (errorMessagePassword) {
                 errorMessagePassword.innerHTML = '';
             }
+            passwordIsValid = true;
         }
+
+        if (isEmpty(emailInput.value)) {
+            if (errorMessageEmail) {
+                submitButton.disabled = true;
+                errorMessageEmail.innerHTML = 'El campo está vacío';
+                errorMessageEmail.style.color = 'crimson';
+            }
+            event.preventDefault();
+        } else if (!validateEmail(emailInput.value)) {
+            if (errorMessageEmail) {
+                submitButton.disabled = true;
+                errorMessageEmail.innerHTML = 'No se cumple la estructura de email';
+                errorMessageEmail.style.color = 'crimson';
+            }
+            event.preventDefault();
+        } else {
+            checkEmail(emailInput.value, function(emailExists) {
+                if (emailExists) {
+                    if (errorMessageEmail) {
+                        submitButton.disabled = true;
+                        errorMessageEmail.innerHTML = 'El correo electrónico ya está en uso.';
+                        errorMessageEmail.style.color = 'crimson';
+                    }
+                    event.preventDefault();
+                } else {
+                    if (errorMessageEmail) {
+                        errorMessageEmail.innerHTML = '';
+                    }
+                    emailIsValid = true;
+                }
+
+                if (nameIsValid && emailIsValid && passwordIsValid && institutionIsValid && roleIsValid) {
+                    submitButton.disabled = false;
+                }
+            });
+        }
+        
+        event.preventDefault();
+
     }
 
+    document.getElementById('name').addEventListener('input', validateForm);
     document.getElementById('institution').addEventListener('change', validateForm);
     document.getElementById('role_id').addEventListener('change', validateForm);
     document.getElementById('email').addEventListener('input', validateForm);
-    document.getElementById('password').addEventListener('input', validateForm);
     document.getElementById('password').addEventListener('input', validateForm);
     document.querySelector('form').addEventListener('submit', validateForm);
 });

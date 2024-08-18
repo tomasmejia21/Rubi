@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Teacher;
-
+use App\Models\User;
+use App\Models\Admin;
 
 class TeacherController extends Controller
 {
@@ -49,7 +50,7 @@ class TeacherController extends Controller
         $teacher->teacherId = $teacherId;
 
         // Se genera el nombre de usuario
-        $teacherUser = $this->generateteacherUser($request->name);
+        $teacherUser = $this->generateUsername($request->name);
 
         // Se asigna como si fuese un constructor
         // Base de datos = los datos del formulario
@@ -62,19 +63,21 @@ class TeacherController extends Controller
         return redirect()->route('teachers.index');
     }
 
-    private function generateteacherUser($fullName)
+    private function generateUsername($fullName)
     {
         $words = explode(' ', $fullName);
-        $teacherUser = strtolower(substr($words[0], 0, 1) . $words[1]);
+        $username = strtolower(substr($words[0], 0, 1) . $words[1]);
 
-        $originalteacherUser = $teacherUser;
+        $originalUsername = $username;
         $counter = 1;
-        while (Teacher::where('teacherUser', $teacherUser)->exists()) {
-            $teacherUser = $originalteacherUser . $counter;
+        while (User::where('username', $username)->exists() || 
+           Admin::where('adminUser', $username)->exists() || 
+           Teacher::where('teacherUser', $username)->exists()) {
+            $username = $originalUsername . $counter;
             $counter++;
         }
 
-        return $teacherUser;
+        return $username;
     }
 
     /**

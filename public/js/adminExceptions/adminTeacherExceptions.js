@@ -13,6 +13,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         return re.test(String(email).toLowerCase());
     }
 
+    function checkEmail(email, callback) {
+        $.ajax({
+            url: '/check-email',
+            type: 'GET',
+            data: {email: email},
+            success: function(response) {
+                callback(response.emailExists);
+            }
+        });
+    }
+
     function validatePassword(password) {
         // Esta es una expresión regular (regex) que define el patrón que debe seguir una contraseña.
         // Explicación del patrón:
@@ -36,45 +47,46 @@ document.addEventListener('DOMContentLoaded', (event) => {
         var errorMessageName = document.getElementById('error-message-name');
         var errorMessageEmail = document.getElementById('error-message-email');
         var errorMessagePassword = document.getElementById('error-message-password');
+        var submitButton = document.getElementById('submit-button');
+        // Name regex
+        var nameRegex = /^[a-zA-Z]+(\s[a-zA-Z]+)+$/;
+        // Variables de validación
+        var nameIsValid = false;
+        var emailIsValid = false;
+        var passwordIsValid = false;
 
         if (isEmpty(nameInput.value)) {
             if (errorMessageName) {
+                submitButton.disabled = true;
                 errorMessageName.innerHTML = 'El campo está vacío';
                 errorMessageName.style.color = 'crimson';
             }
             event.preventDefault();
-        } else {
+        } else if (!nameRegex.test(nameInput.value)) {
+                if (errorMessageName) {
+                    submitButton.disabled = true;
+                    errorMessageName.innerHTML = 'Por favor, ingresa un nombre válido.';
+                    errorMessageName.style.color = 'crimson';
+                }
+                event.preventDefault();
+            }   
+          else {
             if (errorMessageName) {
                 errorMessageName.innerHTML = '';
             }
-        }
-
-        if (isEmpty(emailInput.value)) {
-            if (errorMessageEmail) {
-                errorMessageEmail.innerHTML = 'El campo está vacío';
-                errorMessageEmail.style.color = 'crimson';
-            }
-            event.preventDefault();
-        } else if (!validateEmail(emailInput.value)) {
-            if (errorMessageEmail) {
-                errorMessageEmail.innerHTML = 'No se cumple la estructura de email';
-                errorMessageEmail.style.color = 'crimson';
-            }
-            event.preventDefault();
-        } else {
-            if (errorMessageEmail) {
-                errorMessageEmail.innerHTML = '';
-            }
+            nameIsValid = true;
         }
 
         if (isEmpty(passwordInput.value)) {
             if (errorMessagePassword) {
+                submitButton.disabled = true;
                 errorMessagePassword.innerHTML = 'El campo está vacío';
                 errorMessagePassword.style.color = 'crimson';
             }
             event.preventDefault();
         } else if (!validatePassword(passwordInput.value)) {
             if (errorMessagePassword) {
+                submitButton.disabled = true;
                 errorMessagePassword.innerHTML = 'La contraseña debe tener al menos 5 caracteres y contener al menos un número';
                 errorMessagePassword.style.color = 'crimson';
             }
@@ -83,7 +95,46 @@ document.addEventListener('DOMContentLoaded', (event) => {
             if (errorMessagePassword) {
                 errorMessagePassword.innerHTML = '';
             }
+            passwordIsValid = true;
         }
+
+        if (isEmpty(emailInput.value)) {
+            if (errorMessageEmail) {
+                submitButton.disabled = true;
+                errorMessageEmail.innerHTML = 'El campo está vacío';
+                errorMessageEmail.style.color = 'crimson';
+            }
+            event.preventDefault();
+        } else if (!validateEmail(emailInput.value)) {
+            if (errorMessageEmail) {
+                submitButton.disabled = true;
+                errorMessageEmail.innerHTML = 'No se cumple la estructura de email';
+                errorMessageEmail.style.color = 'crimson';
+            }
+            event.preventDefault();
+        } else {
+            checkEmail(emailInput.value, function(emailExists) {
+                if (emailExists) {
+                    if (errorMessageEmail) {
+                        submitButton.disabled = true;
+                        errorMessageEmail.innerHTML = 'El correo electrónico ya está en uso.';
+                        errorMessageEmail.style.color = 'crimson';
+                    }
+                    event.preventDefault();
+                } else {
+                    if (errorMessageEmail) {
+                        errorMessageEmail.innerHTML = '';
+                    }
+                    emailIsValid = true;
+                }
+
+                if (nameIsValid && emailIsValid && passwordIsValid) {
+                    submitButton.disabled = false;
+                }   
+            });
+        }
+
+        event.preventDefault();
     }
 
     document.getElementById('name').addEventListener('input', validateForm);

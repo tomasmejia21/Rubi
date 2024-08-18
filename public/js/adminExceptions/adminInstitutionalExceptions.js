@@ -13,10 +13,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         var errorMessageAddress = document.getElementById('error-message-address');
         var errorMessageCity = document.getElementById('error-message-city');
         var errorMessageCountry = document.getElementById('error-message-country')
+        var submitButton = document.getElementById('submit-button');
 
+        // Variables de validación
+        var nameIsValid = false;
+        var addressIsValid = false;
+        var cityIsValid = false;
+        var countryIsValid = false;
 
         if (isEmpty(nameInput.value)) {
             if (errorMessageName) {
+                submitButton.disabled = true;
                 errorMessageName.innerHTML = 'El campo está vacío';
                 errorMessageName.style.color = 'crimson';
             }
@@ -25,18 +32,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
             if (errorMessageName) {
                 errorMessageName.innerHTML = '';
             }
+            nameIsValid = true;
         }
 
         if (isEmpty(addressInput.value)) {
             if (errorMessageAddress) {
+                submitButton.disabled = true;
                 errorMessageAddress.innerHTML = 'El campo está vacío';
                 errorMessageAddress.style.color = 'crimson';
             }
             event.preventDefault();
         } else {
-            if (errorMessageAddres) {
+            if (errorMessageAddress) {
                 errorMessageAddress.innerHTML = '';
             }
+            addressIsValid = true;
         }
 
         if (isEmpty(cityInput.value)) {
@@ -49,6 +59,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             if (errorMessageCity) {
                 errorMessageCity.innerHTML = '';
             }
+            cityIsValid = true;
         }
 
         if (isEmpty(countryInput.value)) {
@@ -61,6 +72,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
             if (errorMessageCountry) {
                 errorMessageCountry.innerHTML = '';
             }
+            countryIsValid = true;
+        }
+
+        if (nameIsValid && addressIsValid && cityIsValid && countryIsValid) {
+            submitButton.disabled = false;
         }
     }
 

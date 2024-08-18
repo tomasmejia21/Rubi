@@ -20,15 +20,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function validateForm(event) {
         var emailInput = document.getElementById('email');
         var errorMessageEmail = document.getElementById('error-message-email');
+        var submitButton = document.getElementById('submit-button');
+        // Variables de validación
+        var emailIsValid = false;
 
         if (isEmpty(emailInput.value)) {
             if (errorMessageEmail) {
+                submitButton.disabled = true;
                 errorMessageEmail.innerHTML = 'El campo está vacío';
                 errorMessageEmail.style.color = 'crimson';
             }
             event.preventDefault();
         } else if (!validateEmail(emailInput.value)) {
             if (errorMessageEmail) {
+                submitButton.disabled = true;
                 errorMessageEmail.innerHTML = 'No se cumple la estructura de email';
                 errorMessageEmail.style.color = 'crimson';
             }
@@ -37,8 +42,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
             if (errorMessageEmail) {
                 errorMessageEmail.innerHTML = '';
             }
+            emailIsValid = true;
+        }
+
+        if (emailIsValid) {
+            submitButton.disabled = false;
         }
     }
         
     document.getElementById('email').addEventListener('input', validateForm);
+    document.querySelector('form').addEventListener('submit', validateForm);
 });
