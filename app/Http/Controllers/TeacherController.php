@@ -18,6 +18,12 @@ class TeacherController extends Controller
         return view('admin.adminTeacher')->with('teachers', $teachers);
     }
 
+    public function myinfo()
+    {
+        $teacher = Teacher::all();
+        return view('myinformation.myinformationteacher')->with('teacher', $teacher);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

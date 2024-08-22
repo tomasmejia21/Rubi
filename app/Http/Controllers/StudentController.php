@@ -24,6 +24,15 @@ class StudentController extends Controller
         return view('admin.adminStudent')->with('students',$students);
     }
 
+    public function myinfo()
+    {
+        $student = User::whereHas('role', function($query){
+            $query->whereIn('id',[3, 4]);
+        })->get();
+
+        return view('myinformation.myinformationstudent')->with('student', $student);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
