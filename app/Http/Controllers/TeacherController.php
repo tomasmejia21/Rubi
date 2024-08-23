@@ -126,4 +126,24 @@ class TeacherController extends Controller
         $teacher->delete();
         return redirect()->route('teachers.index');
     }
+
+    /**
+     * Check if the email already exists in the database.
+     */
+
+    public function checkEmail(Request $request, $teacherId = null){
+        $query = Teacher::where('email', $request->email);
+        if ($teacherId) {
+            $query->where('teacherId', '!=', $teacherId);
+            $emailExists = User::where('email', $request->email)->exists()
+            || Admin::where('email', $request->email)->exists()
+            || $query->exists();
+        } else {
+            $emailExists = User::where('email', $request->email)->exists()
+            || Teacher::where('email', $request->email)->exists()
+            || Admin::where('email', $request->email)->exists();
+        }
+        //$emailExists = $query->exists();
+        return response()->json(['emailExists' => $emailExists]);
+    }
 }

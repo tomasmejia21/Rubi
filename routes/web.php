@@ -36,6 +36,7 @@ Route::post('/students', [StudentController::class, 'store'])->name('students.st
 //Mi informacion (header) - Admin
 Route::resource('admin',AdminController::class);
 Route::get('/myinformation/{id}', [AdminController::class, 'myinfo'])->name('admin.myinfo');
+Route::get('/check-email', [AdminController::class, 'checkEmail']);
 
 //Mi informacion (header) - Student
 #Route::get('/myinformation/{id}', [StudentController::class],'myinfo')->name('students.myinfo');
