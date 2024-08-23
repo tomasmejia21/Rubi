@@ -38,10 +38,10 @@ Route::resource('admin',AdminController::class);
 Route::get('/myinformation/{id}', [AdminController::class, 'myinfo'])->name('admin.myinfo');
 
 //Mi informacion (header) - Student
-Route::get('/myinformation/{id}', [StudentController::class],'myinfo')->name('students.myinfo');
+#Route::get('/myinformation/{id}', [StudentController::class],'myinfo')->name('students.myinfo');
 
 //Mi informacion (header) - Teacher
-Route::get('myinformation/{id}', [TeacherController::class])->name('teachers.myinfo');
+#Route::get('myinformation/{id}', [TeacherController::class])->name('teachers.myinfo');
 
 // Login
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
