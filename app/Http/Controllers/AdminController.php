@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\User;
+use App\Models\EducationalInstitution;
+use App\Models\Role;
+use App\Models\Teacher;
+use App\Models\Student;
 
 class AdminController extends Controller
 {
@@ -84,5 +90,25 @@ class AdminController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Check if the email already exists in the database.
+     */
+    public function checkEmail(Request $request, $adminId = null)
+    {
+        $query = Admin::where('email', $request->email);
+        if ($adminId) {
+            $query->where('adminId', '!=', $adminId);
+            $emailExists = User::where('email', $request->email)->exists()
+            || Teacher::where('email', $request->email)->exists()
+            || $query->exists();
+        } else {
+            $emailExists = User::where('email', $request->email)->exists()
+            || Teacher::where('email', $request->email)->exists()
+            || Admin::where('email', $request->email)->exists();
+        }
+        //$emailExists = $query->exists();
+        return response()->json(['emailExists' => $emailExists]);
     }
 }

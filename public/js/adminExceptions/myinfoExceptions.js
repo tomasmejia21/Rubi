@@ -129,8 +129,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
             event.preventDefault();
         } else {
-            var currentEmail = emailInput.getAttribute('data-current-email');
-            checkEmail(emailInput.value, currentEmail, function(emailExists) {
+            checkEmail(emailInput.value, function(emailExists) {
                 if (emailExists) {
                     if (errorMessageEmail) {
                         submitButton.disabled = true;
@@ -145,11 +144,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     emailIsValid = true;
                 }
 
-                if (nameIsValid && institutionIsValid && emailIsValid && passwordIsValid && confirmPasswordIsValid && roleIsValid) {
+                if (nameIsValid && emailIsValid && passwordIsValid && confirmPasswordIsValid) {
                     submitButton.disabled = false;
-                } 
+                }   
             });
         }
+        event.preventDefault();
     }
     document.getElementById('name').addEventListener('input', validateForm);
     document.getElementById('email').addEventListener('input', validateForm);
