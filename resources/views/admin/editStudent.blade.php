@@ -36,7 +36,7 @@
                     
                     <div class="mb-3">
                         <label for="institution" class="form-label">Institución educativa:  </label>
-                        <select id="institution" class="form-select w-75 mx-auto" name="institution" select disabled>
+                        <select id="institution" class="form-select w-80 mx-auto" name="institution" select disabled>
                             <option value="{{ $student->institutionalId }}" selected disabled>{{ $student->educationalinstitution->name }}</option>
                             @foreach ($educational_institutions as $institution)
                                 <option value="{{ $institution->institutionalId }}" select disabled>{{ $institution->name }}</option>
@@ -47,7 +47,7 @@
 
                     <div class="mb-3">
                         <label for="role_id" class="form-label">Rol:</label>
-                        <select id="role_id" class="form-select w-75 mx-auto" name="role_id" select disabled>
+                        <select id="role_id" class="form-select w-80 mx-auto" name="role_id" select disabled>
                             <option value="{{ $student->roleId }}" selected disabled>{{ $student->role->name }}</option>
                             @foreach ($roles as $role)
                                 <option value="{{ $role->id }}" select disabled>{{ $role->name }}</option>
