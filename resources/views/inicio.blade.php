@@ -1,4 +1,5 @@
     @include('partials.rubiHeader')
+    <title>Inicio</title>
     <br>
     <div class="container text-center text-white">
         <div class="row">

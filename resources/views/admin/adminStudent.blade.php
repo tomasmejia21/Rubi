@@ -28,7 +28,7 @@
                 <table class="table table-dark table-striped">
                 <thead>
                     <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col">Id</th>
                     <th scope="col">Usuario</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Correo</th>
