@@ -22,7 +22,14 @@
                 <!-- Activity Details -->
                 <div class="form-group">
                     <label for="moduleId">Módulo</label>
-                    <input type="text" name="moduleId" class="form-control" id="moduleId" value="{{ old('moduleId', $activity->moduleId) }}">
+                    <select name="moduleId" class="form-control" id="moduleId">
+                        <option value="0" selected disabled>-- Selecciona una opción --</option>
+                        @foreach ($modules as $module)
+                            <option value="{{ $module->id }}" {{ old('moduleId') == $module->id ? 'selected' : '' }}>
+                                {{ $module->title }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="title">Título</label>
