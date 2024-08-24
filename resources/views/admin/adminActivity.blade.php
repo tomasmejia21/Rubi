@@ -45,7 +45,7 @@
                             <td>{{ $activity->title }}</td>
                             <td>{{ $activity->description }}</td>
                             <td>{{ $activity->role_id }}</td>
-                            <td>{{ $activity->questionType }}</td>
+                            <td>{{ ucfirst($activity->question_type) }}</td>
                             <td>
                                 <a href="{{ route('activities.edit', $activity->activityId) }}" class="btn btn-hover-crimson">
                                     <i class="bi bi-pencil-fill text-white"></i>

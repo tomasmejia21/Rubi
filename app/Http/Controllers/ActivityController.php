@@ -25,8 +25,8 @@ class ActivityController extends Controller
     public function create()
     {
         $roles = Role::whereIn('id', [3, 4])->get();
-
-        return view('admin.createActivity', compact('roles'));
+        $modules = Module::all();
+        return view('admin.createActivity', compact('roles', 'modules'));
     }
 
     /**
@@ -47,14 +47,14 @@ class ActivityController extends Controller
         }
 
         $activity->activityId = $activityId;
-        $activity->moduleId = $request->input('moduleId');
-        $activity->title = $request->input('title');
-        $activity->description = $request->input('description');
-        $activity->role_id = $request->input('role_id');
-        $activity->voice = $request->input('voice') ? true : false;
-        $activity->question_type = $request->input('questionType');
-        $activity->response_count = $request->input('responseCount');
-        $activity->correct_answer = $request->input('response');
+        $activity->moduleId = $request->moduleId;
+        $activity->title = $request->title;
+        $activity->description = $request->description;
+        $activity->role_id = $request->role_id;
+        $activity->voice = $request->voice ? true : false;
+        $activity->question_type = $request->questionType;
+        $activity->response_count = $request->responseCount;
+        $activity->correct_answer = $request->response;
 
         // Handle file upload for image
         if ($request->hasFile('activityImage')) {
@@ -72,11 +72,11 @@ class ActivityController extends Controller
 
         $activity->save();  // Asegúrate de guardar la actividad antes de agregar respuestas
 
-        $questionType = $request->input('questionType');
+        $questionType = $request->questionType;
 
         if ($questionType == 'cerrada') {
             
-            $responses = $request->input('responses');
+            $responses = $request->responses;
             foreach ($responses as $response) {
                 $newResponse = new Response;
                 $newResponse->activity_id = $activity->activityId;
@@ -101,7 +101,10 @@ class ActivityController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $activity = Activity::find($id);
+        $roles = Role::whereIn('id', [3, 4])->get();
+        $modules = Module::all();
+        return view('admin.editActivity', compact('roles', 'modules'))->with('activity', $activity);
     }
 
     /**
@@ -109,7 +112,7 @@ class ActivityController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $activity = Activity::find($id);
     }
 
     /**
