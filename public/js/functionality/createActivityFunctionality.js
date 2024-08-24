@@ -1,5 +1,26 @@
 var audioFile;
 
+// Initialize the form
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.location.href.indexOf('activities/create') === -1) { // Check if the URL does not contain 'activities/create'
+        toggleResponseOptions(); // Set up initial state based on default values
+
+        // Load the previous image
+        var imagePreview = document.getElementById('imagePreview');
+        if (imagePreview) {
+            imagePreview.style.display = 'block';
+        }
+
+        // Load the previous audio
+        var audioPlayer = document.getElementById('audioPlayer');
+        var audioIcon = document.getElementById('audioIcon');
+        if (audioPlayer && audioIcon) {
+            audioFile = new Audio(audioPlayer.src);
+            audioIcon.style.display = 'block';
+        }
+    }
+});
+
 document.querySelector('#activityImage').addEventListener('change', function() {
     document.querySelector('#imageChosen').textContent = this.files[0].name;
 });
@@ -77,18 +98,32 @@ function previewAudio(event) {
 
 var audio = null;
 
-// Function to play or pause audio
+// Function to play audio
 function playAudio() {
-    if (audioFile) {
-        if (audio) {
-            if (!audio.paused) {
-                audio.pause();
-                audio.currentTime = 0;  // This will restart the audio from the beginning
-                audio = null;
+    if (window.location.href.indexOf('activities/create') !== -1) {  // If the URL contains 'activities/create'
+        if (audioFile) {
+            if (audio) {
+                if (!audio.paused) {
+                    audio.pause();
+                    audio.currentTime = 0;  // This will restart the audio from the beginning
+                    audio = null;
+                }
+            } else {
+                audio = new Audio(URL.createObjectURL(audioFile));
+                audio.play();
             }
-        } else {
-            audio = new Audio(URL.createObjectURL(audioFile));
-            audio.play();
+        }
+    } else {  // If the URL does not contain 'activities/create'
+        var audioPlayer = document.getElementById('audioPlayer');
+        if (audioPlayer) {
+            if (!audioPlayer.paused) {
+                audioPlayer.pause();
+                audioPlayer.currentTime = 0;  // This will restart the audio from the beginning
+            } else {
+                audioPlayer.play().catch(function(error) {
+                    console.error('Failed to play audio:', error);  // Log any errors that occur when trying to play the audio
+                });
+            }
         }
     }
 }

@@ -59,14 +59,14 @@ class ActivityController extends Controller
         // Handle file upload for image
         if ($request->hasFile('activityImage')) {
             $filename = $request->file('activityImage')->getClientOriginalName();
-            $request->file('activityImage')->storeAs('images', $filename);
+            $request->file('activityImage')->storeAs('public/images', $filename);
             $activity->image = $filename;
         }
 
         // Handle file upload for voice file
         if ($request->hasFile('voiceFile')) {
             $filename = $request->file('voiceFile')->getClientOriginalName();
-            $request->file('voiceFile')->storeAs('voices', $filename);
+            $request->file('voiceFile')->storeAs('public/voices', $filename);
             $activity->voice_file = $filename;
         }
 
@@ -113,6 +113,45 @@ class ActivityController extends Controller
     public function update(Request $request, string $id)
     {
         $activity = Activity::find($id);
+        $activity->moduleId = $request->moduleId;
+        $activity->title = $request->title;
+        $activity->description = $request->description;
+        $activity->role_id = $request->role_id;
+        $activity->voice = $request->voice ? true : false;
+        $activity->question_type = $request->questionType;
+        $activity->response_count = $request->responseCount;
+        $activity->correct_answer = $request->response;
+
+        // Handle file upload for image
+        if ($request->hasFile('activityImage')) {
+            $filename = $request->file('activityImage')->getClientOriginalName();
+            $request->file('activityImage')->storeAs('public/images', $filename);
+            $activity->image = $filename;
+        }
+
+        // Handle file upload for voice file
+        if ($request->hasFile('voiceFile')) {
+            $filename = $request->file('voiceFile')->getClientOriginalName();
+            $request->file('voiceFile')->storeAs('public/voices', $filename);
+            $activity->voice_file = $filename;
+        }
+
+        $activity->save();  // Make sure to save the activity before adding responses
+
+        $questionType = $request->questionType;
+
+        if ($questionType == 'cerrada') {
+            $responses = $request->responses;
+            foreach ($responses as $response) {
+                $newResponse = new Response;
+                $newResponse->activity_id = $activity->activityId;
+                $newResponse->text = $response;
+                $newResponse->save();
+            }
+        } 
+
+        return redirect()->route('activities.index');
+
     }
 
     /**
