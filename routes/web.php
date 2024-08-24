@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Post;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\EducationalInstitutionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PostController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -36,7 +38,6 @@ Route::post('/students', [StudentController::class, 'store'])->name('students.st
 //Mi informacion (header) - Admin
 Route::resource('admin',AdminController::class);
 Route::get('/myinformation/{id}', [AdminController::class, 'myinfo'])->name('admin.myinfo');
-Route::get('/check-email', [AdminController::class, 'checkEmail']);
 
 //Mi informacion (header) - Student
 #Route::get('/myinformation/{id}', [StudentController::class],'myinfo')->name('students.myinfo');
@@ -49,3 +50,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // Register
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
+//Blog
+Route::get('/blog', function () {
+    return view('allPosts',['posts' => Post::where('active',true)->get()]);
+});
+Route::resource('posts',PostController::class);
+Route::get('/blog/create', [PostController::class, 'index'])->name('posts.index');
+Route::post('/blog/create', [PostController::class, 'store'])->name('posts.store');
