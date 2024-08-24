@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
+
 use Illuminate\Http\Request;
 use App\Models\Response;
 use App\Models\Activity;
@@ -167,9 +169,27 @@ class ActivityController extends Controller
      */
     public function destroy(string $id)
     {
-        // Para eliminar un registro de la Base de datos
         $activity = Activity::find($id);
+
+        // Get the names of the image and audio files
+        $imageName = $activity->image;
+        $audioName = $activity->voice_file;
+
+        // Construct the full paths of the image and audio files
+        $imagePath = "images/{$imageName}";
+        $audioPath = "voices/{$audioName}";
+
+        // Delete the image and audio files if they exist
+        if ($imageName && Storage::disk('public')->exists($imagePath)) {
+            Storage::disk('public')->delete($imagePath);
+        }
+        if ($audioName && Storage::disk('public')->exists($audioPath)) {
+            Storage::disk('public')->delete($audioPath);
+        }
+
+        // Delete the activity
         $activity->delete();
+
         return redirect()->route('activities.index');
     }
 }
