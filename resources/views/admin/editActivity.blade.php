@@ -25,7 +25,7 @@
                     <select name="moduleId" class="form-control" id="moduleId">
                         <option value="0" selected disabled>-- Selecciona una opción --</option>
                         @foreach ($modules as $module)
-                            <option value="{{ $module->id }}" {{ old('moduleId') == $module->id ? 'selected' : '' }}>
+                            <option value="{{ $module->moduleId }}" {{ old('moduleId') == $module->id ? 'selected' : '' }}>
                                 {{ $module->title }}
                             </option>
                         @endforeach
