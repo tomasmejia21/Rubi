@@ -6,6 +6,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\EducationalInstitutionController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,6 +32,17 @@ Route::resource('students',StudentController::class);
 Route::get('/students',[StudentController::class,'index'])->name('students.index');
 Route::get('/check-email', [StudentController::class, 'checkEmail']);
 Route::post('/students', [StudentController::class, 'store'])->name('students.store');
+
+//Mi informacion (header) - Admin
+Route::resource('admin',AdminController::class);
+Route::get('/myinformation/{id}', [AdminController::class, 'myinfo'])->name('admin.myinfo');
+Route::get('/check-email', [AdminController::class, 'checkEmail']);
+
+//Mi informacion (header) - Student
+#Route::get('/myinformation/{id}', [StudentController::class],'myinfo')->name('students.myinfo');
+
+//Mi informacion (header) - Teacher
+#Route::get('myinformation/{id}', [TeacherController::class])->name('teachers.myinfo');
 
 // Login
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

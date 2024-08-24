@@ -17,7 +17,7 @@
                     <div class="col">
                         <nav class="navbar navbar-expand-sm">
                             <div class="container-fluid">
-                            <a class="navbar-brand" href="#">
+                            <a class="navbar-brand" href="/inicio">
                                 <img src="{{ asset('images/rubilogo.png')}}" alt="Rubí" id="rubilogo">
                             </a>
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +55,7 @@
                                                 </div>
                                             </li>
                                             <br>
-                                            <li><a class="dropdown-item" href="#">Mi información</a></li>
+                                            <li><a class="dropdown-item" href="/myinformation/{{session('id')}}">Mi información</a></li>
                                             <li><a class="dropdown-item" href="/teachers">Administrar profesores</a></li>
                                             <li><a class="dropdown-item" href="/students">Administrar alumnos</a></li>
                                             <li><a class="dropdown-item" href="/educationalinstitutions">Administrar instituciones</a></li>
