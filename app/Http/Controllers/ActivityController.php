@@ -140,7 +140,15 @@ class ActivityController extends Controller
 
         $questionType = $request->questionType;
 
-        if ($questionType == 'cerrada') {
+        if ($questionType == 'abierta') {
+            // Get all responses associated with the activity
+            $responses = Response::where('activity_id', $activity->activityId)->get();
+
+            // Delete each response
+            foreach ($responses as $response) {
+                $response->delete();
+            }
+        } elseif ($questionType == 'cerrada') {
             $responses = $request->responses;
             foreach ($responses as $response) {
                 $newResponse = new Response;
@@ -148,7 +156,7 @@ class ActivityController extends Controller
                 $newResponse->text = $response;
                 $newResponse->save();
             }
-        } 
+        }
 
         return redirect()->route('activities.index');
 
