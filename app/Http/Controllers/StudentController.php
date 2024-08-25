@@ -24,6 +24,15 @@ class StudentController extends Controller
         return view('admin.adminStudent')->with('students',$students);
     }
 
+    public function myinfo()
+    {
+        $student = User::whereHas('role', function($query){
+            $query->whereIn('id',[3, 4]);
+        })->get();
+
+        return view('myinformation.myinformationstudent')->with('student', $student);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -33,15 +42,6 @@ class StudentController extends Controller
         $roles = Role::whereIn('id', [3, 4])->get();
 
         return view('admin.createStudent', compact('educational_institutions', 'roles'));
-    }
-
-    public function checkEmail(Request $request)
-    {
-        $emailExists = User::where('email', $request->email)->exists()
-            || Teacher::where('email', $request->email)->exists()
-            || Admin::where('email', $request->email)->exists();
-
-        return response()->json(['emailExists' => $emailExists]);
     }
 
     /**
@@ -135,4 +135,25 @@ class StudentController extends Controller
         $student->delete();
         return redirect()->route('students.index');
     }
+
+    /**
+     * Check if the email already exists in the database.
+     */
+    public function checkEmail(Request $request, $userId = null)
+    {
+        $query = User::where('email', $request->email);
+        if ($userId) {
+            $query->where('userId', '!=', $userId);
+            $emailExists = Admin::where('email', $request->email)->exists()
+            || Teacher::where('email', $request->email)->exists()
+            || $query->exists();
+        } else {
+            $emailExists = User::where('email', $request->email)->exists()
+            || Teacher::where('email', $request->email)->exists()
+            || Admin::where('email', $request->email)->exists();
+        }
+        //$emailExists = $query->exists();
+        return response()->json(['emailExists' => $emailExists]);
+    }
+
 }

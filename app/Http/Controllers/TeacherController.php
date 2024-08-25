@@ -18,6 +18,12 @@ class TeacherController extends Controller
         return view('admin.adminTeacher')->with('teachers', $teachers);
     }
 
+    public function myinfo()
+    {
+        $teacher = Teacher::all();
+        return view('myinformation.myinformationteacher')->with('teacher', $teacher);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -119,5 +125,25 @@ class TeacherController extends Controller
         $teacher = Teacher::find($id);
         $teacher->delete();
         return redirect()->route('teachers.index');
+    }
+
+    /**
+     * Check if the email already exists in the database.
+     */
+
+    public function checkEmail(Request $request, $teacherId = null){
+        $query = Teacher::where('email', $request->email);
+        if ($teacherId) {
+            $query->where('teacherId', '!=', $teacherId);
+            $emailExists = User::where('email', $request->email)->exists()
+            || Admin::where('email', $request->email)->exists()
+            || $query->exists();
+        } else {
+            $emailExists = User::where('email', $request->email)->exists()
+            || Teacher::where('email', $request->email)->exists()
+            || Admin::where('email', $request->email)->exists();
+        }
+        //$emailExists = $query->exists();
+        return response()->json(['emailExists' => $emailExists]);
     }
 }

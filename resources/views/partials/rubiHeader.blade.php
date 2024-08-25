@@ -16,7 +16,7 @@
                     <div class="col">
                         <nav class="navbar navbar-expand-sm">
                             <div class="container-fluid">
-                            <a class="navbar-brand" href="#">
+                            <a class="navbar-brand" href="/inicio">
                                 <img src="{{ asset('images/rubilogo.png')}}" alt="Rubí" id="rubilogo">
                             </a>
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,10 +28,13 @@
                                         <a class="nav-link {{ request()->is('inicio') ? 'active' : '' }}" href="/inicio">Inicio</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ request()->is('modulos') ? 'active' : '' }}" href="/modulos">Módulos</a>
+                                        <a class="nav-link {{ request()->is('modules') ? 'active' : '' }}" href="/modules">Módulos</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link {{ request()->is('progreso') ? 'active' : '' }}" href="/progreso">Mi progreso</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ request()->is('blog') ? 'active' : '' }}" href="/blog">Blog</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link {{ request()->is('configuracion') ? 'active' : '' }}" href="/configuracion">Configuración</a>
@@ -54,13 +57,13 @@
                                                 </div>
                                             </li>
                                             <br>
-                                            <li><a class="dropdown-item" href="#">Mi información</a></li>
+                                            <li><a class="dropdown-item" href="/myinformation/{{session('id')}}">Mi información</a></li>
                                             <li><a class="dropdown-item" href="/teachers">Administrar profesores</a></li>
                                             <li><a class="dropdown-item" href="/students">Administrar alumnos</a></li>
                                             <li><a class="dropdown-item" href="/educationalinstitutions">Administrar instituciones</a></li>
-                                            <li><a class="dropdown-item" href="/activities  ">Administrar actividades</a></li>
-                                            <li><a class="dropdown-item" href="#">Administrar modulos</a></li>
-                                            <li><a class="dropdown-item" href="#">Ir al foro comunitario</a></li>
+                                            <li><a class="dropdown-item" href="/activities">Administrar actividades</a></li>
+                                            <li><a class="dropdown-item" href="/modules">Administrar modulos</a></li>
+                                            <li><a class="dropdown-item" href="/blog">Ir al blog comunitario</a></li>
                                             <li><a class="dropdown-item" href="#">Descargar estadísticas generales</a></li>
                                             <li><a class="dropdown-item" href="{{ route('logout') }}"
                                                    onclick="event.preventDefault();
