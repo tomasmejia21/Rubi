@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class ModuleProgress extends Model
 {
     use HasFactory;
-    protected $table = 'moduleProgress';
+    protected $table = 'module_progress';
 }

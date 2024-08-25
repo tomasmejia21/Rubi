@@ -9,4 +9,11 @@ class Module extends Model
 {
     use HasFactory;
     protected $table = 'modules';
+    protected $primaryKey = 'moduleId';
+
+    // Relación uno a muchos con ModuleFile
+    public function files()
+    {
+        return $this->hasMany(ModuleFile::class, 'moduleId', 'moduleId');
+    }
 }
