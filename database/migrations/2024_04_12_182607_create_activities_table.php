@@ -12,19 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('activities', function (Blueprint $table) {
-           
             $table->id('activityId');
-            $table->string('title');
-            $table->string('description');
-            $table->string('role');
-            $table->string('questiontype');
-            $table->string('answertype');
-            $table->string('voiceredaction');
-            $table->integer('numberOfResponses');
-            $table->string('answers');
             $table->unsignedBigInteger('moduleId');
-            $table->foreign('moduleId')->references('moduleId')->on('modules');
+            $table->string('title');
+            $table->text('description');
+            $table->unsignedBigInteger('role_id');
+            $table->boolean('voice');
+            $table->string('question_type');
+            $table->string('correct_answer')->nullable();
+            $table->integer('response_count')->nullable();
+            $table->string('image')->nullable();
+            $table->string('voice_file')->nullable();
             $table->timestamps();
+
+            $table->foreign('moduleId')->references('moduleId')->on('modules');
         });
     }
 

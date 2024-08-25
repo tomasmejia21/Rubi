@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Activity extends Model
 {
     use HasFactory;
-    protected $table = 'activity';
+    protected $primaryKey = 'activityId';
+    protected $table = 'activities';
 }
