@@ -174,30 +174,31 @@ function generateResponseFields() {
     var optionsContainer = document.getElementById('optionsContainer');
     responsesGroup.innerHTML = ''; // Clear existing response fields
     optionsContainer.innerHTML = ''; // Clear existing options in preview
-
-    for (var i = 1; i <= responseCount; i++) {
-        // Create input field for response
-        var input = document.createElement('input');
-        input.type = 'text';
-        input.className = 'form-control mb-2';
-        input.name = 'responses[]';
-        input.id = 'response' + i;
-        input.value = 'Opción ' + i;
-        input.oninput = updatePreview; // Update preview on input
-        responsesGroup.appendChild(input);
-
-        // Add corresponding option in the preview
-        var col = document.createElement('div');
-        col.className = 'col-md-6 mb-2';
-        var optionPreview = document.createElement('button');
-        optionPreview.type = 'button';
-        optionPreview.className = 'btn btn-outline-primary btn-block';
-        optionPreview.id = 'preview-option' + i;
-        optionPreview.innerText = 'Opción ' + i;
-        col.appendChild(optionPreview);
-        optionsContainer.appendChild(col);
+    var responseCount = parseInt(responseCount, 10); // Convert responseCount to a number
+    if (responseCount >= 2 && responseCount <= 6) {
+        for (var i = 1; i <= responseCount; i++) {
+            // Create input field for response
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'form-control mb-2';
+            input.name = 'responses[]';
+            input.id = 'response' + i;
+            input.value = 'Opción ' + i;
+            input.oninput = updatePreview; // Update preview on input
+            responsesGroup.appendChild(input);
+    
+            // Add corresponding option in the preview
+            var col = document.createElement('div');
+            col.className = 'col-md-6 mb-2';
+            var optionPreview = document.createElement('button');
+            optionPreview.type = 'button';
+            optionPreview.className = 'btn btn-outline-primary btn-block';
+            optionPreview.id = 'preview-option' + i;
+            optionPreview.innerText = 'Opción ' + i;
+            col.appendChild(optionPreview);
+            optionsContainer.appendChild(col);
+        }
     }
-
     updateResponseField(); // Update response type options
 }
 
@@ -210,11 +211,18 @@ function updateResponseField() {
     if (questionType === 'cerrada') {
         // Add options to select the correct answer for closed questions
         var responseCount = document.getElementById('responseCount').value;
-        for (var i = 1; i <= responseCount; i++) {
-            var option = document.createElement('option');
-            option.value = 'Opción ' + i;
-            option.text = 'Opción ' + i;
-            response.appendChild(option);
+
+        // Convert responseCount to a number
+        responseCount = parseInt(responseCount, 10);
+
+        // Check if responseCount is within the valid range
+        if (responseCount >= 2 && responseCount <= 6) {
+            for (var i = 1; i <= responseCount; i++) {
+                var option = document.createElement('option');
+                option.value = 'Opción ' + i;
+                option.text = 'Opción ' + i;
+                response.appendChild(option);
+            }
         }
     }
 }
@@ -222,4 +230,5 @@ function updateResponseField() {
 // Initialize the form
 document.addEventListener('DOMContentLoaded', function() {
     toggleResponseOptions(); // Set up initial state based on default values
+    toggleVoiceInput(); // Set up initial state based on default values
 });
