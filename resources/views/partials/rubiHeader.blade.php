@@ -29,7 +29,7 @@
                                         <a class="nav-link {{ request()->is('inicio') ? 'active' : '' }}" href="/inicio">Inicio</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ request()->is('modulos') ? 'active' : '' }}" href="/modulos">Módulos</a>
+                                        <a class="nav-link {{ request()->is('modules') ? 'active' : '' }}" href="/modules">Módulos</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link {{ request()->is('progreso') ? 'active' : '' }}" href="/progreso">Mi progreso</a>
@@ -63,7 +63,7 @@
                                             <li><a class="dropdown-item" href="/students">Administrar alumnos</a></li>
                                             <li><a class="dropdown-item" href="/educationalinstitutions">Administrar instituciones</a></li>
                                             <li><a class="dropdown-item" href="#">Administrar actividades</a></li>
-                                            <li><a class="dropdown-item" href="#">Administrar modulos</a></li>
+                                            <li><a class="dropdown-item" href="/modules">Administrar modulos</a></li>
                                             <li><a class="dropdown-item" href="/blog">Ir al blog comunitario</a></li>
                                             <li><a class="dropdown-item" href="#">Descargar estadísticas generales</a></li>
                                             <li><a class="dropdown-item" href="{{ route('logout') }}"
