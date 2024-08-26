@@ -33,12 +33,6 @@
                                     <li class="nav-item">
                                         <a class="nav-link {{ request()->is('progreso') ? 'active' : '' }}" href="/progreso">Mi progreso</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link {{ request()->is('blog') ? 'active' : '' }}" href="/blog">Blog</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link {{ request()->is('configuracion') ? 'active' : '' }}" href="/configuracion">Configuración</a>
-                                    </li>
                                 </ul>
                                 <ul class="navbar-nav">
                                     <li class="nav-item dropdown">
