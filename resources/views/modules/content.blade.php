@@ -14,11 +14,9 @@
     <!-- Hasta aquí llega el header -->
     <div class="container my-5">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Nuevo archivo
-        </button>
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Nuevo archivo</button>
 
-        <a href="#" class="btn btn-light">Agregar actividades</a>
+        <a href="/activities" id="action-button" class="btn btn-light">Agregar actividades</a>
 
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -27,7 +25,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Nuevo Post</h1>
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Nuevo archivo</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -38,7 +36,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="file" class="form-label">Archivo</label>
-                                <input class="form-control" type="file" id="file" name="file">
+                                <div class="input-group">
+                                    <label class="input-group-text" for="file">Subir</label>
+                                    <input type="text" class="form-control" readonly placeholder="Selecciona un archivo" id="fileDisplay">  
+                                    <input class="form-control" type="file" id="file" name="file" style="display: none;" onchange="document.getElementById('fileDisplay').value = this.files[0].name">
+                                </div>
                                 <span id="error-message-file"></span>
                             </div>
                             
@@ -48,7 +50,7 @@
                         <div id="error-message"></div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
-                            <button type="submit" class="btn btn-primary" id="submit-button" disabled>Subir</button>
+                            <button type="submit" class="btn" id="submit-button" disabled>Subir</button>
                         </div>
                     </div>
                 </div>
@@ -91,8 +93,24 @@
     </div>
 
     <div class="container my-5">
-        <!-- Mostrar actividades -->
         <h2 class="info-module">Actividades</h2>
+        <!-- Mostrar actividades -->
+        <div class="container my-5">
+            <!-- Mostrar actividades -->
+            <ul>
+                @foreach ($activities as $activity)
+                    <li>
+                        <form action="{{ route('activity.show', ['id' => $activity->activityId]) }}" method="GET">
+                            @csrf
+                            <button id="activity-button" type="submit" class="btn btn-light activity-button">
+                                {{ $activity->title }}
+                            </button>
+                        </form>
+                    </li>
+                    <br>
+                @endforeach
+            </ul>
+        </div>
     </div>
 
 

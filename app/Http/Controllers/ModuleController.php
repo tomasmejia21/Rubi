@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Module;
 use App\Models\Teacher;
 use App\Models\ModuleFile;
+use App\Models\Activity;
 use Illuminate\Support\Facades\Storage;
 
 class ModuleController extends Controller
@@ -77,7 +78,9 @@ class ModuleController extends Controller
     {
         $module = Module::find($id);
         $files = ModuleFile::where('moduleId', $id)->get(); // Obtener los archivos asociados al módulo
-        return view('modules.content', compact('module', 'files'));
+        $activities = Activity::where('moduleId', $id)->get(); // Obtener las actividades asociadas al módulo
+
+        return view('modules.content', compact('module', 'files', 'activities'));
     }
 
     /**

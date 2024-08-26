@@ -95,7 +95,9 @@ class ActivityController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $activity = Activity::find($id);
+        $responses = $activity->responses;
+        return view('activity.showActivity', compact('responses'))->with('activity', $activity);
     }
 
     /**
@@ -106,6 +108,7 @@ class ActivityController extends Controller
         $activity = Activity::find($id);
         $roles = Role::whereIn('id', [3, 4])->get();
         $modules = Module::all();
+        
         return view('admin.editActivity', compact('roles', 'modules'))->with('activity', $activity);
     }
 

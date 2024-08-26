@@ -72,3 +72,5 @@ Route::get('/modules', [ModuleController::class, 'index'])->name('modules.index'
 Route::get('/modules/{id}', [ModuleController::class, 'show'])->name('modules.show');
 Route::post('/modules/{id}/files', [ModuleController::class, 'storeFile'])->name('modules.storeFile');
 Route::delete('/modules/{file}/destroy', [ModuleController::class, 'destroyFile'])->name('modules.destroyFile');
+//Modulos - Actividad
+Route::get('/modules/activity/{id}', [ActivityController::class, 'show'])->name('activity.show');
