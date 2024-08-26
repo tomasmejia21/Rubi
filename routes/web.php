@@ -13,7 +13,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ModuleController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 Route::get('/inicio', function () {
