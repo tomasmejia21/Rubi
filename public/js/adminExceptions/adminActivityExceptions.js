@@ -34,8 +34,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         var voiceInput = document.getElementById('voiceFile');
         var voiceCheckbox = document.getElementById('voice');
         var voiceExistsInput = document.getElementById('audioExists');
-        var voiceExists = voiceExistsInput.value;
-        
+        var voiceExists = voiceExistsInput.value; 
         var questionTypeSelect = document.getElementById('questionType');
         var responseCountInput = document.getElementById('responseCount');
         var errorMessageModule = document.getElementById('error-message-module');
@@ -58,6 +57,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         if (moduleSelect.value == '0') {
             submitButton.disabled = true;
+            moduleIsValid = false;
             errorMessageModule.innerHTML = 'Por favor, selecciona una opción.';
             errorMessageModule.style.color = 'crimson';
             event.preventDefault();
@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (isEmpty(titleInput.value)) {
             if (errorMessageTitle) {
                 submitButton.disabled = true;
+                titleIsValid = false;
                 errorMessageTitle.innerHTML = 'El campo está vacío';
                 errorMessageTitle.style.color = 'crimson';
             }
@@ -85,6 +86,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (isEmpty(descriptionInput.value)) {
             if (errorMessageDescription) {
                 submitButton.disabled = true;
+                descriptionIsValid = false;
                 errorMessageDescription.innerHTML = 'El campo está vacío';
                 errorMessageDescription.style.color = 'crimson';
             } 
@@ -106,11 +108,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 if (imageFile.type !== 'image/jpeg' && imageFile.type !== 'image/png') {
                     // If the file is not a jpg or png image, prevent form submission and show an error message
                     event.preventDefault();
+                    imageIsValid = false;
                     errorMessageImage.textContent = 'Tipo de archivo incorrecto. Por favor, selecciona una imagen jpg o png.';
                     errorMessageImage.style.color = 'crimson';
                 } else if (imageFile.size > 2 * 1024 * 1024) { // Check if the file size is more than 2 MB
                     // If the file is too large, prevent form submission and show an error message
                     event.preventDefault();
+                    imageIsValid = false;
                     errorMessageImage.textContent = 'El archivo es demasiado grande. Por favor, selecciona una imagen de menos de 2 MB.';
                     errorMessageImage.style.color = 'crimson';
                 } else {
@@ -133,6 +137,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         if (roleSelect.value == "0") {
             submitButton.disabled = true;
+            roleIsValid = false;
             errorMessageRole.innerHTML = 'Por favor, selecciona una opción.';
             errorMessageRole.style.color = 'crimson';
             event.preventDefault();
@@ -149,11 +154,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 if (!voiceFile.type.startsWith('audio/')) {
                     // If the file is not an audio, prevent form submission and show an error message
                     event.preventDefault();
+                    voiceIsValid = false;
                     errorMessageVoice.textContent = 'Tipo de archivo incorrecto. Por favor, selecciona un archivo de audio.';
                     errorMessageVoice.style.color = 'crimson';
                 } else if (voiceFile.size > 5 * 1024 * 1024) { // Check if the file size is more than 5 MB
                     // If the file is too large, prevent form submission and show an error message
                     event.preventDefault();
+                    voiceIsValid = false;
                     errorMessageVoice.textContent = 'El archivo es demasiado grande. Por favor, selecciona un archivo de audio de menos de 5 MB.';
                     errorMessageVoice.style.color = 'crimson';
                 } else {
@@ -165,6 +172,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             } else {
                 // If no file is selected, prevent form submission and show an error message
                 event.preventDefault();
+                voiceIsValid = false;
                 errorMessageVoice.textContent = 'Por favor, selecciona un archivo de audio.';
                 errorMessageVoice.style.color = 'crimson';
             }
@@ -182,12 +190,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             // Check if the number of responses is in the valid range
             if (isEmpty(responseCountInput.value)) {
-                event.preventDefault();
+                responseCountIsValid = false;
                 errorMessageResponsesCount.textContent = 'El campo no puede ser vacío';
                 errorMessageResponsesCount.style.color = 'crimson';
                 event.preventDefault();
             } else if (responseCount < 2 || responseCount > 6) {
-                event.preventDefault();
+                responseCountIsValid = false;
                 errorMessageResponsesCount.textContent = 'El número de respuestas debe ser entre 2 y 6.';
                 errorMessageResponsesCount.style.color = 'crimson';
                 event.preventDefault();
@@ -215,6 +223,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     });
                 }
             }
+        } else {
+            responseCountIsValid = true;
+            singleResponseIsValid = true;
+            errorMessageResponsesCount.textContent = '';
+            errorMessageResponses.textContent = '';
         }
         
         if (responseCountIsValid && singleResponseIsValid) {
