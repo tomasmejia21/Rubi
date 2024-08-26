@@ -167,11 +167,12 @@ function toggleResponseOptions() {
         }
     }
 }
-// Function to generate response fields dynamically based on response count
 function generateResponseFields() {
     var responseCount = document.getElementById('responseCount').value;
     var responsesGroup = document.getElementById('responsesGroup');
     var optionsContainer = document.getElementById('optionsContainer');
+    var isEditView = document.getElementById('isEditView').value === 'true';
+    var correctAnswer = isEditView ? document.getElementById('correctAnswer').value : null; // Get the correct answer only in edit view
     responsesGroup.innerHTML = ''; // Clear existing response fields
     optionsContainer.innerHTML = ''; // Clear existing options in preview
     var responseCount = parseInt(responseCount, 10); // Convert responseCount to a number
@@ -183,7 +184,16 @@ function generateResponseFields() {
             input.className = 'form-control mb-2';
             input.name = 'responses[]';
             input.id = 'response' + i;
-            input.value = 'Opción ' + i;
+            if (isEditView) {
+                var oldResponse = document.getElementById('oldResponse' + i);
+                if (oldResponse) {
+                    input.value = oldResponse.value;
+                } else {
+                    input.value = 'Opción ' + i;
+                }
+            } else {
+                input.value = 'Opción ' + i;
+            }
             input.oninput = updatePreview; // Update preview on input
             responsesGroup.appendChild(input);
     
@@ -194,7 +204,10 @@ function generateResponseFields() {
             optionPreview.type = 'button';
             optionPreview.className = 'btn btn-outline-primary btn-block';
             optionPreview.id = 'preview-option' + i;
-            optionPreview.innerText = 'Opción ' + i;
+            optionPreview.innerText = input.value;
+            if (input.value === correctAnswer) {
+                optionPreview.classList.add('selected'); // Add a 'selected' class to the correct answer
+            }
             col.appendChild(optionPreview);
             optionsContainer.appendChild(col);
         }
@@ -202,28 +215,21 @@ function generateResponseFields() {
     updateResponseField(); // Update response type options
 }
 
-// Function to update the type of response field dynamically
 function updateResponseField() {
-    var questionType = document.getElementById('questionType').value;
-    var response = document.getElementById('response');
-    response.innerHTML = ''; // Clear existing options
-
-    if (questionType === 'cerrada') {
-        // Add options to select the correct answer for closed questions
-        var responseCount = document.getElementById('responseCount').value;
-
-        // Convert responseCount to a number
-        responseCount = parseInt(responseCount, 10);
-
-        // Check if responseCount is within the valid range
-        if (responseCount >= 2 && responseCount <= 6) {
-            for (var i = 1; i <= responseCount; i++) {
-                var option = document.createElement('option');
-                option.value = 'Opción ' + i;
-                option.text = 'Opción ' + i;
-                response.appendChild(option);
-            }
+    var responseType = document.getElementById('response');
+    var responseCount = document.getElementById('responseCount').value;
+    var isEditView = document.getElementById('isEditView').value === 'true';
+    var correctAnswer = isEditView ? document.getElementById('correctAnswer').value : null; // Get the correct answer only in edit view
+    responseType.innerHTML = ''; // Clear existing options
+    for (var i = 1; i <= responseCount; i++) {
+        var option = document.createElement('option');
+        var responseInput = document.getElementById('response' + i);
+        option.value = responseInput.value;
+        option.text = responseInput.value;
+        if (responseInput.value === correctAnswer) {
+            option.selected = true;
         }
+        responseType.appendChild(option);
     }
 }
 

@@ -108,8 +108,9 @@ class ActivityController extends Controller
         $activity = Activity::find($id);
         $roles = Role::whereIn('id', [3, 4])->get();
         $modules = Module::all();
-        
-        return view('admin.editActivity', compact('roles', 'modules'))->with('activity', $activity);
+        $responses = old('responses', $activity->responses->pluck('content')->toArray());
+
+        return view('admin.editActivity', compact('roles', 'modules', 'responses'))->with('activity', $activity);
     }
 
     /**

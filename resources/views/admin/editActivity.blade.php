@@ -97,15 +97,19 @@
                         <option value="abierta" {{ (old('questionType') ? old('questionType') : $activity->question_type) == 'abierta' ? 'selected' : '' }}>Abierta</option>
                     </select>
                 </div>
-
+                <input type="hidden" id="correctAnswer" value="{{ $activity->correct_answer }}">
+                @foreach ($activity->responses as $index => $response)
+                    <input type="hidden" id="oldResponse{{ $index + 1 }}" value="{{ $response->text }}">
+                @endforeach
                 <!-- Response Type (Closed Questions Only) -->
                 <div class="form-group" id="responseTypeGroup">
                     <label for="responseType">Respuesta</label>
                     <select class="form-control" id="response" name="response">
                         <!-- Este campo se rellenará dinámicamente para preguntas cerradas -->
+                        <option value=""></option>
                     </select>
                 </div>
-
+                <input type="hidden" id="isEditView" value="true">
                 <!-- Response Count (Closed Questions Only) -->
                 <div class="form-group" id="responseCountGroup">
                     <label for="responseCount">Cantidad de respuestas</label>
@@ -113,6 +117,9 @@
                     <span id="error-message-responses-count"></span>
                 </div>
                 <br>
+                @foreach ($activity->responses as $index => $response)
+                    <input type="hidden" id="oldResponse{{ $index + 1 }}" value="{{ old('responses.' . $index, $response->text) }}">
+                @endforeach
                 <!-- Dynamic Answer Options (Closed Questions Only) -->
                 <div class="form-group" id="responsesGroup" name="respondesGroup">
                     <label>Respuestas</label>
