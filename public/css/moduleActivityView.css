@@ -1,0 +1,36 @@
+h1 {
+    color: white !important;
+}
+
+p {
+    color: white !important;
+}
+
+.image-container {
+    position: relative !important;
+}
+
+.audio-icon {
+    position: absolute !important;
+    width: 10% !important;
+    bottom: 0 !important;
+    right: 0 !important;
+}
+
+.response-card {
+    /* Ajusta el tamaño de las tarjetas de respuesta aquí */
+    width: 100px;
+    height: 100px;
+}
+
+.response-card .card {
+    /* Establece los colores iniciales aquí */
+    background-color: white;
+    color: black;
+}
+
+#responseButton:hover {
+    background-color: crimson;
+    color: white;
+    border-color: crimson;
+}
