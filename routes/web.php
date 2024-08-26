@@ -19,6 +19,7 @@ Route::get('/', function () {
 Route::get('/inicio', function () {
     return view('inicio');
 });
+
 // Administrar profesores - Solo administradores
 Route::resource('teachers', TeacherController::class);
 Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');
