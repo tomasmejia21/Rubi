@@ -27,7 +27,14 @@ nav{
     color: crimson; /* Color de la letra cuando el mouse está encima */
 }
 
+.activity-link {
+    color: white;
+    text-decoration: none;
+}
 
+.activity-link:hover {
+    color: red;
+}
 
 #rubilogo{
     width: 100px;
@@ -74,10 +81,32 @@ label, span {
     text-align: justify;
 }
 
-#submit-button:hover {
+#activity-button:hover {
     background-color: crimson;
     color: white;
     border-color: crimson;
+}
+
+#submit-button {
+    background-color: crimson;
+    color: white;
+    border-color: crimson;
+}
+
+#submit-button:hover {
+    background-color: #990000;
+    color: white;
+    border-color: #990000;
+}
+
+#action-button:hover{
+    background-color: crimson;
+    color: white;
+    border-color: crimson;
+}
+
+.modal-body .form-label{
+    color: black !important;
 }
 
 .module-circle {
