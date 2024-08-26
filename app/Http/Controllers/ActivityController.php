@@ -108,8 +108,9 @@ class ActivityController extends Controller
         $activity = Activity::find($id);
         $roles = Role::whereIn('id', [3, 4])->get();
         $modules = Module::all();
+        $responses = old('responses', $activity->responses->pluck('content')->toArray());
         
-        return view('admin.editActivity', compact('roles', 'modules'))->with('activity', $activity);
+        return view('admin.editActivity', compact('roles', 'modules', 'responses'))->with('activity', $activity);
     }
 
     /**
@@ -154,6 +155,15 @@ class ActivityController extends Controller
                 $response->delete();
             }
         } elseif ($questionType == 'cerrada') {
+            // Get all responses associated with the activity
+            $responses = Response::where('activity_id', $activity->activityId)->get();
+
+            // Delete each response
+            foreach ($responses as $response) {
+                $response->delete();
+            }
+
+            // Recreate responses
             $responses = $request->responses;
             foreach ($responses as $response) {
                 $newResponse = new Response;

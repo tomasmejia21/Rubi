@@ -90,7 +90,7 @@
                         <!-- Este campo se rellenará dinámicamente para preguntas cerradas -->
                     </select>
                 </div>
-
+                <input type="hidden" id="isEditView" value="false">
                 <!-- Response Count (Closed Questions Only) -->
                 <div class="form-group" id="responseCountGroup">
                     <label for="responseCount">Cantidad de respuestas</label>

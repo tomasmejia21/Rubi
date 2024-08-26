@@ -10,6 +10,10 @@ p {
     position: relative !important;
 }
 
+#audioPlayer{
+    display: none;
+}
+
 .audio-icon {
     position: absolute !important;
     width: 10% !important;

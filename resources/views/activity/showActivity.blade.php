@@ -21,7 +21,7 @@
             <div class="image-container">
                 <img src="{{ asset('storage/images/' . $activity->image) }}" class="img-fluid" alt="{{ $activity->title }}">
                 @if($activity->voice_file)
-                    <audio id="audioPlayer" src="{{ asset('storage/voices/' . $activity->voice_file) }}" style="display: none;"></audio>
+                    <audio id="audioPlayer" src="{{ asset('storage/voices/' . $activity->voice_file) }}"></audio>
                     <img class="audio-icon" src="{{ asset('images/audio_icon.png')}}" alt="Audio" onclick="playAudio()">
                 @endif
             </div>
@@ -67,52 +67,7 @@
           <div class="col"></div>
         </div>
     </div>
-    <script>
-        // Get the response button
-        var responseButton = document.getElementById('responseButton');
-
-        // Get all response cards
-        var responseCards = document.getElementsByClassName('response-card');
-
-        // Add click event listener to each card
-        for (var i = 0; i < responseCards.length; i++) {
-            responseCards[i].addEventListener('click', function() {
-                // Remove highlight from all cards
-                for (var j = 0; j < responseCards.length; j++) {
-                    responseCards[j].querySelector('.card').style.backgroundColor = 'white';
-                    responseCards[j].querySelector('.card').style.color = 'black';
-                }
-
-                // Highlight the clicked card
-                this.querySelector('.card').style.backgroundColor = 'crimson';
-                this.querySelector('.card').style.color = 'white';
-
-                // Enable the response button
-                responseButton.disabled = false;
-            });
-        }
-
-        // If the question type is 'abierta', add input event listener to the text input field
-        if('{{ $activity->question_type }}' == 'abierta') {
-            var textResponsePreview = document.getElementById('textResponsePreview');
-
-            textResponsePreview.querySelector('input').addEventListener('input', function() {
-                // Enable the response button if the input field is not empty
-                responseButton.disabled = this.value.trim() === '' ? true : false;
-            });
-        }
-
-        // Play audio
-        function playAudio() {
-            var audioPlayer = document.getElementById('audioPlayer');
-            if (audioPlayer.paused) {
-                audioPlayer.play();
-            } else {
-                audioPlayer.currentTime = 0;
-                audioPlayer.pause();
-            }
-        }
-    </script>
+    <script src="{{ asset('js/functionality/showActivityFunctionality.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script></th>
 </body>
 </html>
