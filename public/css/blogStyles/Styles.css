@@ -57,6 +57,10 @@ body {
     color:#101222;
 }
 
+.modal-body .form-label{
+    color: black !important;
+}
+
 .middleDiv{
     background-color: #101222;
     border-radius: 0.5cm;
@@ -71,12 +75,7 @@ tr{
 }
 
 label{
-    color: black;
-    font-size: small;
-}
-
-.btn-hover-crimson:hover i {
-    color: crimson !important;
+    color: white;
 }
 
 label, span {
@@ -85,8 +84,35 @@ label, span {
     text-align: justify;
 }
 
-#submit-button:hover {
+.btn-hover-crimson:hover i {
+    color: crimson !important;
+    
+}
+
+label, span {
+    display: inline-block;
+    width: 80%;
+    text-align: left;
+}
+
+.modal-body .form-label{
+    color: black !important;
+    padding: 0px !important;
+}
+
+#submit-button {
     background-color: crimson;
     color: white;
     border-color: crimson;
+}
+
+#submit-button:hover {
+    background-color: #990000;
+    color: white;
+    border-color: #990000;
+}
+
+#form-control {
+    width: 100% !important; /* Asegura que los inputs ocupen el 100% del espacio disponible */
+    box-sizing: border-box !important;  /* Asegura que el padding esté incluido en el width */
 }
