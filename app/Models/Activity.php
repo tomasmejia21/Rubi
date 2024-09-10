@@ -16,4 +16,9 @@ class Activity extends Model
     {
         return $this->hasMany('App\Models\Response', 'activity_id');
     }
+
+    public function module()
+    {
+        return $this->belongsTo('App\Models\Module', 'moduleId');
+    }
 }

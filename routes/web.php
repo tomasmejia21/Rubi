@@ -38,7 +38,7 @@ Route::get('/students',[StudentController::class,'index'])->name('students.index
 Route::get('/check-email', [StudentController::class, 'checkEmail']);
 Route::post('/students', [StudentController::class, 'store'])->name('students.store');
 
-// Administrar actividades - Solo administradores
+// Administrar actividades - Administradores y profesores
 Route::resource('activities',ActivityController::class);
 Route::get('/activities',[ActivityController::class,'index'])->name('activities.index');
 Route::post('/activities', [ActivityController::class, 'store'])->name('activities.store');
