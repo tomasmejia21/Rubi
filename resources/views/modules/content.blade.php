@@ -14,10 +14,10 @@
     <!-- Hasta aquí llega el header -->
     <div class="container my-5">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Nuevo archivo</button>
-
-        <a href="/activities" id="action-button" class="btn btn-light">Agregar actividades</a>
-
+        @if (session('role_id')==1 || session('role_id')==2)
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Nuevo archivo</button>
+            <a href="/activities" id="action-button" class="btn btn-light">Agregar actividades</a>
+        @endif
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <form action="{{ route('modules.storeFile', $module -> moduleId) }}" method="POST" enctype="multipart/form-data">

@@ -14,42 +14,25 @@
     <!-- Hasta aquí llega el header -->
     
     <div class="container my-5">
-        @if (session('role_id')==1 || session('role_id')==2)
-            <a href="{{ route('modules.create') }}" class="btn btn-light">Crear módulo</a>
-        @endif
         <div class="mt-4">
             <div id="modulesContainer" class="d-flex flex-wrap">
                 <!-- Iterar sobre los módulos obtenidos de la base de datos -->
                 @foreach($modules as $module)
                 <div class="module-container">
-                    <a href="{{ route('modules.show', $module->moduleId) }}" class="module-circle">
+                    <a class="module-circle">
                         {{ $module->title }}
                     </a>
                     <div class="module-description">
                         {{ $module->description }}
                     </div>
                     <div>
-                        @if(session('role_id')==1 || session('role_id')==2)
-                            <a href="{{ route('modules.edit', $module->moduleId) }}" class="btn btn-hover-crimson">
-                                <i class="bi bi-pencil-fill text-white"></i>
-                            </a>
-                            <form action="{{ route('modules.destroy', $module->moduleId) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-hover-crimson">
-                                    <i class="bi bi-trash-fill text-white"></i>
-                                </button>
-                            </form>
-                        @else
+                        <form action="{{ route('modules.subscribe', $module->moduleId) }}" method="POST" class="d-inline">
+                            @csrf
                             <br>
-                            <form action="{{ route('modules.unsubscribe', ['module' => $module->moduleId, 'userId' => session('id')]) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Está seguro que desea salirse del módulo {{ $module->title }}?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-light" id="submit-button">
-                                    Salirse del módulo
-                                </button>
-                            </form>
-                        @endif
+                            <button id="submit-button" type="submit" class="btn btn-light">
+                                Inscribirse
+                            </button>
+                        </form>
                     </div>
                 </div>
                 @endforeach 

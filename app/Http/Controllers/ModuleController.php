@@ -8,6 +8,7 @@ use App\Models\Module;
 use App\Models\Teacher;
 use App\Models\ModuleFile;
 use App\Models\Activity;
+use App\Models\ModuleProgress;
 use Illuminate\Support\Facades\Storage;
 
 class ModuleController extends Controller
@@ -20,17 +21,35 @@ class ModuleController extends Controller
         $roleId = session('role_id');
 
         if ($roleId == 1) {
-            // Si el role_id es 1, obten todos los módulos
+            // Si el role_id es 1, obtiene todos los módulos
             $modules = Module::all();
         } else if ($roleId == 2) {
             $teacherId = session('id');
-            // Si el role_id es 2, obten solo los módulos creados por el profesor en la sesión
+            // Si el role_id es 2, obtiene solo los módulos creados por el profesor en la sesión
             $modules = Module::where('teacherId', $teacherId)->get();
+        } else if ($roleId == 3 || $roleId == 4) {
+            $userId = session('id');
+            // Si el role_id es 3 o 4, obtiene solo los módulos en los que el usuario está inscrito
+            $moduleIds = ModuleProgress::where('userId', $userId)->pluck('moduleId');
+            $modules = Module::whereIn('moduleId', $moduleIds)->get();
         } else {
-            $modules = collect(); // Retorna una colección vacía si no se cumple ninguna de las condiciones anteriores
+            // Retorna una colección vacía si no se cumple ninguna de las condiciones anteriores
+            $modules = collect();
         }
 
         return view('modules')->with('modules', $modules);
+    }
+
+    public function indexEnroll(){
+        $userId = session('id');
+
+        // Obtiene los moduleId de los módulos en los que el usuario ya está inscrito
+        $subscribedModuleIds = ModuleProgress::where('userId', $userId)->pluck('moduleId');
+
+        // Obtiene los módulos en los que el usuario no está inscrito
+        $modules = Module::whereNotIn('moduleId', $subscribedModuleIds)->get();
+
+        return view('user.enrollModule', compact('modules'));
     }
 
     /**
@@ -166,5 +185,32 @@ class ModuleController extends Controller
         $file -> delete();
         return redirect()->route('modules.show',$moduleId);
         
+    }
+
+    public function subscribe(Module $module)
+    {
+        $userId = session('id');
+
+        // Crea un nuevo moduleProgress
+        $moduleProgress = new ModuleProgress;
+        $moduleProgress->moduleId = $module->moduleId;
+        $moduleProgress->userId = $userId;
+        $moduleProgress->progress = 0; // Asume que el progreso inicial es 0
+        $moduleProgress->save(); // Llama al método save en la instancia de ModuleProgress
+    
+        // Redirige al usuario a la página de módulos con un mensaje de éxito
+        return redirect()->route('modules.index')->with('success', 'Te has inscrito al módulo con éxito');
+    }
+
+    public function unsubscribe(Module $module)
+    {
+        $userId = session('id');
+
+        // Encuentra y elimina el moduleProgress
+        $moduleProgress = ModuleProgress::where(['moduleId' => $module->moduleId, 'userId' => $userId])->first();
+        $moduleProgress->delete();
+
+        // Redirige al usuario a la página de módulos con un mensaje de éxito
+        return redirect()->route('modules.index')->with('success', 'Te has salido del módulo con éxito');
     }
 }

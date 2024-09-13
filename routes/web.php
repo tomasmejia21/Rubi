@@ -11,6 +11,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\ModuleProgressController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -43,9 +44,14 @@ Route::resource('activities',ActivityController::class);
 Route::get('/activities',[ActivityController::class,'index'])->name('activities.index');
 Route::post('/activities', [ActivityController::class, 'store'])->name('activities.store');
 
-//Mi informacion (header) - Admin
+// Mi informacion (header) - Admin
 Route::resource('admin',AdminController::class);
 Route::get('/myinformation/{id}', [AdminController::class, 'myinfo'])->name('admin.myinfo');
+
+// Inscribir módulo - Estudiantes
+Route::get('/enrollModules', [ModuleController::class, 'indexEnroll'])->name('modules.indexEnroll');
+Route::post('/enrollModules/{module}/subscribe', [ModuleController::class, 'subscribe'])->name('modules.subscribe');
+Route::delete('/modules/{module}/unsubscribe/{userId}', [ModuleProgressController::class, 'destroy'])->name('modules.unsubscribe');
 
 //Mi informacion (header) - Student
 #Route::get('/myinformation/{id}', [StudentController::class],'myinfo')->name('students.myinfo');
