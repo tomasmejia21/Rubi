@@ -112,9 +112,21 @@ class ModuleController extends Controller
      */
     public function edit(string $id)
     {
-        $teachers = Teacher::all();
+        $roleId = session('role_id');
+        $teacherId = session('id'); // Asume que tienes el teacher_id en la sesión
         $module = Module::find($id);
-        return view('modules.editModuleAdmin', compact('teachers')) ->with('module', $module);
+
+        if ($roleId == 1) {
+            // Si el role_id es 1, obten todos los profesores
+            $teachers = Teacher::all();
+        } else if ($roleId == 2) {
+            // Si el role_id es 2, obten solo el profesor en la sesión
+            $teachers = Teacher::where('teacherId', $teacherId)->get();
+        } else {
+            abort(403, 'Acceso no autorizado');
+        }
+
+        return view('modules.editModuleAdmin', compact('teachers'))->with('module', $module);
     }
 
     /**

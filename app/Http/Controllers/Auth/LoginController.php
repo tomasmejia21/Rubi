@@ -70,7 +70,7 @@ class LoginController extends Controller
             $request->session()->put('role_id', Auth::guard('web')->user()->role_id);
             $request->session()->put('username', Auth::guard('web')->user()->username);
             $request->session()->put('email', Auth::guard('web')->user()->email);
-            $role = Role::find(Auth::guard('admin')->user()->role_id);
+            $role = Role::find(Auth::guard('web')->user()->role_id);
             $request->session()->put('role_name', $role->name);
             $request->session()->put('name', Auth::guard('web')->user()->name);
             $request->session()->put('id', Auth::guard('web')->user()->userId);
@@ -85,7 +85,7 @@ class LoginController extends Controller
             $request->session()->put('role_id', Auth::guard('teacher')->user()->role_id);
             $request->session()->put('username', Auth::guard('teacher')->user()->teacherUser);
             $request->session()->put('email', Auth::guard('teacher')->user()->email);
-            $role = Role::find(Auth::guard('admin')->user()->role_id);
+            $role = Role::find(Auth::guard('teacher')->user()->role_id);
             $request->session()->put('role_name', $role->name);
             $request->session()->put('name', Auth::guard('teacher')->user()->name);
             $request->session()->put('id', Auth::guard('teacher')->user()->teacherId);

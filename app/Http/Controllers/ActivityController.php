@@ -132,9 +132,21 @@ class ActivityController extends Controller
     {
         $activity = Activity::find($id);
         $roles = Role::whereIn('id', [3, 4])->get();
-        $modules = Module::all();
+        $roleId = session('role_id');
+
+        if ($roleId == 1) {
+            // Si el role_id es 1, obten todos los módulos
+            $modules = Module::all();
+        } else if ($roleId == 2) {
+            $teacherId = session('id');
+            // Si el role_id es 2, obten solo los módulos creados por el profesor en la sesión
+            $modules = Module::where('teacherId', $teacherId)->get();
+        } else {
+            $modules = collect(); // Retorna una colección vacía si no se cumple ninguna de las condiciones anteriores
+        }
+
         $responses = old('responses', $activity->responses->pluck('content')->toArray());
-        
+
         return view('activity.editActivity', compact('roles', 'modules', 'responses'))->with('activity', $activity);
     }
 
