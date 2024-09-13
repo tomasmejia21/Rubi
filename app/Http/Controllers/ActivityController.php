@@ -17,8 +17,21 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        $activities = Activity::all();
-        return view('admin.adminActivity')->with('activities', $activities);
+        $roleId = session('role_id');
+        if ($roleId == 1) {
+            // Si el role_id es 1, obten todas las actividades
+            $activities = Activity::all();
+        } else if ($roleId == 2) {
+            $teacherId = session('id');
+            // Si el role_id es 2, obten solo las actividades para los módulos creados por el profesor en la sesión
+            $activities = Activity::whereHas('module', function ($query) use ($teacherId) {
+                $query->where('teacherId', $teacherId);
+            })->get();
+        } else {
+            $activities = collect(); // Retorna una colección vacía si no se cumple ninguna de las condiciones anteriores
+        }
+
+        return view('activity.viewActivity')->with('activities', $activities);
     }
 
     /**
@@ -26,9 +39,21 @@ class ActivityController extends Controller
      */
     public function create()
     {
+        $roleId = session('role_id');
         $roles = Role::whereIn('id', [3, 4])->get();
-        $modules = Module::all();
-        return view('admin.createActivity', compact('roles', 'modules'));
+
+        if ($roleId == 1) {
+            // Si el role_id es 1, obten todos los módulos
+            $modules = Module::all();
+        } else if ($roleId == 2) {
+            $teacherId = session('id');
+            // Si el role_id es 2, obten solo los módulos creados por el profesor en la sesión
+            $modules = Module::where('teacherId', $teacherId)->get();
+        } else {
+            $modules = collect(); // Retorna una colección vacía si no se cumple ninguna de las condiciones anteriores
+        }
+
+        return view('activity.createActivity', compact('roles', 'modules'));
     }
 
     /**
@@ -107,10 +132,22 @@ class ActivityController extends Controller
     {
         $activity = Activity::find($id);
         $roles = Role::whereIn('id', [3, 4])->get();
-        $modules = Module::all();
+        $roleId = session('role_id');
+
+        if ($roleId == 1) {
+            // Si el role_id es 1, obten todos los módulos
+            $modules = Module::all();
+        } else if ($roleId == 2) {
+            $teacherId = session('id');
+            // Si el role_id es 2, obten solo los módulos creados por el profesor en la sesión
+            $modules = Module::where('teacherId', $teacherId)->get();
+        } else {
+            $modules = collect(); // Retorna una colección vacía si no se cumple ninguna de las condiciones anteriores
+        }
+
         $responses = old('responses', $activity->responses->pluck('content')->toArray());
-        
-        return view('admin.editActivity', compact('roles', 'modules', 'responses'))->with('activity', $activity);
+
+        return view('activity.editActivity', compact('roles', 'modules', 'responses'))->with('activity', $activity);
     }
 
     /**

@@ -17,7 +17,19 @@ class ModuleController extends Controller
      */
     public function index()
     {
-        $modules = Module::all();
+        $roleId = session('role_id');
+
+        if ($roleId == 1) {
+            // Si el role_id es 1, obten todos los módulos
+            $modules = Module::all();
+        } else if ($roleId == 2) {
+            $teacherId = session('id');
+            // Si el role_id es 2, obten solo los módulos creados por el profesor en la sesión
+            $modules = Module::where('teacherId', $teacherId)->get();
+        } else {
+            $modules = collect(); // Retorna una colección vacía si no se cumple ninguna de las condiciones anteriores
+        }
+
         return view('modules')->with('modules', $modules);
     }
 
@@ -26,7 +38,19 @@ class ModuleController extends Controller
      */
     public function create()
     {
-        $teachers = Teacher::all();
+        $roleId = session('role_id');
+
+        if ($roleId == 1) {
+            // Si el role_id es 1, obten todos los profesores
+            $teachers = Teacher::all();
+        } else if ($roleId == 2) {
+            $teacherId = session('id');
+            // Si el role_id es 2, obten solo el profesor en la sesión
+            $teachers = Teacher::where('teacherId', $teacherId)->get();
+        } else {
+            abort(403, 'Acceso no autorizado');
+        }
+
         if(session('role_name') === 'Administrator'){
             return view('modules.createModuleAdmin')->with('teachers', $teachers);
         }
@@ -88,9 +112,21 @@ class ModuleController extends Controller
      */
     public function edit(string $id)
     {
-        $teachers = Teacher::all();
+        $roleId = session('role_id');
+        $teacherId = session('id'); // Asume que tienes el teacher_id en la sesión
         $module = Module::find($id);
-        return view('modules.editModuleAdmin', compact('teachers')) ->with('module', $module);
+
+        if ($roleId == 1) {
+            // Si el role_id es 1, obten todos los profesores
+            $teachers = Teacher::all();
+        } else if ($roleId == 2) {
+            // Si el role_id es 2, obten solo el profesor en la sesión
+            $teachers = Teacher::where('teacherId', $teacherId)->get();
+        } else {
+            abort(403, 'Acceso no autorizado');
+        }
+
+        return view('modules.editModuleAdmin', compact('teachers'))->with('module', $module);
     }
 
     /**
