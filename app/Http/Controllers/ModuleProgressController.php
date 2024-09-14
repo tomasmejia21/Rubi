@@ -12,7 +12,8 @@ class ModuleProgressController extends Controller
      */
     public function index()
     {
-        //
+        $moduleProgress = ModuleProgress::all();
+        return view('moduleProgress.viewProgress')->with('moduleProgress', $moduleProgress);
     }
 
     /**

@@ -30,9 +30,6 @@
                                     <li class="nav-item">
                                         <a class="nav-link {{ request()->is('modules') ? 'active' : '' }}" href="/modules">Módulos</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link {{ request()->is('progreso') ? 'active' : '' }}" href="/progreso">Mi progreso</a>
-                                    </li>
                                 </ul>
                                 <ul class="navbar-nav">
                                     <li class="nav-item dropdown">
@@ -179,7 +176,7 @@
                                         <a class="nav-link {{ request()->is('modules') ? 'active' : '' }}" href="/modules">Módulos</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ request()->is('progreso') ? 'active' : '' }}" href="/progreso">Mi progreso</a>
+                                        <a class="nav-link {{ request()->is('progreso') ? 'active' : '' }}" href="/moduleProgress">Mi progreso</a>
                                     </li>
                                 </ul>
                                 <ul class="navbar-nav">
@@ -226,6 +223,5 @@
                 </div>
             </div>
     @endif
-    
 </header>   
 </html> 

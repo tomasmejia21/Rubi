@@ -22,9 +22,13 @@
                 <!-- Iterar sobre los módulos obtenidos de la base de datos -->
                 @foreach($modules as $module)
                 <div class="module-container">
-                    <a href="{{ route('modules.show', $module->moduleId) }}" class="module-circle">
-                        {{ $module->title }}
-                    </a>
+                    <!-- En este caso tocó usar el style adentro de module-progress porque no se podía en el CSS por el conic-gradient -->
+                    <div class="module-progress" 
+                        style="background: conic-gradient(from 0.25turn, crimson {{ $progresses[$module->moduleId] ?? 0 }}%, white {{ $progresses[$module->moduleId] ?? 0  }}%);">
+                        <a href="{{ route('modules.show', $module->moduleId) }}" class="module-circle">
+                            {{ $module->title }}
+                        </a>
+                    </div>
                     <div class="module-description">
                         {{ $module->description }}
                     </div>

@@ -53,6 +53,10 @@ Route::get('/enrollModules', [ModuleController::class, 'indexEnroll'])->name('mo
 Route::post('/enrollModules/{module}/subscribe', [ModuleController::class, 'subscribe'])->name('modules.subscribe');
 Route::delete('/modules/{module}/unsubscribe/{userId}', [ModuleProgressController::class, 'destroy'])->name('modules.unsubscribe');
 
+// Ver progreso - Estudiantes
+Route::resource('moduleProgress', ModuleProgressController::class); 
+Route::get('/moduleProgress', [ModuleProgressController::class, 'index'])->name('moduleProgress.index');
+
 //Mi informacion (header) - Student
 #Route::get('/myinformation/{id}', [StudentController::class],'myinfo')->name('students.myinfo');
 

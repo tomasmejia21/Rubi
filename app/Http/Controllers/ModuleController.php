@@ -29,9 +29,11 @@ class ModuleController extends Controller
             $modules = Module::where('teacherId', $teacherId)->get();
         } else if ($roleId == 3 || $roleId == 4) {
             $userId = session('id');
+            $progresses = ModuleProgress::where('userId', $userId)->pluck('progress', 'moduleId');
             // Si el role_id es 3 o 4, obtiene solo los módulos en los que el usuario está inscrito
             $moduleIds = ModuleProgress::where('userId', $userId)->pluck('moduleId');
             $modules = Module::whereIn('moduleId', $moduleIds)->get();
+            return view('modules', compact('modules', 'progresses'));
         } else {
             // Retorna una colección vacía si no se cumple ninguna de las condiciones anteriores
             $modules = collect();

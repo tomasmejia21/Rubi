@@ -109,23 +109,13 @@ label, span {
     color: black !important;
 }
 
-.module-progress {
-    position: relative;
-    width: 198px; /* Tamaño del contenedor externo */
-    height: 198px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 10px;
-}
-
 .module-circle {
+    margin-bottom: 10px;
     width: 190px; /* Tamaño del círculo interno */
     height: 190px;
     border-radius: 50%;
     background-color: #121526; /* Color de fondo del círculo interno */
-    /* border: 2px solid white; Borde blanco */
+    border: 2px solid white; /* Borde blanco */
     color: white;
     display: flex;
     align-items: center;
@@ -149,6 +139,7 @@ label, span {
     align-items: center;
     text-align: center;
     margin-bottom: 20px; /* Espacio entre el círculo y la descripción */
+    margin-right: 10px;
 }
 
 .module-description {
