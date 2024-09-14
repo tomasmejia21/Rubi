@@ -27,43 +27,47 @@
             </div>
             <!-- Question and Options Preview -->
             <br>
-            <div id="optionsPreview">
-                @if($activity->question_type == 'cerrada')
-                    <!-- Las opciones de respuesta se mostrarán aquí -->
-                    @php
-                        $responsesCount = count($responses);
-                        $colClass = $responsesCount <= 3 ? 'col-md-4' : 'col-md-6';
-                    @endphp
-                    <div class="row">
-                        @foreach($responses as $index => $response)
-                            @if(($responsesCount == 4 || $responsesCount == 6) && $index % 2 == 0 && $index > 0)
-                                </div>
-                                <div class="row">
-                            @endif
-                            @if($responsesCount == 5 && $index % 3 == 0 && $index > 0)
-                                </div>
-                                <div class="row">
-                            @endif
-                            <div class="{{ $colClass }} response-card">
-                                <div class="card">
-                                    <div class="card-body">
-                                        {{ $response->text }}
+            <form method="POST" action="{{ route('user_activities.submitAnswer', $activity->activityId) }}">
+                @csrf
+                <div id="optionsPreview">
+                    @if($activity->question_type == 'cerrada')
+                        <!-- Las opciones de respuesta se mostrarán aquí -->
+                        @php
+                            $responsesCount = count($responses);
+                            $colClass = $responsesCount <= 3 ? 'col-md-4' : 'col-md-6';
+                        @endphp
+                        <div class="row">
+                            @foreach($responses as $index => $response)
+                                @if(($responsesCount == 4 || $responsesCount == 6) && $index % 2 == 0 && $index > 0)
+                                    </div>
+                                    <div class="row">
+                                @endif
+                                @if($responsesCount == 5 && $index % 3 == 0 && $index > 0)
+                                    </div>
+                                    <div class="row">
+                                @endif
+                                <div class="{{ $colClass }} response-card">
+                                    <div class="card">
+                                        <div class="card-body" onclick="selectAnswer(this)">
+                                            <input type="radio" id="radioanswer" name="answer" value="{{ $response->text }}">
+                                            {{ $response->text }}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+                @if($activity->question_type == 'abierta')
+                    <div id="textResponsePreview">
+                        <input name="answer" type="text" class="form-control" placeholder="Escribe tu respuesta aquí...">
                     </div>
                 @endif
-            </div>
-            @if($activity->question_type == 'abierta')
-                <div id="textResponsePreview">
-                    <input type="text" class="form-control" placeholder="Escribe tu respuesta aquí...">
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-light" id="responseButton" disabled>Responder</button>
                 </div>
-            @endif
-            <div class="mt-3">
-                <button type="button" class="btn btn-light" id="responseButton" disabled>Responder</button>
-            </div>
-          </div>
+              </div>
+            </form>
           <div class="col"></div>
         </div>
     </div>

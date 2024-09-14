@@ -12,6 +12,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\ModuleProgressController;
+use App\Http\Controllers\UserActivityController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -57,6 +58,8 @@ Route::delete('/modules/{module}/unsubscribe/{userId}', [ModuleProgressControlle
 Route::resource('moduleProgress', ModuleProgressController::class); 
 Route::get('/moduleProgress', [ModuleProgressController::class, 'index'])->name('moduleProgress.index');
 
+// Progreso en actividades
+Route::post('/user_activities/submitAnswer/{id}', [UserActivityController::class, 'submitAnswer'])->name('user_activities.submitAnswer');
 //Mi informacion (header) - Student
 #Route::get('/myinformation/{id}', [StudentController::class],'myinfo')->name('students.myinfo');
 
