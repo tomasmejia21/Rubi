@@ -1,0 +1,182 @@
+.w-80 {
+    width: 80% !important;
+}
+
+.sectionTitle{
+    color: white;
+}
+
+.nav-link.dropdown-toggle::after {
+    display: none;
+}
+
+nav{
+    background-color: #14172a;
+}
+
+.navbar {
+    max-width: 100%;
+}
+
+.navbar-nav .nav-link {
+    color: white; /* Color de la letra */
+    margin-right: 15px; /* Espacio a la derecha de cada elemento de navegación */
+}
+
+.navbar-nav .nav-link:hover {
+    color: crimson; /* Color de la letra cuando el mouse está encima */
+}
+
+.activity-link {
+    color: white;
+    text-decoration: none;
+}
+
+.activity-link:hover {
+    color: red;
+}
+
+#rubilogo{
+    width: 100px;
+}
+
+.container-fluid, .row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif !important;
+    background-color: #121526 !important;
+    overflow-x: hidden !important;
+}
+
+#agregar{
+    border-radius: 50%;
+}
+
+.no-style {
+    --bs-table-bg-type: transparent !important;
+    background-color: transparent !important;
+    background: none !important;
+    border: none !important;
+}
+
+#middleDiv{
+    background-color: #101222;
+    border-radius: 0.5cm;
+}
+
+label{
+    color: white;
+}
+
+.btn-hover-crimson:hover i {
+    color: crimson !important;
+}
+
+label, span {
+    display: inline-block;
+    width: 80%;
+    text-align: justify;
+}
+
+#activity-button:hover {
+    background-color: crimson;
+    color: white;
+    border-color: crimson;
+}
+
+#submit-button {
+    background-color: crimson;
+    color: white;
+    border-color: crimson;
+}
+
+#submit-button:hover {
+    background-color: #990000;
+    color: white;
+    border-color: #990000;
+}
+
+#action-button:hover{
+    background-color: crimson;
+    color: white;
+    border-color: crimson;
+}
+
+.modal-body .form-label{
+    color: black !important;
+}
+
+.module-progress {
+    position: relative;
+    width: 198px; /* Tamaño del contenedor externo */
+    height: 198px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.module-circle {
+    width: 190px; /* Tamaño del círculo interno */
+    height: 190px;
+    border-radius: 50%;
+    background-color: #121526; /* Color de fondo del círculo interno */
+    /* border: 2px solid white; Borde blanco */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 16px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.module-circle:hover{
+    color: crimson;
+    border: 2px solid crimson;
+}
+
+.module-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px; /* Espacio entre el círculo y la descripción */
+}
+
+.module-description {
+    font-size: 12px; /* Tamaño del texto de la descripción */
+    color: lightgray;
+    max-width: 150px; /* Asegura que la descripción no se extienda demasiado */
+}
+
+.info-module {
+    color: white;
+}
+
+.sectionTitle{
+    color: white;
+    text-align: left;
+    margin-left: 19px;
+}
+
+#progress-bar{
+    width: 800px; 
+    margin-left: 20px; 
+    height: 5px;
+}
+
+.module-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 8px;
+}

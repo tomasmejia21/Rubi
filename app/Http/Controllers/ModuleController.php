@@ -32,29 +32,28 @@ class ModuleController extends Controller
             $userId = session('id');
             $moduleIds = ModuleProgress::where('userId', $userId)->pluck('moduleId');
             $modules = Module::whereIn('moduleId', $moduleIds)->get();
-        }
+            $user = User::find(session('id'));
 
-        $user = User::find(session('id'));
+            foreach ($modules as $module) {
+                $totalActivities = $module->activities()->count();
+                $completedActivitiesQuery = UserActivity::where('userId', $user->userId)
+                    ->whereIn('activityId', $module->activities()->pluck('activityId'));
 
-        foreach ($modules as $module) {
-            $totalActivities = $module->activities()->count();
-            $completedActivitiesQuery = UserActivity::where('userId', $user->userId)
-                ->whereIn('activityId', $module->activities()->pluck('activityId'));
+                // Define $completedActivities aquí
+                $completedActivities = $completedActivitiesQuery->count();
 
-            // Define $completedActivities aquí
-            $completedActivities = $completedActivitiesQuery->count();
+                $progress = $totalActivities > 0 ? ($completedActivities / $totalActivities) * 100 : 0;
 
-            $progress = $totalActivities > 0 ? ($completedActivities / $totalActivities) * 100 : 0;
+                // Encuentra o crea un ModuleProgress para el módulo y usuario actual
+                $moduleProgress = ModuleProgress::firstOrCreate(
+                    ['moduleId' => $module->moduleId, 'userId' => $user->userId],
+                    ['progress' => $progress]
+                );
 
-            // Encuentra o crea un ModuleProgress para el módulo y usuario actual
-            $moduleProgress = ModuleProgress::firstOrCreate(
-                ['moduleId' => $module->moduleId, 'userId' => $user->userId],
-                ['progress' => $progress]
-            );
-
-            // Actualiza el progreso
-            $moduleProgress->progress = $progress;
-            $moduleProgress->save();
+                // Actualiza el progreso
+                $moduleProgress->progress = $progress;
+                $moduleProgress->save();
+            }
         }
 
         if ($roleId == 3 || $roleId == 4) {
