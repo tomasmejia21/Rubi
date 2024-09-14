@@ -9,6 +9,8 @@ use App\Models\Teacher;
 use App\Models\ModuleFile;
 use App\Models\Activity;
 use App\Models\ModuleProgress;
+use App\Models\UserActivity;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 class ModuleController extends Controller
@@ -19,27 +21,48 @@ class ModuleController extends Controller
     public function index()
     {
         $roleId = session('role_id');
+        $modules = collect();
 
         if ($roleId == 1) {
-            // Si el role_id es 1, obtiene todos los módulos
             $modules = Module::all();
         } else if ($roleId == 2) {
             $teacherId = session('id');
-            // Si el role_id es 2, obtiene solo los módulos creados por el profesor en la sesión
             $modules = Module::where('teacherId', $teacherId)->get();
         } else if ($roleId == 3 || $roleId == 4) {
             $userId = session('id');
-            $progresses = ModuleProgress::where('userId', $userId)->pluck('progress', 'moduleId');
-            // Si el role_id es 3 o 4, obtiene solo los módulos en los que el usuario está inscrito
             $moduleIds = ModuleProgress::where('userId', $userId)->pluck('moduleId');
             $modules = Module::whereIn('moduleId', $moduleIds)->get();
-            return view('modules', compact('modules', 'progresses'));
-        } else {
-            // Retorna una colección vacía si no se cumple ninguna de las condiciones anteriores
-            $modules = collect();
         }
 
-        return view('modules')->with('modules', $modules);
+        $user = User::find(session('id'));
+
+        foreach ($modules as $module) {
+            $totalActivities = $module->activities()->count();
+            $completedActivitiesQuery = UserActivity::where('userId', $user->userId)
+                ->whereIn('activityId', $module->activities()->pluck('activityId'));
+
+            // Define $completedActivities aquí
+            $completedActivities = $completedActivitiesQuery->count();
+
+            $progress = $totalActivities > 0 ? ($completedActivities / $totalActivities) * 100 : 0;
+
+            // Encuentra o crea un ModuleProgress para el módulo y usuario actual
+            $moduleProgress = ModuleProgress::firstOrCreate(
+                ['moduleId' => $module->moduleId, 'userId' => $user->userId],
+                ['progress' => $progress]
+            );
+
+            // Actualiza el progreso
+            $moduleProgress->progress = $progress;
+            $moduleProgress->save();
+        }
+
+        if ($roleId == 3 || $roleId == 4) {
+            $progresses = ModuleProgress::where('userId', $userId)->pluck('progress', 'moduleId');
+            return view('modules', compact('modules', 'progresses'));
+        } else {
+            return view('modules')->with('modules', $modules);
+        }
     }
 
     public function indexEnroll(){

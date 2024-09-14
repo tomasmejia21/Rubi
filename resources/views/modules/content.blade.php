@@ -101,8 +101,12 @@
                 @foreach ($activities as $activity)
                     <li>
                         <form action="{{ route('activity.show', ['id' => $activity->activityId]) }}" method="GET">
-                            @csrf
-                            <button id="activity-button" type="submit" class="btn btn-light activity-button">
+                            @php
+                                $completed = \App\Models\UserActivity::where('userId', auth()->user()->userId)
+                                    ->where('activityId', $activity->activityId)
+                                    ->exists();
+                            @endphp
+                            <button id="activity-button" type="submit" class="btn btn-light activity-button" {{ $completed ? 'disabled' : '' }}>
                                 {{ $activity->title }}
                             </button>
                         </form>

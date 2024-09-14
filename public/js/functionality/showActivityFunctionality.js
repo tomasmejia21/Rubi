@@ -4,15 +4,6 @@ var responseButton = document.getElementById('responseButton');
 // Get all response cards
 var responseCards = document.getElementsByClassName('response-card');
 
-// Get the text input field
-var textInput = document.querySelector('#textResponsePreview input');
-
-// add input event listener to the text input field
-textInput.addEventListener('input', function() {
-    // Enable the response button if the input field is not empty
-    responseButton.disabled = this.value.trim() === '';
-});
-
 // Add click event listener to each card
 for (var i = 0; i < responseCards.length; i++) {
     responseCards[i].addEventListener('click', function() {
@@ -38,6 +29,18 @@ if('{{ $activity->question_type }}' == 'abierta') {
     textResponsePreview.querySelector('input').addEventListener('input', function() {
         // Enable the response button if the input field is not empty
         responseButton.disabled = this.value.trim() === '' ? true : false;
+    });
+}
+
+// If the question type is 'abierta', get the text input field
+if('{{ $activity->question_type }}' == 'abierta') {
+    // Get the text input field
+    var textInput = document.querySelector('#textResponsePreview input');
+
+    // add input event listener to the text input field
+    textInput.addEventListener('input', function() {
+        // Enable the response button if the input field is not empty
+        responseButton.disabled = this.value.trim() === '';
     });
 }
 

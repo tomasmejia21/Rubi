@@ -27,6 +27,7 @@
                         style="background: conic-gradient(from 0.25turn, crimson {{ $progresses[$module->moduleId] ?? 0 }}%, white {{ $progresses[$module->moduleId] ?? 0  }}%);">
                         <a href="{{ route('modules.show', $module->moduleId) }}" class="module-circle">
                             {{ $module->title }}
+                            {{ $progresses[$module->moduleId] ?? 0 }}%
                         </a>
                     </div>
                     <div class="module-description">
