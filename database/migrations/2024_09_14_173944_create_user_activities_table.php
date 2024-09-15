@@ -17,7 +17,7 @@ return new class extends Migration
             $table->primary(['activityId', 'userId']);
             $table->foreign('activityId')->references('activityId')->on('activities');
             $table->foreign('userId')->references('userId')->on('users');
-            $table->integer('score')->nullable();
+            $table->decimal('score', 8, 2)->nullable();
             $table->String('answer')->nullable();
             $table->timestamps();
         });

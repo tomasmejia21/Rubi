@@ -23,15 +23,15 @@ class ModuleProgressController extends Controller
 
         $completedModulesCount = $moduleProgress->where('progress', 100)->count();
         $totalModulesCount = $moduleProgress->count();
-        $generalProgress = $completedModulesCount / $totalModulesCount * 100;
-    
+        $generalProgress = $totalModulesCount > 0 ? $completedModulesCount / $totalModulesCount * 100 : 0;
+        
         $totalActivitiesCount = 0;
         $resolvedActivitiesCount = 0;
         $totalScore = 0;
         $allModulesScored = true;
         foreach ($modules as $module) {
             $activitiesCount = UserActivity::where('userId', $userId)
-                ->where('score', '>', 3)
+                ->where('score', '>', 2.9)
                 ->whereIn('activityId', Activity::where('moduleId', $module->moduleId)->pluck('activityId'))
                 ->count();
 
@@ -64,10 +64,6 @@ class ModuleProgressController extends Controller
 
             $totalActivitiesCount += $totalModuleActivitiesCount;
             $resolvedActivitiesCount += $activitiesCount;
-            if (is_numeric($averageScore)) {
-                $totalScore += $averageScore;
-            }
-
             if (!is_numeric($module->averageScore)) {
                 $allModulesScored = false;
             } else {
@@ -75,7 +71,7 @@ class ModuleProgressController extends Controller
             }
         }
         
-        $averageScore = $allModulesScored ? $totalScore / $totalModulesCount : "Faltan módulos por completar";
+        $averageScore = $allModulesScored && $totalModulesCount > 0 ? $totalScore / $totalModulesCount : "Faltan módulos por completar";
 
         return view('moduleProgress.viewProgress')->with([
             'moduleProgress' => $moduleProgress,
@@ -140,7 +136,7 @@ class ModuleProgressController extends Controller
     public function destroy($moduleId, $userId)
     {
         ModuleProgress::where('moduleId', $moduleId)->where('userId', $userId)->delete();
-
-        return redirect()->route('modules.index')->with('success', 'Te has salido del módulo con éxito');
+        UserActivity::where('userId', $userId)->whereIn('activityId', Activity::where('moduleId', $moduleId)->pluck('activityId'))->delete();
+        return redirect()->route('modules.index');
     }
 }

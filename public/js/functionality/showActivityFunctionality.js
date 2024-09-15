@@ -22,20 +22,17 @@ for (var i = 0; i < responseCards.length; i++) {
     });
 }
 
-// If the question type is 'abierta', add input event listener to the text input field
-if('{{ $activity->question_type }}' == 'abierta') {
-    var textResponsePreview = document.getElementById('textResponsePreview');
 
-    textResponsePreview.querySelector('input').addEventListener('input', function() {
-        // Enable the response button if the input field is not empty
-        responseButton.disabled = this.value.trim() === '' ? true : false;
-    });
-}
+// Get the question type from the data attribute
+var questionType = document.querySelector('#textResponsePreview').dataset.questionType;
 
 // If the question type is 'abierta', get the text input field
-if('{{ $activity->question_type }}' == 'abierta') {
+if(questionType == 'abierta') {
     // Get the text input field
     var textInput = document.querySelector('#textResponsePreview input');
+
+    // Get the response button
+    var responseButton = document.getElementById('responseButton');
 
     // add input event listener to the text input field
     textInput.addEventListener('input', function() {

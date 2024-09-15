@@ -39,7 +39,7 @@
                             <a href="{{ route('modules.edit', $module->moduleId) }}" class="btn btn-hover-crimson">
                                 <i class="bi bi-pencil-fill text-white"></i>
                             </a>
-                            <form action="{{ route('modules.destroy', $module->moduleId) }}" method="POST" class="d-inline">
+                            <form onsubmit="return confirmDelete()" action="{{ route('modules.destroy', $module->moduleId) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-hover-crimson">
@@ -62,6 +62,7 @@
             </div>
         </div>
     </div>
+    <script src="{{ asset('js/functionality/moduleButtonsFunctionality.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 </html>

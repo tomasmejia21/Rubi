@@ -20,7 +20,7 @@
             <div class="mt-4">
                 <div id="modulesContainer">
                     <!-- Iterar sobre los módulos obtenidos de la base de datos -->
-                    @foreach($modules as $module)
+                    @forelse($modules as $module)
                     <div class="module-row">
                         <!-- Círculo de progreso del módulo -->
                         <div class="module-progress" 
@@ -44,7 +44,11 @@
                             <h4 class="sectionTitle">Calificación: {{ $module->averageScore }}</h4>
                         </div>
                     </div>
-                    @endforeach 
+                        @empty
+                            <br>
+                            <h1 class="sectionTitle">No tiene progreso registrado</h1>
+                            <br><br>
+                    @endforelse 
                 </div>
             </div>
         </div>

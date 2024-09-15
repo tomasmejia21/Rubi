@@ -15,7 +15,11 @@ class UserActivityController extends Controller
      */
     public function index()
     {
-        //
+        // Obtiene todas las actividades de usuario con una puntuación nula
+        $userActivities = UserActivity::whereNull('score')->get();
+
+        // Retorna una vista con las actividades
+        return view('teacher.grades', ['userActivities' => $userActivities]);
     }
 
     /**
@@ -45,7 +49,7 @@ class UserActivityController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
         //
     }
@@ -53,9 +57,21 @@ class UserActivityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $userId, $activityId)
     {
-        //
+        $request->validate([
+            'grade' => 'required|numeric|between:0,5',
+        ]);
+
+        $updated = UserActivity::where('userId', $userId)
+                                ->where('activityId', $activityId)
+                                ->update(['score' => $request->grade]);
+
+        if (!$updated) {
+            return redirect()->back()->with('error', 'No se pudo calificar la actividad');
+        }
+
+        return redirect()->back()->with('success', 'Se calificó correctamente la actividad');
     }
 
     /**

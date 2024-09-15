@@ -125,6 +125,7 @@
                                             <li><a class="dropdown-item" href="/myinformation/{{session('id')}}">Mi información</a></li>
                                             <li><a class="dropdown-item" href="/activities">Administrar mis actividades</a></li>
                                             <li><a class="dropdown-item" href="/modules">Administrar mis módulos</a></li>
+                                            <li><a class="dropdown-item" href="/grades">Calificar mis alumnos</a></li>
                                             <li><a class="dropdown-item" href="/blog">Ir al blog comunitario</a></li>
                                             <li><a class="dropdown-item" href="#">Descargar estadísticas generales</a></li>
                                             <li><a class="dropdown-item" href="{{ route('logout') }}"
@@ -176,7 +177,7 @@
                                         <a class="nav-link {{ request()->is('modules') ? 'active' : '' }}" href="/modules">Módulos</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ request()->is('progreso') ? 'active' : '' }}" href="/moduleProgress">Mi progreso</a>
+                                        <a class="nav-link {{ request()->is('moduleProgress') ? 'active' : '' }}" href="/moduleProgress">Mi progreso</a>
                                     </li>
                                 </ul>
                                 <ul class="navbar-nav">

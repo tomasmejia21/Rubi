@@ -60,19 +60,14 @@ Route::get('/moduleProgress', [ModuleProgressController::class, 'index'])->name(
 
 // Progreso en actividades
 Route::post('/user_activities/submitAnswer/{id}', [UserActivityController::class, 'submitAnswer'])->name('user_activities.submitAnswer');
-//Mi informacion (header) - Student
+
+// Mi informacion (header) - Student
 #Route::get('/myinformation/{id}', [StudentController::class],'myinfo')->name('students.myinfo');
 
-//Mi informacion (header) - Teacher
+// Mi informacion (header) - Teacher
 #Route::get('myinformation/{id}', [TeacherController::class])->name('teachers.myinfo');
 
-// Login
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-// Register
-Route::post('/register', [RegisterController::class, 'register'])->name('register');
-
-//Blog
+// Blog
 Route::get('/blog', function () {
     return view('allPosts',['posts' => Post::where('active',true)->get()]);
 });
@@ -80,11 +75,23 @@ Route::resource('posts',PostController::class);
 Route::get('/blog/create', [PostController::class, 'index'])->name('posts.index');
 Route::post('/blog/create', [PostController::class, 'store'])->name('posts.store');
 
-//Modulos - Admin
+// Modulos - Admin
 Route::resource('modules', ModuleController::class);
 Route::get('/modules', [ModuleController::class, 'index'])->name('modules.index');
 Route::get('/modules/{id}', [ModuleController::class, 'show'])->name('modules.show');
 Route::post('/modules/{id}/files', [ModuleController::class, 'storeFile'])->name('modules.storeFile');
 Route::delete('/modules/{file}/destroy', [ModuleController::class, 'destroyFile'])->name('modules.destroyFile');
-//Modulos - Actividad
+
+// Modulos - Actividad
 Route::get('/modules/activity/{id}', [ActivityController::class, 'show'])->name('activity.show');
+
+// Calificaciones - Teacher
+Route::resource('grades', UserActivityController::class);
+Route::get('/grades', [UserActivityController::class, 'index'])->name('grades.index');
+Route::post('/grades/{userId}/{activityId}/edit', [UserActivityController::class, 'update'])->name('grades.update');
+
+// Login
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Register
+Route::post('/register', [RegisterController::class, 'register'])->name('register');

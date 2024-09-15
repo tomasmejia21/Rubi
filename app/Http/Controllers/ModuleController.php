@@ -169,7 +169,17 @@ class ModuleController extends Controller
             abort(403, 'Acceso no autorizado');
         }
 
-        return view('modules.editModuleAdmin', compact('teachers'))->with('module', $module);
+        if ($roleId == 1) {
+            // Si el role_id es 1, obten todos los profesores
+            $teachers = Teacher::all();
+            return view('modules.editModuleAdmin', compact('teachers'))->with('module', $module);
+        } else if ($roleId == 2) {
+            // Si el role_id es 2, obten solo el profesor en la sesión
+            $teachers = Teacher::where('teacherId', $teacherId)->get();
+            return view('modules.editModuleTeacher', compact('teachers'))->with('module', $module);
+        } else {
+            abort(403, 'Acceso no autorizado');
+        }
     }
 
     /**
@@ -198,6 +208,10 @@ class ModuleController extends Controller
             Storage::delete('public/' . $file->file_url);
             $file -> delete();
         }
+
+        // Agrega esta línea para eliminar las actividades asociadas al módulo
+        $module->activities()->delete();
+
         $module -> delete();
         return redirect()->route('modules.index');
     }

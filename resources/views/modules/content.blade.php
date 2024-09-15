@@ -43,9 +43,6 @@
                                 </div>
                                 <span id="error-message-file"></span>
                             </div>
-                            
-
-
                         </div>
                         <div id="error-message"></div>
                         <div class="modal-footer">
@@ -101,14 +98,21 @@
                 @foreach ($activities as $activity)
                     <li>
                         <form action="{{ route('activity.show', ['id' => $activity->activityId]) }}" method="GET">
-                            @php
-                                $completed = \App\Models\UserActivity::where('userId', auth()->user()->userId)
-                                    ->where('activityId', $activity->activityId)
-                                    ->exists();
-                            @endphp
-                            <button id="activity-button" type="submit" class="btn btn-light activity-button" {{ $completed ? 'disabled' : '' }}>
-                                {{ $activity->title }}
-                            </button>
+                            @if (session('role_id') == 3 || session('role_id') == 4)
+                                @php
+                                    $completed = \App\Models\UserActivity::where('userId', auth()->user()->userId)
+                                        ->where('activityId', $activity->activityId)
+                                        ->exists();
+                                @endphp
+                                <button id="activity-button" type="submit" class="btn btn-light activity-button" {{ $completed ? 'disabled' : '' }}>
+                                    {{ $activity->title }}
+                                </button>
+                            @else
+                                <button id="activity-button" type="submit" class="btn btn-light activity-button">
+                                    {{ $activity->title }}
+                                </button>
+                            @endif
+                            
                         </form>
                     </li>
                     <br>

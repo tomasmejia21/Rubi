@@ -59,7 +59,7 @@
                     @endif
                 </div>
                 @if($activity->question_type == 'abierta')
-                    <div id="textResponsePreview">
+                    <div id="textResponsePreview" data-question-type="{{ $activity->question_type }}">
                         <input name="answer" type="text" class="form-control" placeholder="Escribe tu respuesta aquí...">
                     </div>
                 @endif
