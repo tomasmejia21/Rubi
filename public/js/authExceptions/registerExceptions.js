@@ -40,6 +40,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         return value === '';
     }
 
+    function isRecaptchaValid() {
+        return grecaptcha.getResponse() !== '';
+    }
+
+    function handleSubmit(event) {
+        if (!isRecaptchaValid()) {
+            event.preventDefault();
+            alert('Debes realizar el CAPTCHA para continuar');
+        }
+    }
+
     function validateForm(event) {
         var nameInput = document.getElementById('name');
         var institution = document.getElementById('institution');
@@ -180,7 +191,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 if (nameIsValid && institutionIsValid && emailIsValid && passwordIsValid && confirmPasswordIsValid && roleIsValid) {
                     submitButton.disabled = false;
-                } 
+                }
             });
         }
 
@@ -192,5 +203,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('email').addEventListener('input', validateForm);
     document.getElementById('password').addEventListener('input', validateForm);
     document.getElementById('password_confirmation').addEventListener('input', validateForm);
-    document.querySelector('form').addEventListener('submit', validateForm);
+    document.querySelector('form').addEventListener('submit', handleSubmit);
 });
