@@ -13,6 +13,8 @@ use App\Models\Role;
 use App\Models\Teacher;
 use App\Models\Admin;
 
+use Session;
+
 class RegisterController extends Controller
 {
     use RegistersUsers;
@@ -32,6 +34,19 @@ class RegisterController extends Controller
             //'password' => ['required', 'string', 'min:5', 'confirmed'],
             'role_id' => ['required', 'integer', 'exists:roles,id'],
             'institution' => ['required', 'integer', 'exists:educational_institutions,institutionalId'],
+            'g-recaptcha-response' => function($attribute, $value, $fail) {
+                $secretKey = env('NOCAPTCHA_SECRET');
+                $response = $value;
+                $userIP = $_SERVER['REMOTE_ADDR'];
+                $url = "https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$response&remoteip=$userIP";
+                $response = \file_get_contents($url);
+                $responseKeys = json_decode($response, true);
+                if(!$responseKeys["success"]) {
+                    Session::flash('g-recaptcha-response', 'Por favor, marca el captcha.');
+                    Session::flash('alert-class', 'alert-danger');
+                    $fail($attribute.'google reCAPTCHA failed');
+                }
+            }
         ]);
     }
 
