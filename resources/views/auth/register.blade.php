@@ -94,6 +94,19 @@
                                 <span id="error-message-confirmpassword"></span>
                             </div>
                         </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6 offset-md-4 d-flex justify-content-center  ">
+                                <div class="g-recaptcha" data-sitekey="{{ env('NOCAPTCHA_SITEKEY') }}" data-theme="dark"></div>
+                                @if(Session::has('g-recaptcha-response'))
+                                <p class="alert {{ session::get('alert-class', 'alert-info') }}">
+                                    {{ Session::get('g-recaptcha-response') }}
+                                </p>
+                                @endif
+                                <br>
+                            </div>
+                        </div>
+
                         <button type="submit" name="save" class="btn btn-light" id="submit-button" disabled>
                             Registrar
                         </button>
@@ -106,6 +119,8 @@
 </div>
 @endsection
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="{{ asset('js/authExceptions/registerExceptions.js')}}"></script>  
+<script src="{{ asset('js/authExceptions/registerExceptions.js')}}"></script>
+<!-- reCaptcha script -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>
