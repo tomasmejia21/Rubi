@@ -9,6 +9,8 @@ use App\Models\Teacher;
 use App\Models\ModuleFile;
 use App\Models\Activity;
 use App\Models\ModuleProgress;
+use App\Models\UserActivity;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 class ModuleController extends Controller
@@ -19,25 +21,47 @@ class ModuleController extends Controller
     public function index()
     {
         $roleId = session('role_id');
+        $modules = collect();
 
         if ($roleId == 1) {
-            // Si el role_id es 1, obtiene todos los módulos
             $modules = Module::all();
         } else if ($roleId == 2) {
             $teacherId = session('id');
-            // Si el role_id es 2, obtiene solo los módulos creados por el profesor en la sesión
             $modules = Module::where('teacherId', $teacherId)->get();
         } else if ($roleId == 3 || $roleId == 4) {
             $userId = session('id');
-            // Si el role_id es 3 o 4, obtiene solo los módulos en los que el usuario está inscrito
             $moduleIds = ModuleProgress::where('userId', $userId)->pluck('moduleId');
             $modules = Module::whereIn('moduleId', $moduleIds)->get();
-        } else {
-            // Retorna una colección vacía si no se cumple ninguna de las condiciones anteriores
-            $modules = collect();
+            $user = User::find(session('id'));
+
+            foreach ($modules as $module) {
+                $totalActivities = $module->activities()->count();
+                $completedActivitiesQuery = UserActivity::where('userId', $user->userId)
+                    ->whereIn('activityId', $module->activities()->pluck('activityId'));
+
+                // Define $completedActivities aquí
+                $completedActivities = $completedActivitiesQuery->count();
+
+                $progress = $totalActivities > 0 ? ($completedActivities / $totalActivities) * 100 : 0;
+
+                // Encuentra o crea un ModuleProgress para el módulo y usuario actual
+                $moduleProgress = ModuleProgress::firstOrCreate(
+                    ['moduleId' => $module->moduleId, 'userId' => $user->userId],
+                    ['progress' => $progress]
+                );
+
+                // Actualiza el progreso
+                $moduleProgress->progress = $progress;
+                $moduleProgress->save();
+            }
         }
 
-        return view('modules')->with('modules', $modules);
+        if ($roleId == 3 || $roleId == 4) {
+            $progresses = ModuleProgress::where('userId', $userId)->pluck('progress', 'moduleId');
+            return view('modules', compact('modules', 'progresses'));
+        } else {
+            return view('modules')->with('modules', $modules);
+        }
     }
 
     public function indexEnroll(){
@@ -145,7 +169,17 @@ class ModuleController extends Controller
             abort(403, 'Acceso no autorizado');
         }
 
-        return view('modules.editModuleAdmin', compact('teachers'))->with('module', $module);
+        if ($roleId == 1) {
+            // Si el role_id es 1, obten todos los profesores
+            $teachers = Teacher::all();
+            return view('modules.editModuleAdmin', compact('teachers'))->with('module', $module);
+        } else if ($roleId == 2) {
+            // Si el role_id es 2, obten solo el profesor en la sesión
+            $teachers = Teacher::where('teacherId', $teacherId)->get();
+            return view('modules.editModuleTeacher', compact('teachers'))->with('module', $module);
+        } else {
+            abort(403, 'Acceso no autorizado');
+        }
     }
 
     /**
@@ -174,6 +208,10 @@ class ModuleController extends Controller
             Storage::delete('public/' . $file->file_url);
             $file -> delete();
         }
+
+        // Agrega esta línea para eliminar las actividades asociadas al módulo
+        $module->activities()->delete();
+
         $module -> delete();
         return redirect()->route('modules.index');
     }

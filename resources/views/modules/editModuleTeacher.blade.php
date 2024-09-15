@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Módulo</title>
-    <link rel="stylesheet" href="{{ asset('css/adminStyles/adminTeacherStyles.css') }}">
+    <title>Editar Módulo</title>
+    <link rel="stylesheet" href="{{ asset('css/adminStyles/adminModulesStyles.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
@@ -16,18 +16,19 @@
         <div class="row">
             <div class="col"></div>
             <div class="col" id="middleDiv">
-                <form action="{{route('modules.store')}}" method="POST">
+                <form action="{{route('modules.update', $module -> moduleId)}}" method="POST">
+                    @method('PUT')
                     @csrf
-                    <h1 class="display-6 sectionTitle">Crear Módulo</h1>
+                    <h1 class="display-6 sectionTitle">Editar Módulo</h1>
                     <div class="mb-3">
                         <label for="title" class="form-label">Titulo:
-                            <input type="text" id="title" name="title" class="form-control">
+                            <input type="text" id="title" name="title" class="form-control" value="{{ $module -> title }}">
                             <span id="error-message-title"></span>
                         </label>
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">Descripcion:
-                            <textarea id="description" name="description" class="form-control" rows="2"></textarea>
+                            <textarea id="description" name="description" class="form-control" rows="2" >{{ $module -> description }}</textarea>
                             <span id="error-message-description"></span>
                         </label>
                     </div>
@@ -42,3 +43,4 @@
     <script src="{{ asset('js/teacherExceptions/teacherModuleExceptions.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>  
 </body>
+</html>

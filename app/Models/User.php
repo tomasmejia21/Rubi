@@ -59,4 +59,9 @@ class User extends Authenticatable
     public function educationalinstitution(){
         return $this->belongsTo(EducationalInstitution::class, 'institutionalId');
     }
+
+    public function activities()
+    {
+        return $this->belongsToMany(Activity::class, 'user_activities', 'userId', 'activityId');
+    }
 }

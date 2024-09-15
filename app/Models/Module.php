@@ -16,4 +16,9 @@ class Module extends Model
     {
         return $this->hasMany(ModuleFile::class, 'moduleId', 'moduleId');
     }
+
+    public function activities()
+    {
+        return $this->hasMany(Activity::class, 'moduleId', 'moduleId');
+    }
 }

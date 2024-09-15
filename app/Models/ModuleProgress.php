@@ -9,4 +9,6 @@ class ModuleProgress extends Model
 {
     use HasFactory;
     protected $table = 'module_progress';
+    protected $primaryKey = 'moduleId';
+    protected $fillable = ['moduleId', 'userId', 'progress'];
 }

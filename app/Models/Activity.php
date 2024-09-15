@@ -21,4 +21,9 @@ class Activity extends Model
     {
         return $this->belongsTo('App\Models\Module', 'moduleId');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_activities', 'activityId', 'userId');
+    }
 }
