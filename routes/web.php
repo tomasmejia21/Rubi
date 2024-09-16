@@ -141,6 +141,9 @@ Route::middleware(['role:administrator|teacher'])->group(function () {
     Route::post('/grades/{userId}/{activityId}/edit', [UserActivityController::class, 'update'])->name('grades.update');
 });
 
+//Reportes
+Route::get('reports/{id}',[StudentController::class,'pdf'])->name('user.pdf');
+
 // Login
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
