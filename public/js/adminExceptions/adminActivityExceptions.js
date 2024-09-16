@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         var imageChosen = document.getElementById('imageChosen');
         var imageExistsInput = document.getElementById('imageExists');
         var imageExists = imageExistsInput.value;
-        var roleSelect = document.getElementById('role_id');
         var voiceInput = document.getElementById('voiceFile');
         var voiceCheckbox = document.getElementById('voice');
         var voiceExistsInput = document.getElementById('audioExists');
@@ -41,7 +40,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         var errorMessageTitle = document.getElementById('error-message-title');
         var errorMessageDescription = document.getElementById('error-message-description');
         var errorMessageImage = document.getElementById('error-message-image');
-        var errorMessageRole = document.getElementById('error-message-role');
         var errorMessageVoice = document.getElementById('error-message-voice');
         var errorMessageResponsesCount = document.getElementById('error-message-responses-count');
         var errorMessageResponses = document.getElementById('error-message-responses');
@@ -51,7 +49,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         var titleIsValid = false;
         var descriptionIsValid = false;
         var imageIsValid = false;
-        var roleIsValid = false;
         var voiceIsValid = false;
         var responsesIsValid = false;
 
@@ -134,17 +131,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             errorMessageImage.style.color = 'crimson';
             event.preventDefault();
         } 
-
-        if (roleSelect.value == "0") {
-            submitButton.disabled = true;
-            roleIsValid = false;
-            errorMessageRole.innerHTML = 'Por favor, selecciona una opción.';
-            errorMessageRole.style.color = 'crimson';
-            event.preventDefault();
-        } else {
-            errorMessageRole.innerHTML = '';
-            roleIsValid = true;
-        }
 
         // Check if the checkbox is checked
         if (voiceCheckbox.checked && voiceExists=='false') {
@@ -234,7 +220,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             responsesIsValid = true;
         }
         console.log(responsesIsValid);
-        if (moduleIsValid && titleIsValid && descriptionIsValid && imageIsValid && roleIsValid && voiceIsValid && responsesIsValid) {
+        if (moduleIsValid && titleIsValid && descriptionIsValid && imageIsValid && voiceIsValid && responsesIsValid) {
             submitButton.disabled = false;
         } else {
             submitButton.disabled = true;
@@ -257,7 +243,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('title').addEventListener('input', validateForm);
     document.getElementById('description').addEventListener('input', validateForm);
     document.getElementById('activityImage').addEventListener('change', validateForm);
-    document.getElementById('role_id').addEventListener('change', validateForm);
     document.getElementById('voiceFile').addEventListener('change', validateForm);
     document.getElementById('voice').addEventListener('change', validateForm);
     document.getElementById('questionType').addEventListener('change', validateForm);

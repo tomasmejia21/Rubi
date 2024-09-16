@@ -63,9 +63,11 @@
                         <input name="answer" type="text" class="form-control" placeholder="Escribe tu respuesta aquí...">
                     </div>
                 @endif
-                <div class="mt-3">
-                    <button type="submit" class="btn btn-light" id="responseButton" disabled>Responder</button>
-                </div>
+                @if (session('role_id')==3 || session('role_id')==4)
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-light" id="responseButton" disabled>Responder</button>
+                    </div>
+                @endif
               </div>
             </form>
           <div class="col"></div>

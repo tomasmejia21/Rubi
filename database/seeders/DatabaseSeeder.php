@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             InstitutionsSeeder::class,
             AdminsSeeder::class,
             TeachersSeeder::class,
+            ModuleSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

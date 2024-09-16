@@ -25,5 +25,23 @@ class AdminsSeeder extends Seeder
             'email' => 'vtabaresm@unal.edu.co',
             'password' => Hash::make($password),
         ]);
+
+        DB::table('admins')->insert([
+            'adminId' => 20240915,
+            'adminUser' => 'ndario',
+            'role_id' => 1,
+            'name' => 'Nestor Dario Duque',
+            'email' => 'ndario@unal.edu.co',
+            'password' => Hash::make($password),
+        ]);
+        
+        DB::table('admins')->insert([
+            'adminId' => 20240916,
+            'adminUser' => 'jeduardov',
+            'role_id' => 1,
+            'name' => 'Jose Eduardo Villegas',
+            'email' => 'jeduardov@unal.edu.co',
+            'password' => Hash::make($password),
+        ]);
     }
 }

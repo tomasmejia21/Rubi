@@ -18,7 +18,43 @@ class InstitutionsSeeder extends Seeder
                 'country' => 'Colombia',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
+            ],
+            [
+                'institutionalId' => 2,
+                'name' => 'Instituto Pegasus',
+                'address' => 'Calle 123',
+                'city' => 'Bogotá',
+                'country' => 'Colombia',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'institutionalId' => 3,
+                'name' => 'Colegio Phoenix',
+                'address' => 'Avenida 456',
+                'city' => 'Medellín',
+                'country' => 'Colombia',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'institutionalId' => 4,
+                'name' => 'Universidad Centauro',
+                'address' => 'Carrera 789',
+                'city' => 'Cali',
+                'country' => 'Colombia',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'institutionalId' => 5,
+                'name' => 'Escuela Unicornio',
+                'address' => 'Transversal 012',
+                'city' => 'Barranquilla',
+                'country' => 'Colombia',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }

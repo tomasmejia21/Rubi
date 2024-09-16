@@ -32,7 +32,6 @@
                     <th scope="col">Módulo</th>
                     <th scope="col">Título</th>
                     <th scope="col">Descripción</th>
-                    <th scope="col">Rol</th>
                     <th scope="col">Tipo</th>
                     <th scope="col">Acciones</th>
                     </tr>
@@ -44,7 +43,6 @@
                             <td>{{ $activity->moduleId }}</td>
                             <td>{{ $activity->title }}</td>
                             <td>{{ $activity->description }}</td>
-                            <td>{{ $activity->role_id }}</td>
                             <td>{{ ucfirst($activity->question_type) }}</td>
                             <td>
                                 <a href="{{ route('activities.edit', $activity->activityId) }}" class="btn btn-hover-crimson">
@@ -61,7 +59,6 @@
                         </tr>
                     @endforeach
                     <tr class="no-style">
-                        <td class="no-style"></td>
                         <td class="no-style"></td>
                         <td class="no-style"></td>
                         <td class="no-style"></td>

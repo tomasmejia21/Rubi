@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('moduleId');
             $table->string('title');
             $table->text('description');
-            $table->unsignedBigInteger('role_id');
             $table->boolean('voice');
             $table->string('question_type');
             $table->string('correct_answer')->nullable();

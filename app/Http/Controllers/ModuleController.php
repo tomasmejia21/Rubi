@@ -11,6 +11,7 @@ use App\Models\Activity;
 use App\Models\ModuleProgress;
 use App\Models\UserActivity;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\Storage;
 
 class ModuleController extends Controller
@@ -64,14 +65,20 @@ class ModuleController extends Controller
         }
     }
 
-    public function indexEnroll(){
+    public function indexEnroll()
+    {
         $userId = session('id');
+        $roleId = session('role_id');
 
         // Obtiene los moduleId de los módulos en los que el usuario ya está inscrito
         $subscribedModuleIds = ModuleProgress::where('userId', $userId)->pluck('moduleId');
 
         // Obtiene los módulos en los que el usuario no está inscrito
-        $modules = Module::whereNotIn('moduleId', $subscribedModuleIds)->get();
+        if ($roleId == 3 || $roleId == 4) {
+            $modules = Module::whereNotIn('moduleId', $subscribedModuleIds)->where('role_id', $roleId)->get();
+        } else {
+            $modules = Module::whereNotIn('moduleId', $subscribedModuleIds)->get();
+        }
 
         return view('user.enrollModule', compact('modules'));
     }
@@ -82,6 +89,7 @@ class ModuleController extends Controller
     public function create()
     {
         $roleId = session('role_id');
+        $roles = Role::whereIn('id', [3, 4])->get();
 
         if ($roleId == 1) {
             // Si el role_id es 1, obten todos los profesores
@@ -95,10 +103,10 @@ class ModuleController extends Controller
         }
 
         if(session('role_name') === 'Administrator'){
-            return view('modules.createModuleAdmin')->with('teachers', $teachers);
+            return view('modules.createModuleAdmin', compact('teachers', 'roles'));
         }
         else if(session('role_name') === 'Teacher'){
-            return view('modules.createModuleTeacher')->with('teachers', $teachers);
+            return view('modules.createModuleTeacher', compact('teachers', 'roles'));
         }
         else {
             abort(403, 'Acceso no autorizado');
@@ -113,6 +121,7 @@ class ModuleController extends Controller
         $module = new Module();
         $module -> title = $request -> title;
         $module -> description = $request -> description;
+        $module -> role_id = $request->role_id;
         if(session('role_name') === 'Administrator'){
             $module -> teacherId = $request -> teacher;
         }
@@ -157,6 +166,7 @@ class ModuleController extends Controller
     {
         $roleId = session('role_id');
         $teacherId = session('id'); // Asume que tienes el teacher_id en la sesión
+        $roles = Role::whereIn('id', [3, 4])->get();
         $module = Module::find($id);
 
         if ($roleId == 1) {
@@ -172,11 +182,11 @@ class ModuleController extends Controller
         if ($roleId == 1) {
             // Si el role_id es 1, obten todos los profesores
             $teachers = Teacher::all();
-            return view('modules.editModuleAdmin', compact('teachers'))->with('module', $module);
+            return view('modules.editModuleAdmin', compact('roles','teachers'))->with('module', $module);
         } else if ($roleId == 2) {
             // Si el role_id es 2, obten solo el profesor en la sesión
             $teachers = Teacher::where('teacherId', $teacherId)->get();
-            return view('modules.editModuleTeacher', compact('teachers'))->with('module', $module);
+            return view('modules.editModuleTeacher', compact('roles','teachers'))->with('module', $module);
         } else {
             abort(403, 'Acceso no autorizado');
         }
@@ -190,6 +200,8 @@ class ModuleController extends Controller
         $module = Module::find($id);
         $module -> title = $request -> title;
         $module -> description = $request -> description;
+        $module -> role_id = $request->role_id;
+
         if(session('role_name') === 'Administrator'){
             $module -> teacherId = $request -> teacher;
         }

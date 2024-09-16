@@ -32,6 +32,16 @@
                             <span id="error-message-description"></span>
                         </label>
                     </div>
+                    <div class="form-group">
+                        <label for="role_id">Rol</label>
+                        <select class="form-select w-80 mx-auto" id="role_id" name="role_id">
+                            <option value="0" selected disabled>-- Selecciona una opción --</option>
+                            @foreach ($roles as $role)
+                                <option value="{{ $role->id }}" {{ (old('role_id') ? old('role_id') : $module->role_id) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
+                            @endforeach
+                        </select>
+                        <span id="error-message-role"></span>
+                    </div>
                     <div class="mb-3">
                         <label for="teacher" class="form-label">Profesor:  </label>
                         <select id="teacher" class="form-select w-80 mx-auto" name="teacher">

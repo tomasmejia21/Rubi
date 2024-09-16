@@ -61,17 +61,6 @@
                 </div>
                 <br>
                 <!-- Additional Options -->
-                <div class="form-group">
-                    <label for="role_id">Rol</label>
-                    <select class="form-control" id="role_id" name="role_id">
-                        <option value="0" selected disabled>-- Selecciona una opción --</option>
-                        @foreach ($roles as $role)
-                            <option value="{{ $role->id }}" {{ (old('role_id') ? old('role_id') : $activity->role_id) == $role->id ? 'selected' : '' }}>{{ $role->name }}</option>
-                        @endforeach
-                    </select>
-                    <span id="error-message-role"></span>
-                </div>
-                <br>
                 <!-- Add a hidden input field in your form -->
                 <input type="hidden" id="audioExists" value="{{ isset($activity) && $activity->voice ? 'true' : 'false' }}">
                 <div class="form-group">
