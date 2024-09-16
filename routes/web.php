@@ -71,6 +71,10 @@ Route::middleware(['role:in-learning-teacher|in-learning-developer'])->group(fun
     Route::delete('/modules/{module}/unsubscribe/{userId}', [ModuleProgressController::class, 'destroy'])->name('modules.unsubscribe');
 });
 
+// Mi informacion (header) - Admin
+Route::resource('admin', AdminController::class);
+Route::get('a/myinformation/{id}', [AdminController::class, 'myinfo'])->name('admin.myinfo');
+
 // Ver progreso - Estudiantes (ILD y ILT)
 Route::middleware(['role:in-learning-teacher|in-learning-developer'])->group(function () {
     Route::resource('moduleProgress', ModuleProgressController::class); 
@@ -83,10 +87,17 @@ Route::middleware(['role:administrator|teacher|in-learning-teacher|in-learning-d
 });
 
 // Mi informacion (header) - Student
-#Route::get('/myinformation/{id}', [StudentController::class],'myinfo')->name('students.myinfo');
+// Route::resource('students', StudentController::class);
+Route::get('s/myinformation/{id}', [StudentController::class, 'myinfo'])->name('students.myinfo');
+Route::get('s/myinformation/{id}/edit', [StudentController::class, 'myinfoedit'])->name('students.myinfoedit');
+Route::put('s/myinformation/{id}/edit/update', [StudentController::class, 'myinfoupdate'])->name('students.myinfoupdate');
+
 
 // Mi informacion (header) - Teacher
-#Route::get('myinformation/{id}', [TeacherController::class])->name('teachers.myinfo');
+// Route::resource('teachers', TeacherController::class);
+Route::get('t/myinformation/{id}', [TeacherController::class, 'myinfo'])->name('teachers.myinfo');
+Route::get('t/myinformation/{id}/edit', [TeacherController::class, 'myinfoedit'])->name('teachers.myinfoedit');
+Route::put('t/myinformation/{id}/edit/update', [TeacherController::class, 'myinfoupdate'])->name('teachers.myinfoupdate');
 
 // Blog
 Route::middleware(['role:administrator|teacher|in-learning-teacher|in-learning-developer'])->group(function () {

@@ -48,7 +48,7 @@
                                                 </div>
                                             </li>
                                             <br>
-                                            <li><a class="dropdown-item" href="/myinformation/{{session('id')}}">Mi información</a></li>
+                                            <li><a class="dropdown-item" href="/a/myinformation/{{session('id')}}">Mi información</a></li>
                                             <li><a class="dropdown-item" href="/teachers">Administrar profesores</a></li>
                                             <li><a class="dropdown-item" href="/students">Administrar alumnos</a></li>
                                             <li><a class="dropdown-item" href="/educationalinstitutions">Administrar instituciones</a></li>
@@ -122,7 +122,7 @@
                                                 </div>
                                             </li>
                                             <br>
-                                            <li><a class="dropdown-item" href="/myinformation/{{session('id')}}">Mi información</a></li>
+                                            <li><a class="dropdown-item" href="/t/myinformation/{{session('id')}}">Mi información</a></li>
                                             <li><a class="dropdown-item" href="/activities">Administrar mis actividades</a></li>
                                             <li><a class="dropdown-item" href="/modules">Administrar mis módulos</a></li>
                                             <li><a class="dropdown-item" href="/grades">Calificar mis alumnos</a></li>
@@ -201,7 +201,7 @@
                                                 </div>
                                             </li>
                                             <br>
-                                            <li><a class="dropdown-item" href="/myinformation/{{session('id')}}">Mi información</a></li>
+                                            <li><a class="dropdown-item" href="/s/myinformation/{{session('id')}}">Mi información</a></li>
                                             <li><a class="dropdown-item" href="/enrollModules">Inscribir módulos</a></li>
                                             <li><a class="dropdown-item" href="/blog">Ir al blog comunitario</a></li>
                                             <li><a class="dropdown-item" href="#">Descargar estadísticas generales</a></li>
@@ -225,4 +225,4 @@
             </div>
     @endif
 </header>   
-</html> 
+</html>

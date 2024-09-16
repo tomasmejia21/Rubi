@@ -20,8 +20,8 @@ class TeacherController extends Controller
 
     public function myinfo()
     {
-        $teacher = Teacher::all();
-        return view('myinformation.myinformationteacher')->with('teacher', $teacher);
+        $teachers = Teacher::all();
+        return view('myinformation.myinformationteacher')->with('teachers', $teachers);
     }
 
     /**
@@ -104,6 +104,12 @@ class TeacherController extends Controller
         return view('admin.editTeacher')->with('teacher', $teacher);
     }
 
+    public function myinfoedit(string $id)
+    {
+        $teacher = Teacher::find($id);
+        return view('myinformation.editTeacher')->with('teacher', $teacher);
+    }
+
     /**
      * Update the specified resource in storage.
      */
@@ -114,6 +120,18 @@ class TeacherController extends Controller
         $teacher->email = $request->email;
         $teacher->save();
         return redirect()->route('teachers.index');
+    }
+
+    public function myinfoupdate(Request $request, string $id)
+    {
+        $teacher = Teacher::find($id);
+        $teacher -> name = $request->name;
+        $teacher -> email = $request->email;
+        if ($request->password != ""){
+            $teacher->password = bcrypt($request->password);
+        }
+        $teacher -> save();
+        return redirect()->route('teachers.myinfo',['id' => $id]);
     }
 
     /**
