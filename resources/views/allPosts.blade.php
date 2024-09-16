@@ -14,9 +14,12 @@
     <!-- Hasta aquí llega el header -->
     
     <div class="container text-center">
-        <p></p>
-        <a class="btn btn-secondary" href="/blog/create" role="button">Gestionar posts</a>
-        <p></p>
+        <br>
+        @if(session('role_name')=='Administrator' || session('role_name')==='Teacher')
+        <a class="btn btn-secondary" href="/blog/create" role="button" disabled>Gestionar posts</a>
+        <br>
+        @endif
+        <br>
         <div class="row align-items-start">
             <div class="col">
                 <table class="table table-borderless table-dark table-striped">

@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Auth\Events\Registered;
 use App\Models\EducationalInstitution;
 use App\Models\Role;
 use App\Models\Teacher;
@@ -19,7 +20,7 @@ class RegisterController extends Controller
 {
     use RegistersUsers;
 
-    protected $redirectTo = '/inicio';
+    protected $redirectTo = '/login';
 
     public function __construct()
     {
@@ -82,6 +83,9 @@ class RegisterController extends Controller
             'role_id' => $data['role_id'],
             'institutionalId' => $data['institution'],
         ]);
+
+        // Redirige al usuario a la página de inicio de sesión y muestra un mensaje con su nombre de usuario
+        return redirect('/login')->with('username', $user->username);
     }
 
     private function generateUsername($fullName)
@@ -110,5 +114,16 @@ class RegisterController extends Controller
         $educational_institutions = EducationalInstitution::all();
         $roles = Role::whereIn('id', [3, 4])->get();
         return view('auth.register', ['educational_institutions' => $educational_institutions, 'roles' => $roles]);
+    }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        // Agrega un valor 'registered' a la sesión
+        return $this->registered($request, $user)
+                        ?: redirect($this->redirectPath())->with('username', $user->username)->with('registered', true);
     }
 }

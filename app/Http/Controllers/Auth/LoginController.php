@@ -112,4 +112,25 @@ class LoginController extends Controller
         return $this->sendFailedLoginResponse($request);
     }
 
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        return redirect('/inicio');
+    }
+
+    public function logout(Request $request)
+    {
+        // Olvida todos los datos de la sesión
+        $request->session()->flush();
+
+        // Desconecta al usuario
+        Auth::logout();
+
+        // Redirige al usuario a la página de inicio de sesión
+        return redirect('/login');
+    }
+
 }

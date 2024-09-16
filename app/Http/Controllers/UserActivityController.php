@@ -15,8 +15,14 @@ class UserActivityController extends Controller
      */
     public function index()
     {
-        // Obtiene todas las actividades de usuario con una puntuación nula
-        $userActivities = UserActivity::whereNull('score')->get();
+        // Obtén el id del profesor actualmente en sesión
+        $teacherId = session('id');
+
+        // Obtiene todas las actividades de usuario con una puntuación nula que pertenecen a los módulos del profesor en sesión
+        $userActivities = UserActivity::whereNull('score')
+            ->whereHas('activity.module', function ($query) use ($teacherId) {
+                $query->where('teacherId', $teacherId);
+            })->get();
 
         // Retorna una vista con las actividades
         return view('teacher.grades', ['userActivities' => $userActivities]);
