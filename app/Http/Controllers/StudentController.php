@@ -26,11 +26,11 @@ class StudentController extends Controller
 
     public function myinfo()
     {
-        $student = User::whereHas('role', function($query){
+        $students = User::whereHas('role', function($query){
             $query->whereIn('id',[3, 4]);
         })->get();
 
-        return view('myinformation.myinformationstudent')->with('student', $student);
+        return view('myinformation.myinformationstudent')->with('students', $students);
     }
 
     /**
@@ -114,6 +114,12 @@ class StudentController extends Controller
         return view('admin.editStudent', compact('educational_institutions', 'roles'))->with('student', $student);
     }
 
+    public function myinfoedit(string $id)
+    {
+        $student = User::find($id);
+        return view('myinformation.editStudent')->with('student', $student);
+    }
+
     /**
      * Update the specified resource in storage.
      */
@@ -124,6 +130,18 @@ class StudentController extends Controller
         $student->email = $request->email;
         $student->save();
         return redirect()->route('students.index');
+    }
+
+    public function myinfoupdate(Request $request, string $id)
+    {
+        $student = User::find($id);
+        $student -> name = $request->name;
+        $student -> email = $request->email;
+        if ($request->password != ""){
+            $student->password = bcrypt($request->password);
+        }
+        $student -> save();
+        return redirect()->route('students.myinfo',['id' => $id]);
     }
 
     /**
