@@ -65,14 +65,20 @@ class ModuleController extends Controller
         }
     }
 
-    public function indexEnroll(){
+    public function indexEnroll()
+    {
         $userId = session('id');
+        $roleId = session('role_id');
 
         // Obtiene los moduleId de los módulos en los que el usuario ya está inscrito
         $subscribedModuleIds = ModuleProgress::where('userId', $userId)->pluck('moduleId');
 
         // Obtiene los módulos en los que el usuario no está inscrito
-        $modules = Module::whereNotIn('moduleId', $subscribedModuleIds)->get();
+        if ($roleId == 3 || $roleId == 4) {
+            $modules = Module::whereNotIn('moduleId', $subscribedModuleIds)->where('role_id', $roleId)->get();
+        } else {
+            $modules = Module::whereNotIn('moduleId', $subscribedModuleIds)->get();
+        }
 
         return view('user.enrollModule', compact('modules'));
     }
