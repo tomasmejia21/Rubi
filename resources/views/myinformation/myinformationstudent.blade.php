@@ -7,7 +7,7 @@
                     @if(session('id') == $student->userId )
                         <h3>Datos usuario</h3>
                         <p>Id: {{ session('id') }}</p>
-                        <p>Usuario: {{ $student->adminUser }} </p>
+                        <p>Usuario: {{ $student->username }} </p>
                         <p>Nombre: {{ $student->name }}</p>
                         <p>Correo: {{ $student->email }}</p>
                         <a href="{{ route('students.myinfoedit', $student->userId) }}" class="btn btn-outline-primary" role="button" aria-pressed="true">
