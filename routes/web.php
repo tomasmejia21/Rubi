@@ -44,20 +44,27 @@ Route::resource('activities',ActivityController::class);
 Route::get('/activities',[ActivityController::class,'index'])->name('activities.index');
 Route::post('/activities', [ActivityController::class, 'store'])->name('activities.store');
 
-// Mi informacion (header) - Admin
-Route::resource('admin',AdminController::class);
-Route::get('/myinformation/{id}', [AdminController::class, 'myinfo'])->name('admin.myinfo');
-
 // Inscribir módulo - Estudiantes
 Route::get('/enrollModules', [ModuleController::class, 'indexEnroll'])->name('modules.indexEnroll');
 Route::post('/enrollModules/{module}/subscribe', [ModuleController::class, 'subscribe'])->name('modules.subscribe');
 Route::delete('/modules/{module}/unsubscribe/{userId}', [ModuleProgressController::class, 'destroy'])->name('modules.unsubscribe');
 
+// Mi informacion (header) - Admin
+Route::resource('admin', AdminController::class);
+Route::get('a/myinformation/{id}', [AdminController::class, 'myinfo'])->name('admin.myinfo');
+
 //Mi informacion (header) - Student
-#Route::get('/myinformation/{id}', [StudentController::class],'myinfo')->name('students.myinfo');
+// Route::resource('students', StudentController::class);
+Route::get('s/myinformation/{id}', [StudentController::class, 'myinfo'])->name('students.myinfo');
+Route::get('s/myinformation/{id}/edit', [StudentController::class, 'myinfoedit'])->name('students.myinfoedit');
+Route::put('s/myinformation/{id}/edit/update', [StudentController::class, 'myinfoupdate'])->name('students.myinfoupdate');
+
 
 //Mi informacion (header) - Teacher
-#Route::get('myinformation/{id}', [TeacherController::class])->name('teachers.myinfo');
+// Route::resource('teachers', TeacherController::class);
+Route::get('t/myinformation/{id}', [TeacherController::class, 'myinfo'])->name('teachers.myinfo');
+Route::get('t/myinformation/{id}/edit', [TeacherController::class, 'myinfoedit'])->name('teachers.myinfoedit');
+Route::put('t/myinformation/{id}/edit/update', [TeacherController::class, 'myinfoupdate'])->name('teachers.myinfoupdate');
 
 // Login
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
