@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Http\Middleware\Role;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -18,48 +20,67 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
-Route::get('/inicio', function () {
-    return view('inicio');
+Auth::routes();
+
+Route::middleware(['role:administrator|teacher|in-learning-teacher|in-learning-developer'])->group(function () {
+    Route::get('/inicio', function () {
+        return view('inicio');
+    });
 });
 
 // Administrar profesores - Solo administradores
-Route::resource('teachers', TeacherController::class);
-Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');
-Route::get('/check-email', [TeacherController::class, 'checkEmail']);
-Route::post('/teachers', [TeacherController::class, 'store'])->name('teachers.store');
-Auth::routes();
+Route::middleware(['role:administrator'])->group(function () {
+    Route::resource('teachers', TeacherController::class);
+    Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');
+    Route::get('/check-email', [TeacherController::class, 'checkEmail']);
+    Route::post('/teachers', [TeacherController::class, 'store'])->name('teachers.store');
+});
 
 // Administrar instituciones educativas - Solo administradores
-Route::resource('EducationalInstitution', EducationalInstitutionController::class);
-Route::get('/educationalinstitutions', [EducationalInstitutionController::class, 'index'])->name('EducationalInstitution.index');
-Route::post('/educationalinstitutions', [EducationalInstitutionController::class, 'store'])->name('EducationalInstitution.store');
+Route::middleware(['role:administrator'])->group(function () {
+    Route::resource('EducationalInstitution', EducationalInstitutionController::class);
+    Route::get('/educationalinstitutions', [EducationalInstitutionController::class, 'index'])->name('EducationalInstitution.index');
+    Route::post('/educationalinstitutions', [EducationalInstitutionController::class, 'store'])->name('EducationalInstitution.store');
+});
 
 // Administrar estudiantes - Solo administradores
-Route::resource('students',StudentController::class);
-Route::get('/students',[StudentController::class,'index'])->name('students.index');
-Route::get('/check-email', [StudentController::class, 'checkEmail']);
-Route::post('/students', [StudentController::class, 'store'])->name('students.store');
+Route::middleware(['role:administrator'])->group(function () {
+    Route::resource('students',StudentController::class);
+    Route::get('/students',[StudentController::class,'index'])->name('students.index');
+    Route::get('/check-email', [StudentController::class, 'checkEmail']);
+    Route::post('/students', [StudentController::class, 'store'])->name('students.store');
+});
 
 // Administrar actividades - Administradores y profesores
-Route::resource('activities',ActivityController::class);
-Route::get('/activities',[ActivityController::class,'index'])->name('activities.index');
-Route::post('/activities', [ActivityController::class, 'store'])->name('activities.store');
+Route::middleware(['role:administrator|teacher'])->group(function () {
+    Route::resource('activities',ActivityController::class);
+    Route::get('/activities',[ActivityController::class,'index'])->name('activities.index');
+    Route::post('/activities', [ActivityController::class, 'store'])->name('activities.store');
+});
 
-// Mi informacion (header) - Admin
-Route::resource('admin',AdminController::class);
-Route::get('/myinformation/{id}', [AdminController::class, 'myinfo'])->name('admin.myinfo');
+// Mi informacion (header)
+Route::middleware(['role:administrator|teacher|in-learning-teacher|in-learning-developer'])->group(function () {
+    Route::resource('admin',AdminController::class);
+    Route::get('/myinformation/{id}', [AdminController::class, 'myinfo'])->name('admin.myinfo');
+});
 
-// Inscribir módulo - Estudiantes
-Route::get('/enrollModules', [ModuleController::class, 'indexEnroll'])->name('modules.indexEnroll');
-Route::post('/enrollModules/{module}/subscribe', [ModuleController::class, 'subscribe'])->name('modules.subscribe');
-Route::delete('/modules/{module}/unsubscribe/{userId}', [ModuleProgressController::class, 'destroy'])->name('modules.unsubscribe');
+// Inscribir módulo - Estudiantes (ILD y ILT)
+Route::middleware(['role:in-learning-teacher|in-learning-developer'])->group(function () {
+    Route::get('/enrollModules', [ModuleController::class, 'indexEnroll'])->name('modules.indexEnroll');
+    Route::post('/enrollModules/{module}/subscribe', [ModuleController::class, 'subscribe'])->name('modules.subscribe');
+    Route::delete('/modules/{module}/unsubscribe/{userId}', [ModuleProgressController::class, 'destroy'])->name('modules.unsubscribe');
+});
 
-// Ver progreso - Estudiantes
-Route::resource('moduleProgress', ModuleProgressController::class); 
-Route::get('/moduleProgress', [ModuleProgressController::class, 'index'])->name('moduleProgress.index');
+// Ver progreso - Estudiantes (ILD y ILT)
+Route::middleware(['role:in-learning-teacher|in-learning-developer'])->group(function () {
+    Route::resource('moduleProgress', ModuleProgressController::class); 
+    Route::get('/moduleProgress', [ModuleProgressController::class, 'index'])->name('moduleProgress.index');
+});
 
 // Progreso en actividades
-Route::post('/user_activities/submitAnswer/{id}', [UserActivityController::class, 'submitAnswer'])->name('user_activities.submitAnswer');
+Route::middleware(['role:administrator|teacher|in-learning-teacher|in-learning-developer'])->group(function () {
+    Route::post('/user_activities/submitAnswer/{id}', [UserActivityController::class, 'submitAnswer'])->name('user_activities.submitAnswer');
+});
 
 // Mi informacion (header) - Student
 #Route::get('/myinformation/{id}', [StudentController::class],'myinfo')->name('students.myinfo');
@@ -68,27 +89,38 @@ Route::post('/user_activities/submitAnswer/{id}', [UserActivityController::class
 #Route::get('myinformation/{id}', [TeacherController::class])->name('teachers.myinfo');
 
 // Blog
-Route::get('/blog', function () {
-    return view('allPosts',['posts' => Post::where('active',true)->get()]);
+Route::middleware(['role:administrator|teacher|in-learning-teacher|in-learning-developer'])->group(function () {
+    Route::get('/blog', function () {
+        return view('allPosts',['posts' => Post::where('active',true)->get()]);
+    });
 });
-Route::resource('posts',PostController::class);
-Route::get('/blog/create', [PostController::class, 'index'])->name('posts.index');
-Route::post('/blog/create', [PostController::class, 'store'])->name('posts.store');
 
-// Modulos - Admin
-Route::resource('modules', ModuleController::class);
-Route::get('/modules', [ModuleController::class, 'index'])->name('modules.index');
-Route::get('/modules/{id}', [ModuleController::class, 'show'])->name('modules.show');
-Route::post('/modules/{id}/files', [ModuleController::class, 'storeFile'])->name('modules.storeFile');
-Route::delete('/modules/{file}/destroy', [ModuleController::class, 'destroyFile'])->name('modules.destroyFile');
+Route::middleware(['role:administrator|teacher|in-learning-teacher|in-learning-developer'])->group(function () {
+    Route::resource('posts',PostController::class);
+    Route::get('/blog/create', [PostController::class, 'index'])->name('posts.index');
+    Route::post('/blog/create', [PostController::class, 'store'])->name('posts.store');
+});
+
+// Modulos - Administradores y profesores
+Route::middleware(['role:administrator|teacher'])->group(function () {
+    Route::resource('modules', ModuleController::class);
+    Route::get('/modules', [ModuleController::class, 'index'])->name('modules.index');
+    Route::get('/modules/{id}', [ModuleController::class, 'show'])->name('modules.show');
+    Route::post('/modules/{id}/files', [ModuleController::class, 'storeFile'])->name('modules.storeFile');
+    Route::delete('/modules/{file}/destroy', [ModuleController::class, 'destroyFile'])->name('modules.destroyFile');
+});
 
 // Modulos - Actividad
-Route::get('/modules/activity/{id}', [ActivityController::class, 'show'])->name('activity.show');
+Route::middleware(['role:administrator|teacher|in-learning-teacher|in-learning-developer'])->group(function () {
+    Route::get('/modules/activity/{id}', [ActivityController::class, 'show'])->name('activity.show');
+});
 
-// Calificaciones - Teacher
-Route::resource('grades', UserActivityController::class);
-Route::get('/grades', [UserActivityController::class, 'index'])->name('grades.index');
-Route::post('/grades/{userId}/{activityId}/edit', [UserActivityController::class, 'update'])->name('grades.update');
+// Calificaciones - Profesores
+Route::middleware(['role:administrator|teacher'])->group(function () {
+    Route::resource('grades', UserActivityController::class);
+    Route::get('/grades', [UserActivityController::class, 'index'])->name('grades.index');
+    Route::post('/grades/{userId}/{activityId}/edit', [UserActivityController::class, 'update'])->name('grades.update');
+});
 
 // Login
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
