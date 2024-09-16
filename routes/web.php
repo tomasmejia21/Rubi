@@ -109,7 +109,7 @@ Route::middleware(['role:administrator|teacher|in-learning-teacher|in-learning-d
     });
 });
 
-Route::middleware(['role:administrator|teacher|in-learning-teacher|in-learning-developer'])->group(function () {
+Route::middleware(['role:administrator|teacher'])->group(function () {
     Route::resource('posts',PostController::class);
     Route::get('/blog/create', [PostController::class, 'index'])->name('posts.index');
     Route::post('/blog/create', [PostController::class, 'store'])->name('posts.store');
