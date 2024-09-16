@@ -40,7 +40,6 @@ class ActivityController extends Controller
     public function create()
     {
         $roleId = session('role_id');
-        $roles = Role::whereIn('id', [3, 4])->get();
 
         if ($roleId == 1) {
             // Si el role_id es 1, obten todos los módulos
@@ -52,8 +51,7 @@ class ActivityController extends Controller
         } else {
             $modules = collect(); // Retorna una colección vacía si no se cumple ninguna de las condiciones anteriores
         }
-
-        return view('activity.createActivity', compact('roles', 'modules'));
+        return view('activity.createActivity')->with('modules', $modules);
     }
 
     /**
@@ -77,7 +75,6 @@ class ActivityController extends Controller
         $activity->moduleId = $request->moduleId;
         $activity->title = $request->title;
         $activity->description = $request->description;
-        $activity->role_id = $request->role_id;
         $activity->voice = $request->voice ? true : false;
         $activity->question_type = $request->questionType;
         $activity->response_count = $request->responseCount;
@@ -131,7 +128,6 @@ class ActivityController extends Controller
     public function edit(string $id)
     {
         $activity = Activity::find($id);
-        $roles = Role::whereIn('id', [3, 4])->get();
         $roleId = session('role_id');
 
         if ($roleId == 1) {
@@ -147,7 +143,7 @@ class ActivityController extends Controller
 
         $responses = old('responses', $activity->responses->pluck('content')->toArray());
 
-        return view('activity.editActivity', compact('roles', 'modules', 'responses'))->with('activity', $activity);
+        return view('activity.editActivity', compact('modules', 'responses'))->with('activity', $activity);
     }
 
     /**
@@ -159,7 +155,6 @@ class ActivityController extends Controller
         $activity->moduleId = $request->moduleId;
         $activity->title = $request->title;
         $activity->description = $request->description;
-        $activity->role_id = $request->role_id;
         $activity->voice = $request->voice ? true : false;
         $activity->question_type = $request->questionType;
         $activity->response_count = $request->responseCount;
