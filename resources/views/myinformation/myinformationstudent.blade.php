@@ -10,23 +10,21 @@
                         <p>Usuario: {{ $student->adminUser }} </p>
                         <p>Nombre: {{ $student->name }}</p>
                         <p>Correo: {{ $student->email }}</p>
-                        <a href="{{ route('student.edit', $student->userId) }}" class="btn btn-outline-primary" role="button" aria-pressed="true">
+                        <a href="{{ route('students.myinfoedit', $student->userId) }}" class="btn btn-outline-primary" role="button" aria-pressed="true">
                             Actualizar Datos
                         </a>
                     @endif
                 @endforeach
             </div>
             <div class="col-4">
-                <h3>Blogs</h3>
-                <a href="">Entradas blog</a>
-                <br>
-                <a href="">Mensajes en foros</a>
-                <br>
-                <a href="">Foros de discusion</a>
+                <h3>Blog</h3>
+                <a href="/blog">Ver posts</a>
             </div>
             <div class="col-4">
                 <h3>Modulos</h3>
-                <a href="">Mis modulos</a>
+                <a href="/modules">Mis modulos</a>
+                <br>
+                <a href="/enrollModules">Inscribir modulos</a>
             </div>
         </div>
     </div>
