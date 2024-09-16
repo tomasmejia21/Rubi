@@ -33,7 +33,7 @@
                         </label>
                     </div>
                     <input type="hidden" name="teacher" value="{{ session('id') }}">
-                    <input type="submit" class="btn btn-light" name="save" value="Agregar" id="submit-button" disabled>
+                    <input type="submit" class="btn btn-light" name="save" value="Editar" id="submit-button" disabled>
                 </form>
             </div>
             <div class="col"></div>
