@@ -13,12 +13,16 @@ class Role
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $roles)
     {
-        $newRol = explode('|',$roles);
-        $roleName = strtolower($request->user()->role->label);
-        if(!in_array($roleName,$newRol))
-            return abort(403,__('Unauthorized'));
+        $roleName = session('role_name');
+        $newRol = explode('|', $roles);
+        $roleName = strtolower($roleName);
+        
+        if (!in_array($roleName, $newRol)) {
+            return abort(403, __('Unauthorized'));
+        }
+        
         return $next($request);
     }
 }
