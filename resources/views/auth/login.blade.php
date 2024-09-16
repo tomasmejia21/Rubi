@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+@if (session('registered'))
+    @if (session('username'))
+        <div class="alert alert-success">
+            Tu usuario es: {{ session('username') }} guardalo!!
+        </div>
+    @endif
+@endif
 <div class="container-fluid p-0 text-center">
     <br>
     <div class="row">

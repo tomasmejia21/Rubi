@@ -33,9 +33,10 @@ Route::middleware(['role:administrator|teacher|in-learning-teacher|in-learning-d
 Route::middleware(['role:administrator'])->group(function () {
     Route::resource('teachers', TeacherController::class);
     Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');
-    Route::get('/check-email', [TeacherController::class, 'checkEmail']);
     Route::post('/teachers', [TeacherController::class, 'store'])->name('teachers.store');
 });
+
+Route::get('/check-email', [TeacherController::class, 'checkEmail']);
 
 // Administrar instituciones educativas - Solo administradores
 Route::middleware(['role:administrator'])->group(function () {
@@ -48,9 +49,10 @@ Route::middleware(['role:administrator'])->group(function () {
 Route::middleware(['role:administrator'])->group(function () {
     Route::resource('students',StudentController::class);
     Route::get('/students',[StudentController::class,'index'])->name('students.index');
-    Route::get('/check-email', [StudentController::class, 'checkEmail']);
     Route::post('/students', [StudentController::class, 'store'])->name('students.store');
 });
+
+Route::get('/check-email', [StudentController::class, 'checkEmail']);
 
 // Administrar actividades - Administradores y profesores
 Route::middleware(['role:administrator|teacher'])->group(function () {
@@ -115,11 +117,16 @@ Route::middleware(['role:administrator|teacher|in-learning-teacher|in-learning-d
 
 // Modulos - Administradores y profesores
 Route::middleware(['role:administrator|teacher'])->group(function () {
+    Route::post('/modules/{id}/files', [ModuleController::class, 'storeFile'])->name('modules.storeFile');
+    Route::delete('/modules/{file}/destroy', [ModuleController::class, 'destroyFile'])->name('modules.destroyFile');
+});
+
+// Modulos (Vista general) - Todos
+
+Route::middleware(['role:administrator|teacher|in-learning-teacher|in-learning-developer'])->group(function () {
     Route::resource('modules', ModuleController::class);
     Route::get('/modules', [ModuleController::class, 'index'])->name('modules.index');
     Route::get('/modules/{id}', [ModuleController::class, 'show'])->name('modules.show');
-    Route::post('/modules/{id}/files', [ModuleController::class, 'storeFile'])->name('modules.storeFile');
-    Route::delete('/modules/{file}/destroy', [ModuleController::class, 'destroyFile'])->name('modules.destroyFile');
 });
 
 // Modulos - Actividad
