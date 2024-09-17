@@ -16,6 +16,7 @@
                 <th>Correo</th>
                 <th>Rol</th>
                 <th>Institución Educativa</th>
+                <th>Fecha Registro</th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +28,7 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->role->name }}</td>
                 <td>{{ $user->educationalinstitution->name }}</td>
+                <td>{{ $user->created_at }}</td>
             </tr>
             @endforeach
         </tbody>
