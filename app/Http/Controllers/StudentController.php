@@ -8,6 +8,7 @@ use App\Models\EducationalInstitution;
 use App\Models\Role;
 use App\Models\Teacher;
 use App\Models\Admin;
+use Carbon\Carbon;
 
 class StudentController extends Controller
 {
@@ -174,4 +175,10 @@ class StudentController extends Controller
         return response()->json(['emailExists' => $emailExists]);
     }
 
+    public function pdf($id)
+    {
+        $students = User::where('created_at', '>=', Carbon::now()->subDays(30))->get();
+        $pdf = \PDF::loadView('reports.adminReports',compact('students'));
+        return $pdf->download('usuarios_recientes.pdf');
+    }
 }

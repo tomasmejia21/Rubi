@@ -12,7 +12,6 @@
 <body>
     @include('partials.rubiHeader')
     <!-- Hasta aquí llega el header -->
-    
     <div class="container my-5">
         @if (session('role_id')==1 || session('role_id')==2)
             <a href="{{ route('modules.create') }}" class="btn btn-light">Crear módulo</a>
@@ -46,6 +45,10 @@
                                     <i class="bi bi-trash-fill text-white"></i>
                                 </button>
                             </form>
+                            <br>
+                            <a href="{{ route('teachers.pdf', $module->moduleId) }}" class="btn btn-hover-crimson" onclick="return confirmarReporteTeacher(this);">
+                                <i class="bi bi-file-earmark-text text-white"></i>
+                            </a>
                         @else
                             <br>
                             <form action="{{ route('modules.unsubscribe', ['module' => $module->moduleId, 'userId' => session('id')]) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Está seguro que desea salirse del módulo {{ $module->title }}?');">
@@ -64,5 +67,6 @@
     </div>
     <script src="{{ asset('js/functionality/moduleButtonsFunctionality.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/reports/pdfReports.js')}}"></script>
 </body>
 </html>
