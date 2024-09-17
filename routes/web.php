@@ -142,9 +142,18 @@ Route::middleware(['role:administrator|teacher'])->group(function () {
 });
 
 //Reportes
-Route::get('a/reports/{id}', [StudentController::class,'pdf'])->name('user.pdf');
-Route::get('t/reports/{id}', [TeacherController::class, 'pdf'])->name('teachers.pdf');
-Route::get('s/reports/{id}', [StudentController::class, 'pdfNotes'])->name('user.pdfNotes');
+
+Route::middleware(['role:administrator'])->group(function () {
+    Route::get('a/reports/{id}', [StudentController::class,'pdf'])->name('user.pdf');
+}) ;
+
+Route::middleware(['role:teacher'])->group(function () {
+    Route::get('t/reports/{id}', [TeacherController::class, 'pdf'])->name('teachers.pdf');
+});
+
+Route::middleware(['role:in-learning-teacher|in-learning-developer'])->group(function () {
+    Route::get('s/reports/{id}', [StudentController::class, 'pdfNotes'])->name('user.pdfNotes');
+});
 
 //Graficas
 Route::middleware(['role:administrator'])->group(function () {
