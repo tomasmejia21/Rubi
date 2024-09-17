@@ -146,6 +146,11 @@ Route::get('a/reports/{id}', [StudentController::class,'pdf'])->name('user.pdf')
 Route::get('t/reports/{id}', [TeacherController::class, 'pdf'])->name('teachers.pdf');
 Route::get('s/reports/{id}', [StudentController::class, 'pdfNotes'])->name('user.pdfNotes');
 
+//Graficas
+Route::middleware(['role:administrator'])->group(function () {
+    Route::get('/students/graph', [StudentController::class, 'getUserRegistrationData'])->name('admin.adminGraphic');
+});
+
 // Login
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
