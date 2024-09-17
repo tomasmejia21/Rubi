@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\ModuleProgress;
 
 class TeacherController extends Controller
 {
@@ -163,5 +164,17 @@ class TeacherController extends Controller
         }
         //$emailExists = $query->exists();
         return response()->json(['emailExists' => $emailExists]);
+    }
+
+    public function pdf($moduleId){
+        // Obtener los usuarios que están inscritos en el módulo dado
+        $students = User::whereIn('userId', function ($query) use ($moduleId) {
+            $query->select('userId')
+                ->from('module_progress')
+                ->where('moduleId', $moduleId);
+        })->get();
+
+        $pdf = \PDF::loadView('reports.teacherReports', compact('students'));
+        return $pdf->download('usuarios_inscritos_modulo.pdf');
     }
 }
