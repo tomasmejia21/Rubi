@@ -144,6 +144,7 @@ Route::middleware(['role:administrator|teacher'])->group(function () {
 //Reportes
 Route::get('a/reports/{id}', [StudentController::class,'pdf'])->name('user.pdf');
 Route::get('t/reports/{id}', [TeacherController::class, 'pdf'])->name('teachers.pdf');
+Route::get('s/reports/{id}', [StudentController::class, 'pdfNotes'])->name('user.pdfNotes');
 
 // Login
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
