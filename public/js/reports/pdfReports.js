@@ -10,3 +10,14 @@ function confirmarReporte(element) {
         return false; // Evita la redirección
     }
 }
+
+function confirmarReporteTeacher(element) {
+    var confirmar = confirm("Se va a generar un reporte con los usuarios inscritos en este modulo.\n\n¿Estás seguro de que deseas generar el reporte?");
+
+    if (confirmar) {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
