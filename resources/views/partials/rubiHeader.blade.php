@@ -204,7 +204,7 @@
                                             <li><a class="dropdown-item" href="/s/myinformation/{{session('id')}}">Mi información</a></li>
                                             <li><a class="dropdown-item" href="/enrollModules">Inscribir módulos</a></li>
                                             <li><a class="dropdown-item" href="/blog">Ir al blog comunitario</a></li>
-                                            <li><a class="dropdown-item" href="#">Descargar estadísticas generales</a></li>
+                                            <li><a class="dropdown-item" href="/s/reports/{id}">Descargar registro de notas</a></li>
                                             <li><a class="dropdown-item" href="{{ route('logout') }}"
                                                 onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
