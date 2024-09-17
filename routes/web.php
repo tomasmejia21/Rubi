@@ -148,7 +148,7 @@ Route::get('s/reports/{id}', [StudentController::class, 'pdfNotes'])->name('user
 
 //Graficas
 Route::middleware(['role:administrator'])->group(function () {
-    Route::get('/students/graph', [StudentController::class, 'getUserRegistrationData'])->name('admin.adminGraphic');
+    Route::get('/graphstudents', [StudentController::class, 'getUserRegistrationData'])->name('students.getUserRegistrationData');
 });
 
 // Login
