@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\EducationalInstitution;
 use App\Models\Role;
 use App\Models\Teacher;
 use App\Models\Admin;
+use App\Models\UserActivity;
 use Carbon\Carbon;
 
 class StudentController extends Controller
@@ -180,5 +182,25 @@ class StudentController extends Controller
         $students = User::where('created_at', '>=', Carbon::now()->subDays(30))->get();
         $pdf = \PDF::loadView('reports.adminReports',compact('students'));
         return $pdf->download('usuarios_recientes.pdf');
+    }
+
+    public function pdfNotes()
+    {
+        // Obtener el ID del usuario autenticado (estudiante)
+        $userId = session('id');
+    
+        // Consultar las actividades resueltas y sus notas desde la tabla user_activities
+        $actividades = DB::table('user_activities')
+        ->join('activities', 'user_activities.activityId', '=', 'activities.activityId')
+        ->where('user_activities.userId', $userId)
+        ->select('activities.activityId', 'activities.title', 'activities.question_type', 
+                 'user_activities.answer', 'activities.correct_answer', 'user_activities.score')
+        ->get();
+    
+        // Generar el PDF con los datos de las actividades y notas
+        $pdf = \PDF::loadView('reports.studentReports', compact('actividades'));
+    
+        // Descargar el archivo PDF
+        return $pdf->download('notas_actividades.pdf');
     }
 }
