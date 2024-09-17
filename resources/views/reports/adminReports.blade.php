@@ -29,7 +29,7 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->role->name }}</td>
                 <td>{{ $user->educationalinstitution->name }}</td>
-                <td>{{ $user->created_at }}</td>
+                <td>{{ $user->created_at->format('d/m/Y') }}</td>
             </tr>
             @endforeach
         </tbody>
