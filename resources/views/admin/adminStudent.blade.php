@@ -17,6 +17,7 @@
     <div class="container-fluid p-0 text-center">
         <div class="row">
             <div class="col-3">
+                <br>
                 <a class="btn btn-light" id="submit-button" href="a/reports/{id}" onclick="return confirmarReporte(this);" role="button">Generar reporte</a>
                 <a class="btn btn-light" id="submit-button" href="/graphstudents">Generar gráfico</a>
             </div>
