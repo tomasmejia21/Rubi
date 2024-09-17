@@ -55,7 +55,7 @@
                                             <li><a class="dropdown-item" href="/activities">Administrar actividades</a></li>
                                             <li><a class="dropdown-item" href="/modules">Administrar módulos</a></li>
                                             <li><a class="dropdown-item" href="/blog">Ir al blog comunitario</a></li>
-                                            <li><a class="dropdown-item" href="#">Descargar estadísticas generales</a></li>
+                                            <!-- <li><a class="dropdown-item" href="#">Descargar estadísticas generales</a></li> -->
                                             <li><a class="dropdown-item" href="{{ route('logout') }}"
                                                    onclick="event.preventDefault();
                                                    document.getElementById('logout-form').submit();">
@@ -127,7 +127,7 @@
                                             <li><a class="dropdown-item" href="/modules">Administrar mis módulos</a></li>
                                             <li><a class="dropdown-item" href="/grades">Calificar mis alumnos</a></li>
                                             <li><a class="dropdown-item" href="/blog">Ir al blog comunitario</a></li>
-                                            <li><a class="dropdown-item" href="#">Descargar estadísticas generales</a></li>
+                                            <!-- <li><a class="dropdown-item" href="#">Descargar estadísticas generales</a></li> -->
                                             <li><a class="dropdown-item" href="{{ route('logout') }}"
                                                 onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
