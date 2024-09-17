@@ -6,6 +6,7 @@
     <title>Document</title>
 </head>
 <body>
+    <h1>Estudiantes Registrados En Los Ultimos 30 Dias</h1>
     <div>
     <table class="table table-bordered">
         <thead>
