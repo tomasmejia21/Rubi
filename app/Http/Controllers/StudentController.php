@@ -203,4 +203,22 @@ class StudentController extends Controller
         // Descargar el archivo PDF
         return $pdf->download('notas_actividades.pdf');
     }
+
+    public function getUserRegistrationData()
+    {
+        // Consulta que agrupa los usuarios por mes y cuenta cuántos se registraron en cada mes
+        $usersByMonth = User::select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->get();
+
+        // Formatear el resultado para que sea más fácil de usar en la vista
+        $monthlyData = array_fill(1, 12, 0); // Inicializa el array con 12 meses en 0
+        foreach ($usersByMonth as $data) {
+            $monthlyData[$data->month] = $data->count;
+        }
+
+        return view('admin.adminGraphic')->with('monthlyData', $monthlyData);
+        // return view('admin.adminGraphic', compact('monthlyData'));
+    }   
+   
 }
