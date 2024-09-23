@@ -20,7 +20,7 @@
         </div>
         <div class="row">
             <div class="col">
-
+                <p id="inactive-text">IN = Inactivo</p>
             </div>
         </div>
         <div class="row">
@@ -43,16 +43,26 @@
                             <td>{{ $profesor->name }}</td>
                             <td>{{ $profesor->email }}</td>
                             <td>
-                                <a href="{{ route('teachers.edit', $profesor->teacherId) }}" class="btn btn-hover-crimson">
-                                    <i class="bi bi-pencil-fill text-white"></i>
-                                </a>
-                                <form action="{{ route('teachers.destroy', $profesor->teacherId) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-hover-crimson">
-                                        <i class="bi bi-trash-fill text-white"></i>
-                                    </button>
-                                </form>
+                                @if ($profesor->status)
+                                    <a href="{{ route('teachers.edit', $profesor->teacherId) }}" class="btn btn-hover-crimson">
+                                        <i class="bi bi-pencil-fill text-white"></i>
+                                    </a>
+                                    <form onsubmit="return confirmDelete()" action="{{ route('teachers.destroy', $profesor->teacherId) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-hover-crimson">
+                                            <i class="bi bi-trash-fill text-white"></i>
+                                        </button>
+                                    </form>
+                                @else
+                                    <i id="inactive-text">IN</i>
+                                    <form onsubmit="return confirmActivate()" action="{{ route('teachers.activate', $profesor->teacherId) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="btn btn-hover-crimson">
+                                            <i class="bi bi-check-lg text-white"></i>
+                                        </button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -72,6 +82,7 @@
             </div>
         </div>
     </div> 
+    <script src=""></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>
 </html>
