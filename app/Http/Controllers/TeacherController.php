@@ -66,6 +66,7 @@ class TeacherController extends Controller
         $teacher->role_id = 2;
         $teacher->email = $request->email;
         $teacher->password = bcrypt($request->password);;
+        $teacher->status = true;
         $teacher->save();
         return redirect()->route('teachers.index');
     }
@@ -142,7 +143,9 @@ class TeacherController extends Controller
     {
         // Para eliminar un registro de la Base de datos
         $teacher = Teacher::find($id);
-        $teacher->delete();
+        // $teacher->delete();
+        $teacher->status = false;
+        $teacher->save();
         return redirect()->route('teachers.index');
     }
 
@@ -176,5 +179,17 @@ class TeacherController extends Controller
 
         $pdf = \PDF::loadView('reports.teacherReports', compact('students'));
         return $pdf->download('usuarios_inscritos_modulo.pdf');
+    }
+
+    public function activate(string $id){
+        // Encuentra el módulo por su ID
+        $teacher = Teacher::find($id);
+
+        // Cambia el status a true
+        $teacher->status = true;
+        $teacher->save();
+
+        // Redirige al usuario a la página de módulos con un mensaje de éxito
+        return redirect()->route('teachers.index');
     }
 }

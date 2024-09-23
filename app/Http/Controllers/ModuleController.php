@@ -122,7 +122,7 @@ class ModuleController extends Controller
         $module -> title = $request -> title;
         $module -> description = $request -> description;
         $module -> role_id = $request->role_id;
-        $module -> status =  True;
+        $module -> status =  true;
         if(session('role_name') === 'Administrator'){
             $module -> teacherId = $request -> teacher;
         }
@@ -278,6 +278,6 @@ class ModuleController extends Controller
         $module->save();
 
         // Redirige al usuario a la página de módulos con un mensaje de éxito
-        return redirect()->route('modules.index')->with('success', 'El módulo ha sido activado con éxito');
+        return redirect()->route('modules.index');
     }
 }

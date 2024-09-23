@@ -23,6 +23,7 @@ class TeachersSeeder extends Seeder
                 'name' => 'Marcelo Agachate Pomapelo',
                 'email' => 'marcelo@gmail.com',
                 'password' => Hash::make($password),
+                'status' => True,
             ],
             [
                 'teacherId' => 202408171,
@@ -31,6 +32,7 @@ class TeachersSeeder extends Seeder
                 'name' => 'Juan Rodriguez',
                 'email' => 'jrodriguez@gmail.com',
                 'password' => Hash::make($password),
+                'status' => True,
             ],
             [
                 'teacherId' => 202408172,
@@ -39,6 +41,7 @@ class TeachersSeeder extends Seeder
                 'name' => 'Maria Perez',
                 'email' => 'mperez@gmail.com',
                 'password' => Hash::make($password),
+                'status' => True,
             ],
             [
                 'teacherId' => 202408173,
@@ -47,6 +50,7 @@ class TeachersSeeder extends Seeder
                 'name' => 'Carlos Gomez',
                 'email' => 'cgomez@gmail.com',
                 'password' => Hash::make($password),
+                'status' => True,
             ],
             [
                 'teacherId' => 202408174,
@@ -55,6 +59,7 @@ class TeachersSeeder extends Seeder
                 'name' => 'Luisa Ramirez',
                 'email' => 'lramirez@gmail.com',
                 'password' => Hash::make($password),
+                'status' => True,
             ],
             [
                 'teacherId' => 202408175,
@@ -63,6 +68,7 @@ class TeachersSeeder extends Seeder
                 'name' => 'Javier Torres',
                 'email' => 'jtorres@gmail.com',
                 'password' => Hash::make($password),
+                'status' => True,
             ],
         ]);
     }

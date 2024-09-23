@@ -34,6 +34,7 @@ Route::middleware(['role:administrator'])->group(function () {
     Route::resource('teachers', TeacherController::class);
     Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');
     Route::post('/teachers', [TeacherController::class, 'store'])->name('teachers.store');
+    Route::post('/teachers/{id}/activate', [TeacherController::class, 'activate'])->name('teachers.activate');
 });
 
 Route::get('/check-email', [TeacherController::class, 'checkEmail']);
