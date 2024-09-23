@@ -46,9 +46,16 @@
                                 </button>
                             </form>
                             <br>
-                            <a href="{{ route('teachers.pdf', $module->moduleId) }}" class="btn btn-hover-crimson" onclick="return confirmarReporteTeacher(this);">
-                                <i class="bi bi-file-earmark-text text-white"></i>
-                            </a>
+                            @if(session('role_id')==1)
+                                <a href="{{ route('teachers.pdf', $module->moduleId) }}" class="btn btn-hover-crimson disabled-link" onclick="return confirmarReporteTeacher(this);" disabled>
+                                    <i class="bi bi-file-earmark-text text-grey"></i>
+                                </a>
+                            @elseif(session('role_id')==2)
+                                <a href="{{ route('teachers.pdf', $module->moduleId) }}" class="btn btn-hover-crimson" onclick="return confirmarReporteTeacher(this);">
+                                    <i class="bi bi-file-earmark-text text-white"></i>
+                                </a>
+                            @endif
+                            
                         @else
                             <br>
                             <form action="{{ route('modules.unsubscribe', ['module' => $module->moduleId, 'userId' => session('id')]) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Está seguro que desea salirse del módulo {{ $module->title }}?');">
