@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('role_id');
             $table->bigInteger('teacherId');
             $table->foreign('teacherId')->references('teacherId')->on('teachers');
+            $table->boolean('status');
             $table->timestamps();
         });
     }

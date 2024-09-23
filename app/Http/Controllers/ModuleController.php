@@ -32,7 +32,7 @@ class ModuleController extends Controller
         } else if ($roleId == 3 || $roleId == 4) {
             $userId = session('id');
             $moduleIds = ModuleProgress::where('userId', $userId)->pluck('moduleId');
-            $modules = Module::whereIn('moduleId', $moduleIds)->get();
+            $modules = Module::whereIn('moduleId', $moduleIds)->where('status', true)->get();
             $user = User::find(session('id'));
 
             foreach ($modules as $module) {
@@ -75,9 +75,9 @@ class ModuleController extends Controller
 
         // Obtiene los módulos en los que el usuario no está inscrito
         if ($roleId == 3 || $roleId == 4) {
-            $modules = Module::whereNotIn('moduleId', $subscribedModuleIds)->where('role_id', $roleId)->get();
+            $modules = Module::whereNotIn('moduleId', $subscribedModuleIds)->where('role_id', $roleId)->where('status', true)->get();
         } else {
-            $modules = Module::whereNotIn('moduleId', $subscribedModuleIds)->get();
+            $modules = Module::whereNotIn('moduleId', $subscribedModuleIds)->where('status', true)->get();
         }
 
         return view('user.enrollModule', compact('modules'));
@@ -122,6 +122,7 @@ class ModuleController extends Controller
         $module -> title = $request -> title;
         $module -> description = $request -> description;
         $module -> role_id = $request->role_id;
+        $module -> status =  True;
         if(session('role_name') === 'Administrator'){
             $module -> teacherId = $request -> teacher;
         }
@@ -215,16 +216,19 @@ class ModuleController extends Controller
     public function destroy(string $id)
     {
         $module = Module::find($id);
-        $files = ModuleFile::where('moduleId', $id)->get();
-        foreach ($files as $file) {
-            Storage::delete('public/' . $file->file_url);
-            $file -> delete();
-        }
+        // $files = ModuleFile::where('moduleId', $id)->get();
+        // foreach ($files as $file) {
+        //     Storage::delete('public/' . $file->file_url);
+        //     $file -> delete();
+        // }
 
         // Agrega esta línea para eliminar las actividades asociadas al módulo
-        $module->activities()->delete();
+        // $module->activities()->delete();
 
-        $module -> delete();
+        // Cambia el status a false en lugar de eliminar el módulo
+        $module->status = false;
+        $module->save();
+
         return redirect()->route('modules.index');
     }
 
@@ -262,5 +266,18 @@ class ModuleController extends Controller
 
         // Redirige al usuario a la página de módulos con un mensaje de éxito
         return redirect()->route('modules.index')->with('success', 'Te has salido del módulo con éxito');
+    }
+
+    public function activate(string $id)
+    {
+        // Encuentra el módulo por su ID
+        $module = Module::find($id);
+
+        // Cambia el status a true
+        $module->status = true;
+        $module->save();
+
+        // Redirige al usuario a la página de módulos con un mensaje de éxito
+        return redirect()->route('modules.index')->with('success', 'El módulo ha sido activado con éxito');
     }
 }
