@@ -164,3 +164,9 @@ label, span {
 .sectionTitle{
     color: white;
 }
+
+.disabled-link {
+    pointer-events: none;
+    color: grey;
+    text-decoration: none;
+}
