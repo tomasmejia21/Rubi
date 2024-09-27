@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('city');
             $table->string('country');
+            //$table->boolean('status');
             $table->timestamps();
         });
     }

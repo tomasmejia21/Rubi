@@ -34,6 +34,7 @@ Route::middleware(['role:administrator'])->group(function () {
     Route::resource('teachers', TeacherController::class);
     Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers.index');
     Route::post('/teachers', [TeacherController::class, 'store'])->name('teachers.store');
+    Route::post('/teachers/{id}/activate', [TeacherController::class, 'activate'])->name('teachers.activate');
 });
 
 Route::get('/check-email', [TeacherController::class, 'checkEmail']);
@@ -119,6 +120,7 @@ Route::middleware(['role:administrator|teacher'])->group(function () {
 Route::middleware(['role:administrator|teacher'])->group(function () {
     Route::post('/modules/{id}/files', [ModuleController::class, 'storeFile'])->name('modules.storeFile');
     Route::delete('/modules/{file}/destroy', [ModuleController::class, 'destroyFile'])->name('modules.destroyFile');
+    Route::post('/modules/{id}/activate', [ModuleController::class, 'activate'])->name('modules.activate');
 });
 
 // Modulos (Vista general) - Todos

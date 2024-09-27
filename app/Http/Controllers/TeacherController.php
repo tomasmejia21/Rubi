@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Module;
 use App\Models\ModuleProgress;
 
 class TeacherController extends Controller
@@ -66,6 +67,7 @@ class TeacherController extends Controller
         $teacher->role_id = 2;
         $teacher->email = $request->email;
         $teacher->password = bcrypt($request->password);;
+        $teacher->status = true;
         $teacher->save();
         return redirect()->route('teachers.index');
     }
@@ -140,9 +142,21 @@ class TeacherController extends Controller
      */
     public function destroy(string $id)
     {
-        // Para eliminar un registro de la Base de datos
+        // Encuentra el profesor por su ID
         $teacher = Teacher::find($id);
-        $teacher->delete();
+
+        // Cambia el status a false
+        $teacher->status = false;
+        $teacher->save();
+
+        // Desactiva todos los módulos asociados al profesor
+        $modules = Module::where('teacherId', $teacher->teacherId)->get();
+        foreach ($modules as $module) {
+            $module->status = false;
+            $module->save();
+        }
+
+        // Redirige al usuario a la página de profesores
         return redirect()->route('teachers.index');
     }
 
@@ -176,5 +190,24 @@ class TeacherController extends Controller
 
         $pdf = \PDF::loadView('reports.teacherReports', compact('students'));
         return $pdf->download('usuarios_inscritos_modulo.pdf');
+    }
+
+    public function activate(string $id){
+        // Encuentra el profesor por su ID
+        $teacher = Teacher::find($id);
+
+        // Cambia el status a true
+        $teacher->status = true;
+        $teacher->save();
+
+        // Activa todos los módulos asociados al profesor
+        $modules = Module::where('teacherId', $teacher->teacherId)->get();
+        foreach ($modules as $module) {
+            $module->status = true;
+            $module->save();
+        }
+
+        // Redirige al usuario a la página de profesores con un mensaje de éxito
+        return redirect()->route('teachers.index');
     }
 }

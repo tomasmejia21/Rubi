@@ -39,6 +39,7 @@ class ModuleSeeder extends Seeder
                 'description' => 'Vamos a practicar sobre la accesibilidad en la programación web', 
                 'role_id' => 4, 
                 'teacherId' => 202408175, 
+                'status' => True,
                 'created_at' => '2024-09-16 22:01:47', 
                 'updated_at' => '2024-09-16 22:01:47'
             ],
@@ -48,6 +49,7 @@ class ModuleSeeder extends Seeder
                 'description' => 'Cómo enseñar en entornos rurales?', 
                 'role_id' => 3, 
                 'teacherId' => 202408174, 
+                'status' => True,
                 'created_at' => '2024-09-16 22:02:29', 
                 'updated_at' => '2024-09-16 22:02:29'
             ],
@@ -57,6 +59,7 @@ class ModuleSeeder extends Seeder
                 'description' => 'Vamos a tratar los fundamentos de la accesibilidad', 
                 'role_id' => 4, 
                 'teacherId' => 202408170, 
+                'status' => True,
                 'created_at' => '2024-09-16 22:03:06', 
                 'updated_at' => '2024-09-16 22:03:06'
             ],
@@ -65,7 +68,8 @@ class ModuleSeeder extends Seeder
                 'title' => 'Accesibilidad 2', 
                 'description' => 'Vamos a tratar con profundidad los temas de accesibilidad con respecto al código', 
                 'role_id' => 4, 
-                'teacherId' => 202408173, 
+                'teacherId' => 202408173,
+                'status' => True, 
                 'created_at' => '2024-09-16 22:03:31', 
                 'updated_at' => '2024-09-16 22:03:31'
             ],
@@ -74,7 +78,8 @@ class ModuleSeeder extends Seeder
                 'title' => 'Enseñanza Accesible 1', 
                 'description' => '¿Cómo enseñar a los alumnos de manera accesible?', 
                 'role_id' => 3, 
-                'teacherId' => 202408174, 
+                'teacherId' => 202408174,
+                'status' => True, 
                 'created_at' => '2024-09-16 22:04:10', 
                 'updated_at' => '2024-09-16 22:04:10'
             ],
@@ -84,6 +89,7 @@ class ModuleSeeder extends Seeder
                 'description' => 'Introducción a las formas de enseñar de forma accesible', 
                 'role_id' => 3, 
                 'teacherId' => 202408175, 
+                'status' => True,
                 'created_at' => '2024-09-16 22:04:37', 
                 'updated_at' => '2024-09-16 22:04:37'
             ],
@@ -93,6 +99,7 @@ class ModuleSeeder extends Seeder
                 'description' => 'Como crear presentaciones accesibles', 
                 'role_id' => 3, 
                 'teacherId' => 202408172, 
+                'status' => True,
                 'created_at' => '2024-09-16 22:04:56', 
                 'updated_at' => '2024-09-16 22:04:56'
             ],
@@ -102,6 +109,7 @@ class ModuleSeeder extends Seeder
                 'description' => 'Como poder hacer videos accesibles para los alumnos', 
                 'role_id' => 3, 
                 'teacherId' => 202408172, 
+                'status' => True,
                 'created_at' => '2024-09-16 22:05:11', 
                 'updated_at' => '2024-09-16 22:05:11'
             ],
@@ -111,6 +119,7 @@ class ModuleSeeder extends Seeder
                 'description' => '¿Qué actividades y cómo puedo implementarlas en mis clases?', 
                 'role_id' => 3, 
                 'teacherId' => 202408170, 
+                'status' => True,
                 'created_at' => '2024-09-16 22:05:34', 
                 'updated_at' => '2024-09-16 22:05:34'
             ],
@@ -120,6 +129,7 @@ class ModuleSeeder extends Seeder
                 'description' => 'Paradigmas de la programación accesible y formas de implementarlas', 
                 'role_id' => 4, 
                 'teacherId' => 202408171, 
+                'status' => True,
                 'created_at' => '2024-09-16 22:05:56', 
                 'updated_at' => '2024-09-16 22:05:56'
             ],
@@ -129,6 +139,7 @@ class ModuleSeeder extends Seeder
                 'description' => 'Diseñar los aplicativos de manera accesible', 
                 'role_id' => 4, 
                 'teacherId' => 202408174, 
+                'status' => True,
                 'created_at' => '2024-09-16 22:06:26', 
                 'updated_at' => '2024-09-16 22:06:26'
             ],
@@ -138,6 +149,7 @@ class ModuleSeeder extends Seeder
                 'description' => 'Implementación de accesibilidad en entornos móviles', 
                 'role_id' => 4, 
                 'teacherId' => 202408174, 
+                'status' => True,
                 'created_at' => '2024-09-16 22:07:07', 
                 'updated_at' => '2024-09-16 22:07:07'
             ],
@@ -147,6 +159,7 @@ class ModuleSeeder extends Seeder
                 'description' => 'Cómo puedo crear una API accesible?', 
                 'role_id' => 4, 
                 'teacherId' => 202408170, 
+                'status' => True,
                 'created_at' => '2024-09-16 22:07:28', 
                 'updated_at' => '2024-09-16 22:07:28'
             ],
@@ -156,6 +169,7 @@ class ModuleSeeder extends Seeder
                 'description' => 'Cómo puedo hacer mis aplicaciones Android más accesibles?', 
                 'role_id' => 4, 
                 'teacherId' => 202408171, 
+                'status' => True,
                 'created_at' => '2024-09-16 22:07:51', 
                 'updated_at' => '2024-09-16 22:07:51'
             ],
@@ -165,6 +179,7 @@ class ModuleSeeder extends Seeder
                 'description' => 'Cómo puedo hacer mis aplicaciones iOS más accesibles?', 
                 'role_id' => 4, 
                 'teacherId' => 202408171, 
+                'status' => True,
                 'created_at' => '2024-09-16 22:08:13', 
                 'updated_at' => '2024-09-16 22:08:13'
             ],
@@ -174,6 +189,7 @@ class ModuleSeeder extends Seeder
                 'description' => 'Cómo puedo hacer mis aplicaciones Windows más accesibles?', 
                 'role_id' => 4, 
                 'teacherId' => 202408171, 
+                'status' => True,
                 'created_at' => '2024-09-16 22:08:35', 
                 'updated_at' => '2024-09-16 22:08:35'
             ],
@@ -183,6 +199,7 @@ class ModuleSeeder extends Seeder
                 'description' => 'Cómo puedo hacer mis aplicaciones Linux más accesibles?', 
                 'role_id' => 4, 
                 'teacherId' => 202408171, 
+                'status' => True,
                 'created_at' => '2024-09-16 22:08:58', 
                 'updated_at' => '2024-09-16 22:08:58'
             ],
@@ -191,7 +208,8 @@ class ModuleSeeder extends Seeder
                 'title' => 'Accesibilidad en MacOS', 
                 'description' => 'Cómo puedo hacer mis aplicaciones MacOS más accesibles?', 
                 'role_id' => 4, 
-                'teacherId' => 202408171, 
+                'teacherId' => 202408171,
+                'status' => True,
                 'created_at' => '2024-09-16 22:09:20', 
                 'updated_at' => '2024-09-16 22:09:20'
             ],

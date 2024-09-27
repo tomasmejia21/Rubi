@@ -151,6 +151,10 @@ label, span {
     margin-bottom: 20px; /* Espacio entre el círculo y la descripción */
 }
 
+.module-status{
+    color: crimson;
+}
+
 .module-description {
     font-size: 12px; /* Tamaño del texto de la descripción */
     color: lightgray;
@@ -163,4 +167,10 @@ label, span {
 
 .sectionTitle{
     color: white;
+}
+
+.disabled-link {
+    pointer-events: none;
+    color: grey;
+    text-decoration: none;
 }

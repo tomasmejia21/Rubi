@@ -30,25 +30,46 @@
                             {{ $progresses[$module->moduleId] ?? 0 }}%
                         </a>
                     </div>
+                    @if ($module->status==False)
+                        <div class="module-status">
+                            Módulo desactivado
+                        </div>
+                    @endif
                     <div class="module-description">
                         {{ $module->description }}
                     </div>
                     <div>
                         @if(session('role_id')==1 || session('role_id')==2)
-                            <a href="{{ route('modules.edit', $module->moduleId) }}" class="btn btn-hover-crimson">
-                                <i class="bi bi-pencil-fill text-white"></i>
-                            </a>
-                            <form onsubmit="return confirmDelete()" action="{{ route('modules.destroy', $module->moduleId) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-hover-crimson">
-                                    <i class="bi bi-trash-fill text-white"></i>
-                                </button>
-                            </form>
+                            @if($module->status)
+                                <a href="{{ route('modules.edit', $module->moduleId) }}" class="btn btn-hover-crimson">
+                                    <i class="bi bi-pencil-fill text-white"></i>
+                                </a>
+                                <form onsubmit="return confirmDelete()" action="{{ route('modules.destroy', $module->moduleId) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-hover-crimson">
+                                        <i class="bi bi-trash-fill text-white"></i>
+                                    </button>
+                                </form>
+                            @else
+                                <form onsubmit="return confirmActivate()" action="{{ route('modules.activate', $module->moduleId) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-hover-crimson">
+                                        <i class="bi bi-check-lg text-white"></i>
+                                    </button>
+                                </form>
+                            @endif
                             <br>
-                            <a href="{{ route('teachers.pdf', $module->moduleId) }}" class="btn btn-hover-crimson" onclick="return confirmarReporteTeacher(this);">
-                                <i class="bi bi-file-earmark-text text-white"></i>
-                            </a>
+                            @if(session('role_id')==1)
+                                <a href="{{ route('teachers.pdf', $module->moduleId) }}" class="btn btn-hover-crimson disabled-link" onclick="return confirmarReporteTeacher(this);" disabled>
+                                    <i class="bi bi-file-earmark-text text-grey"></i>
+                                </a>
+                            @elseif(session('role_id')==2)
+                                <a href="{{ route('teachers.pdf', $module->moduleId) }}" class="btn btn-hover-crimson" onclick="return confirmarReporteTeacher(this);">
+                                    <i class="bi bi-file-earmark-text text-white"></i>
+                                </a>
+                            @endif
+                            
                         @else
                             <br>
                             <form action="{{ route('modules.unsubscribe', ['module' => $module->moduleId, 'userId' => session('id')]) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Está seguro que desea salirse del módulo {{ $module->title }}?');">

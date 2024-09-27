@@ -73,3 +73,7 @@ label, span {
     color: white;
     border-color: crimson;
 }
+
+#inactive-text{
+    color: crimson;
+}
