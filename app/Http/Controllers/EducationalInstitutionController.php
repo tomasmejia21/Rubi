@@ -48,7 +48,8 @@ class EducationalInstitutionController extends Controller
     public function destroy($institutionalId)
     {
         $institution = EducationalInstitution::findOrFail($institutionalId);
-        $institution->delete();
-        return response()->json(['message' => 'The institution successfully deleted'], 200);
+        $institution->status = false;
+        $institution->save();
+        return response()->json(['message' => 'The institution status has been set to false'], 200);
     }
 }
