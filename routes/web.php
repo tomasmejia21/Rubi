@@ -52,6 +52,7 @@ Route::middleware(['role:administrator'])->group(function () {
     Route::resource('students',StudentController::class);
     Route::get('/students',[StudentController::class,'index'])->name('students.index');
     Route::post('/students', [StudentController::class, 'store'])->name('students.store');
+    Route::post('/students/{id}/activate', [StudentController::class, 'activate'])->name('students.activate');
 });
 
 Route::get('/check-email', [StudentController::class, 'checkEmail']);

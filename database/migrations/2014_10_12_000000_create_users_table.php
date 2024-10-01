@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreign('role_id')->references('id')->on('roles');
             $table->unsignedBigInteger('institutionalId');
             $table->foreign('institutionalId')->references('institutionalId')->on('educational_institutions');
-            //$table->boolean('status');
+            $table->boolean('status')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });
