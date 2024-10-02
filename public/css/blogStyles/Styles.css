@@ -112,6 +112,18 @@ label, span {
     border-color: #990000;
 }
 
+#submit-button-create {
+    background-color: crimson;
+    color: white;
+    border-color: crimson;
+}
+
+#submit-button-create:hover {
+    background-color: #990000;
+    color: white;
+    border-color: #990000;
+}
+
 #form-control {
     width: 100% !important; /* Asegura que los inputs ocupen el 100% del espacio disponible */
     box-sizing: border-box !important;  /* Asegura que el padding esté incluido en el width */

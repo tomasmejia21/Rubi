@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         var errorMessageTitle = document.getElementById('error-message-title');
         var errorMessageBody = document.getElementById('error-message-body');
         var errorMessageImage = document.getElementById('error-message-image');
-        var submitButton = document.getElementById('submit-button');
+        var submitButton = document.getElementById('submit-button-create');
         var allowedExtensions = /(\.jpg|\.png|\.gif)$/i; // Extensiones permitidas
         var maxSize = 5 * 1024 * 1024; // Tamaño máximo 5MB
 
@@ -21,49 +21,54 @@ document.addEventListener('DOMContentLoaded', () => {
         var sizeIsValid = imageIsValid && imageInput.files[0].size <= maxSize;
 
         // Validar el campo de nombre
-        if (titleIsValid) {
-            errorMessageTitle.innerHTML = '';
-        } else {
+        if (isEmpty(titleInput.value)) {
             errorMessageTitle.innerHTML = 'El campo de nombre no puede estar vacío.';
             errorMessageTitle.style.color = 'crimson';
+        } else {
+            errorMessageTitle.innerHTML = '';
+            titleIsValid = true;
         }
 
         // Validar el campo de body
-        if (bodyIsValid) {
-            errorMessageBody.innerHTML = '';
-        } else {
+        if (isEmpty(bodyInput.value)) {
             errorMessageBody.innerHTML = 'El campo de nombre no puede estar vacío.';
             errorMessageBody.style.color = 'crimson';
+        } else {
+            errorMessageBody.innerHTML = '';
+            bodyIsValid = true;
         }
 
         // Validar que se haya seleccionado un archivo
-        if (imageIsValid) {
-            errorMessageImage.innerHTML = '';
-        } else {
+        if (imageInput.files.length === 0) {
             errorMessageImage.innerHTML = 'Por favor, selecciona un archivo.';
             errorMessageImage.style.color = 'crimson';
-        }
-
-        // Validar la extensión del archivo
-        if (imageIsValid && !extensionIsValid) {
-            errorMessageImage.innerHTML = 'Solo se permiten archivos .pdf, .doc, .docx.';
-            errorMessageImage.style.color = 'crimson';
-            imageIsValid = false; // Establecer imageIsValid como falso si la extensión no es válida
-        }
-
-        // Validar el tamaño del archivo
-        if (imageIsValid && !sizeIsValid) {
-            errorMessageImage.innerHTML = 'El archivo es demasiado grande. El tamaño máximo permitido es 5MB.';
-            errorMessageImage.style.color = 'crimson';
-            imageIsValid = false; // Establecer imageIsValid como falso si el tamaño no es válido
+            event.preventDefault();
+        } else {
+            // Validar la extensión del archivo
+            if (!allowedExtensions.exec(imageInput.value)) {
+                errorMessageImage.innerHTML = 'Solo se permiten archivos .jpg, .png, .gif.';
+                errorMessageImage.style.color = 'crimson';
+                event.preventDefault();
+            } else {
+                // Validar el tamaño del archivo
+                if (imageInput.files[0].size > maxSize) {
+                    errorMessageImage.innerHTML = 'El archivo es demasiado grande. El tamaño máximo permitido es 5MB.';
+                    errorMessageImage.style.color = 'crimson';
+                    event.preventDefault();
+                } else {
+                    errorMessageImage.innerHTML = '';
+                    imageIsValid = true;
+                    extensionIsValid = true;
+                    sizeIsValid = true;
+                    // submitButton.disabled = false;
+                }
+            }
+            
         }
 
         // Desactivar o habilitar el botón de envío
         if (titleIsValid && bodyIsValid && imageIsValid && extensionIsValid && sizeIsValid) {
             submitButton.disabled = false;
-        } else {
-            submitButton.disabled = true;
-            event.preventDefault(); // Solo evita el envío si no es válido
         }
     }
 
