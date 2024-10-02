@@ -1,0 +1,91 @@
+#sectionTitle{
+    color: white;
+}
+
+#rubilogo{
+    width: 100px;
+}
+
+nav{
+    background-color: #14172a;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif !important;
+    background-color: #121526 !important;
+    overflow-x: hidden !important;
+}
+
+.container-fluid, .row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.navbar-nav .nav-link {
+    color: white; /* Color de la letra */
+    margin-right: 15px; /* Espacio a la derecha de cada elemento de navegación */
+    font-size: medium;
+}
+
+.navbar-nav .nav-link:hover {
+    color: crimson; /* Color de la letra cuando el mouse está encima */
+}
+
+.container-fluid, .row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+#middleDiv{
+    background-color: #101222;
+    border-radius: 0.5cm;
+}
+
+label{
+    color: white;
+}
+
+
+label, span {
+    display: inline-block;
+    width: 80%;
+    text-align: justify;
+}
+
+#submit-button:hover {
+    background-color: crimson;
+    color: white;
+    border-color: crimson;
+}
+
+span{
+    float: left;
+}
+
+.auth-button:first-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.auth-button:last-child {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.auth-button {
+    background-color: white !important;
+    color: black !important;
+}
+
+.auth-button.active {
+    background-color: crimson !important;
+    border: 1px solid crimson !important;
+    color: white !important;
+}
+
+.auth-button:hover {
+    background-color: crimson !important;
+    color: white !important;
+    border-color: crimson !important;
+}
+

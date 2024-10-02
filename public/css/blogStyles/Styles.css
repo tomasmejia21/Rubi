@@ -1,0 +1,130 @@
+.sectionTitle{
+    color: white;
+}
+
+.nav-link.dropdown-toggle::after {
+    display: none;
+}
+
+nav{
+    background-color: #14172a;
+}
+
+.navbar {
+    max-width: 100%;
+}
+
+.navbar-nav .nav-link {
+    color: white; /* Color de la letra */
+    margin-right: 15px; /* Espacio a la derecha de cada elemento de navegación */
+}
+
+.navbar-nav .nav-link:hover {
+    color: crimson; /* Color de la letra cuando el mouse está encima */
+}
+
+#rubilogo{
+    width: 100px;
+}
+
+.container-fluid, .row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif !important;
+    background-color: #121526 !important;
+    overflow-x: hidden !important;
+}
+
+#agregar{
+    border-radius: 50%;
+}
+
+.no-style {
+    --bs-table-bg-type: transparent !important;
+    background-color: transparent !important;
+    background: none !important;
+    border: none !important;
+}
+
+#staticBackdrop{
+    background-color: transparent;
+}
+
+.modal-content{
+    color:#101222;
+}
+
+.modal-body .form-label{
+    color: black !important;
+}
+
+.middleDiv{
+    background-color: #101222;
+    border-radius: 0.5cm;
+}
+
+p{
+    color: grey;
+}
+
+tr{
+    background-color: transparent;
+}
+
+label{
+    color: white;
+}
+
+label, span {
+    display: inline-block;
+    width: 80%;
+    text-align: justify;
+}
+
+.btn-hover-crimson:hover i {
+    color: crimson !important;
+    
+}
+
+label, span {
+    display: inline-block;
+    width: 80%;
+    text-align: left;
+}
+
+.modal-body .form-label{
+    color: black !important;
+    padding: 0px !important;
+}
+
+#submit-button {
+    background-color: crimson;
+    color: white;
+    border-color: crimson;
+}
+
+#submit-button:hover {
+    background-color: #990000;
+    color: white;
+    border-color: #990000;
+}
+
+#submit-button-create {
+    background-color: crimson;
+    color: white;
+    border-color: crimson;
+}
+
+#submit-button-create:hover {
+    background-color: #990000;
+    color: white;
+    border-color: #990000;
+}
+
+#form-control {
+    width: 100% !important; /* Asegura que los inputs ocupen el 100% del espacio disponible */
+    box-sizing: border-box !important;  /* Asegura que el padding esté incluido en el width */
+}

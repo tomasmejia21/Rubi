@@ -17,10 +17,19 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $table = 'users';
+    protected $primaryKey = 'userId';
+    public $incrementing = false;
+
     protected $fillable = [
+        'userId',
+        'username',
         'name',
         'email',
         'password',
+        'role_id',
+        'institutionalId'
     ];
 
     /**
@@ -41,4 +50,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function role(){
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+
+    public function educationalinstitution(){
+        return $this->belongsTo(EducationalInstitution::class, 'institutionalId');
+    }
+
+    public function activities()
+    {
+        return $this->belongsToMany(Activity::class, 'user_activities', 'userId', 'activityId');
+    }
 }
