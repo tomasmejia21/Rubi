@@ -11,7 +11,7 @@
             </div>
             <br>
             <p>Ahora que ya sabes usar la página, puedes ir a los módulos y empezar con el que más te interese!</p>
-            <a href="/modulos" class="btn btn-light" id="button">Ir a módulos</a>
+            <a href="/modules" class="btn btn-light" id="button">Ir a módulos</a>
           </div>
           <div class="col"></div>
         </div>
