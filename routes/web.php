@@ -40,18 +40,19 @@ Route::middleware(['role:administrator'])->group(function () {
 Route::get('/check-email', [TeacherController::class, 'checkEmail']);
 
 // Administrar instituciones educativas - Solo administradores
-// Route::middleware(['role:administrator'])->group(function () {
-//     Route::apiResource('educationalinstitutions', EducationalInstitutionController::class);
-//     Route::resource('EducationalInstitution', EducationalInstitutionController::class);
-//     Route::get('/educationalinstitutions', [EducationalInstitutionController::class, 'index'])->name('EducationalInstitution.index');
-//     Route::post('/educationalinstitutions', [EducationalInstitutionController::class, 'store'])->name('EducationalInstitution.store');
-// });
+Route::middleware(['role:administrator'])->group(function () {
+    Route::apiResource('educationalinstitutions', EducationalInstitutionController::class);
+    Route::resource('EducationalInstitution', EducationalInstitutionController::class);
+    Route::get('/educationalinstitutions', [EducationalInstitutionController::class, 'index'])->name('EducationalInstitution.index');
+    Route::post('/educationalinstitutions', [EducationalInstitutionController::class, 'store'])->name('EducationalInstitution.store');
+});
 
 // Administrar estudiantes - Solo administradores
 Route::middleware(['role:administrator'])->group(function () {
     Route::resource('students',StudentController::class);
     Route::get('/students',[StudentController::class,'index'])->name('students.index');
     Route::post('/students', [StudentController::class, 'store'])->name('students.store');
+    Route::post('/students/{id}/activate', [StudentController::class, 'activate'])->name('students.activate');
 });
 
 Route::get('/check-email', [StudentController::class, 'checkEmail']);

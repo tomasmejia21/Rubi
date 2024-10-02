@@ -54,7 +54,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
-                                    <button type="submit" class="btn" id="submit-button" disabled>Crear</button>
+                                    <button type="submit" class="btn" id="submit-button-create" disabled>Crear</button>
                                 </div>
                             </div>
                         </div>

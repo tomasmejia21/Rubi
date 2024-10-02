@@ -75,6 +75,13 @@ class LoginController extends Controller
             $request->session()->put('name', Auth::guard('web')->user()->name);
             $request->session()->put('id', Auth::guard('web')->user()->userId);
 
+            // Verifica si el usuario está deshabilitado
+            $user = Auth::guard('web')->user();
+            if ($user->status == false) {
+                Auth::guard('web')->logout();
+                return redirect()->back()->withErrors(['email' => 'Tu cuenta está deshabilitada.']);
+            }
+
             return $this->sendLoginResponse($request);
         }
 
@@ -89,6 +96,13 @@ class LoginController extends Controller
             $request->session()->put('role_name', $role->name);
             $request->session()->put('name', Auth::guard('teacher')->user()->name);
             $request->session()->put('id', Auth::guard('teacher')->user()->teacherId);
+
+            // Verifica si el profesor está deshabilitado
+            $teacher = Auth::guard('teacher')->user();
+            if ($teacher->status == false) {
+                Auth::guard('teacher')->logout();
+                return redirect()->back()->withErrors(['email' => 'Tu cuenta está deshabilitada.']);
+            }
 
             return $this->sendLoginResponse($request);
         }

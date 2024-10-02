@@ -47,7 +47,7 @@
                             <div class="col-md-6">
                                 <select id="institution" class="form-control" name="institution">
                                     <option value="0" selected disabled>-- Selecciona una opción --</option>
-                                    @foreach ($educational_institutions as $institution)
+                                    @foreach ($educational_institutions->filter(function ($institution) { return $institution->status; }) as $institution)
                                         <option value="{{ $institution->institutionalId }}">{{ $institution->name }}</option>
                                     @endforeach
                                 </select>

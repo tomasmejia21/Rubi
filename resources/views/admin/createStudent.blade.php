@@ -30,7 +30,7 @@
                         <label for="institution" class="form-label">Institución educativa:  </label>
                         <select id="institution" class="form-select w-80 mx-auto" name="institution">
                             <option value="0" selected disabled>-- Selecciona una opción --</option>
-                            @foreach ($educational_institutions as $institution)
+                            @foreach ($educational_institutions->filter(function ($institution) { return $institution->status; }) as $institution)
                                 <option value="{{ $institution->institutionalId }}">{{ $institution->name }}</option>
                             @endforeach
                         </select>

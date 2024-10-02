@@ -153,8 +153,19 @@ class StudentController extends Controller
     public function destroy(string $id)
     {
         $student = User::find($id);
-        $student->delete();
+        $student->status = false;
+        $student->save();
         return redirect()->route('students.index');
+    }
+
+    // Activar usuario
+
+    public function activate (string $id){
+        $student = User::find($id);
+        $student->status = true;
+        $student->save();
+        return redirect()->route('students.index');
+
     }
 
     /**
